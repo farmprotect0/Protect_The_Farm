@@ -51,6 +51,9 @@
     <ClCompile Include="src\scene\PlayScene.cpp">
       <Filter>소스 파일\씬</Filter>
     </ClCompile>
+    <ClCompile Include="src\scene\testEnemyScene.cpp">
+      <Filter>소스 파일\씬</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\TestComponent.h">
@@ -112,6 +115,24 @@
     </ClInclude>
     <ClInclude Include="inc\component\ScoreManager.h">
       <Filter>헤더 파일\컴포넌트</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\GimmickEnemy.h">
+      <Filter>헤더 파일\컴포넌트</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\ItemEnemy.h">
+      <Filter>헤더 파일\컴포넌트</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\MoveEnemy.h">
+      <Filter>헤더 파일\컴포넌트</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\BaseEnemyObject.h">
+      <Filter>헤더 파일\컴포넌트</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\EnemySpawner.h">
+      <Filter>헤더 파일\컴포넌트</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\scene\testEnemyScene.h">
+      <Filter>헤더 파일\씬</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
