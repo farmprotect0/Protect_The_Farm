@@ -2,6 +2,7 @@
 #include <ScriptBehaviour.h>
 #include <string.h>
 #include <iostream>
+#include <any>
 
 
 // 비트 플래그
@@ -54,7 +55,11 @@ namespace GOTOEngine
 		void OnDisable() {}
 		void OnDestroy() {}
 
-		virtual void Initialize() {}
+		virtual void Initialize(std::any param) {
+			std::cout << "Base Initialize with std::any" << std::endl;
+		}
+
+
 		virtual void OnEnemyPlay() {}
 	};
 }

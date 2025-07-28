@@ -8,7 +8,8 @@
 #include <SceneManager.h>
 #include <ResourceManager.h>
 
-#include "MoveEnemy.h"
+//#include "MoveEnemy.h"
+#include "EnemySpawner.h"
 
 using namespace std;
 
@@ -16,13 +17,10 @@ using namespace GOTOEngine;
 
 void testEnemyScene::Initialize()
 {
-	GameObject* baseObject = new GameObject(L"까마귀");
 
-	baseObject->GetTransform()->SetPosition({ 0,0 });
-	baseObject->GetTransform()->SetLossyScale({ 2.0f,2.0f });
+	auto spawner = new GameObject(L"enemySpawner");
+	spawner->GetTransform()->SetPosition({ 0,0 });
+	spawner->GetTransform()->SetLossyScale({ 2.0f,2.0f });
 
-
-	baseObject->AddComponent<MoveEnemy>();
-	baseObject->GetComponent<MoveEnemy>()->Initialize();
-
+	spawner->AddComponent<EnemySpawner>();
 }
