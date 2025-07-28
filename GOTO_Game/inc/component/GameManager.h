@@ -1,0 +1,45 @@
+#pragma once
+#include <ScriptBehaviour.h>
+#include <InputManager.h>
+#include <TimeManager.h>
+#include <Transform.h>
+#include <Camera.h>
+
+namespace GOTOEngine
+{
+	class GameManager : public ScriptBehaviour
+	{
+	private:
+	public:
+    GameManager()
+    {
+        REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(Start);
+    }
+		static GameManager* instance;
+
+		void Awake()
+		{
+			if (instance == nullptr)
+			{
+				instance = this;
+				DontDestroyOnLoad(this);
+			}
+			else
+			{
+				Destroy(GetGameObject());	
+			}
+		}
+
+		void Start()
+		{
+			auto camera = Camera::GetMainCamera();
+			if (camera)
+			{
+				camera->SetSize(1.0f);
+				camera->SetDepth(0);
+				camera->SetBackGroundColor(Color{ 0, 0, 0, 255 }); // 검은색 배경
+			}
+		}
+	};
+}

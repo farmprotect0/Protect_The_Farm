@@ -236,6 +236,10 @@ namespace GOTOEngine
         case GamepadButton::ButtonR1:     return XINPUT_GAMEPAD_RIGHT_SHOULDER;
         case GamepadButton::ButtonStart:  return XINPUT_GAMEPAD_START;
         case GamepadButton::ButtonSelect: return XINPUT_GAMEPAD_BACK;
+        case GamepadButton::DPadUp:       return XINPUT_GAMEPAD_DPAD_UP;
+        case GamepadButton::DPadDown:     return XINPUT_GAMEPAD_DPAD_DOWN;
+        case GamepadButton::DPadLeft:     return XINPUT_GAMEPAD_DPAD_LEFT;
+        case GamepadButton::DPadRight:    return XINPUT_GAMEPAD_DPAD_RIGHT;
         default: return 0;
         }
     }
@@ -271,5 +275,29 @@ namespace GOTOEngine
             return 0.0f;
 
         return static_cast<float>(value - deadzone) / (255.0f - deadzone);
+    }
+
+    float XInputGamepadDevice::GetDPadX(const XINPUT_GAMEPAD& gamepad) const
+    {
+        float value = 0.0f;
+
+        if (gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
+            value -= 1.0f;
+        if (gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
+            value += 1.0f;
+
+        return value;
+    }
+
+    float XInputGamepadDevice::GetDPadY(const XINPUT_GAMEPAD& gamepad) const
+    {
+        float value = 0.0f;
+
+        if (gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
+            value -= 1.0f;
+        if (gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+            value += 1.0f;
+
+        return value;
     }
 }

@@ -146,6 +146,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\scene\PlayScene.cpp" />
     <ClCompile Include="src\scene\PhysicsScene.cpp" />
     <ClCompile Include="src\scene\AnimationScene.cpp" />
     <ClCompile Include="src\component\MonsterAttack.cpp" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="inc\component\CameraMove.h" />
     <ClInclude Include="inc\component\ItemManager.h" />
+    <ClInclude Include="inc\component\GameManager.h" />
     <ClInclude Include="inc\component\MemoryUsageGUI.h" />
     <ClInclude Include="inc\component\MonsterAttack.h" />
     <ClInclude Include="inc\component\MushroomCreator.h" />
@@ -173,6 +175,7 @@
     <ClInclude Include="inc\scene\AnimationScene.h" />
     <ClInclude Include="inc\scene\TitleScene.h" />
     <ClInclude Include="inc\scene\SampleScene.h" />
+    <ClInclude Include="inc\scene\PlayScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
