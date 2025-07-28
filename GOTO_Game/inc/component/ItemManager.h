@@ -23,12 +23,12 @@ namespace GOTOEngine
 		float p2IceTimer = 0.0f;
 		const float timelimit = 5.0f;
 	public:
-		int p1count = 0;
-		int p2count = 0;
     ItemManager()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
+		int p1count = 0;
+		int p2count = 0;
 		ScoreManager* scoreManager = new ScoreManager;
 		// 인스턴스 새로 생성이기 때문에 현재 간섭 불가, 수정 필요
 		void Update() {
@@ -63,21 +63,6 @@ namespace GOTOEngine
 			}
 			if (INPUT_GET_KEYDOWN(KeyCode::Alpha8)) {
 				p2Items.push(ItemType::Ticket);
-			}
-			if (p1TicketTimer > 0.0f) {
-				p1TicketTimer -= TIME_GET_DELTATIME();
-				if (p1TicketTimer <= 0.0f) {
-					p1TicketTimer = 0.0f;
-					scoreManager->P1Bonus = 1;
-				}
-			}
-
-			if (p2TicketTimer > 0.0f) {
-				p2TicketTimer -= TIME_GET_DELTATIME();
-				if (p2TicketTimer <= 0.0f) {
-					p2TicketTimer = 0.0f;
-					scoreManager->P2Bonus = 1;
-				}
 			}
 			if (p1TicketTimer > 0.0f) {
 				p1TicketTimer -= TIME_GET_DELTATIME();
