@@ -233,6 +233,9 @@ void GOTOEngine::RenderManager::Render()
 #endif
 		m_pRenderAPI->ResetViewport();
 	}
+
+	// Äµ¹ö½º ·»´õ¸µ
+
 }
 
 const GOTOEngine::IWindow* GOTOEngine::RenderManager::GetWindow() const

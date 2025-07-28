@@ -35,6 +35,26 @@ namespace GOTOEngine
 			Rect rect,
 			Color color);
 
+		void SetTargetWidth(const float& width)
+		{
+			m_targetWidth = width;
+		}
+
+		void SetTargetHeight(const float& height)
+		{
+			m_targetHeight = height;
+		}
+
+		const float& GetTargetWidth() const
+		{
+			return m_targetWidth;
+		}
+
+		const float& GetTargetHeight() const
+		{
+			return m_targetHeight;
+		}
+
 		RenderAPIMemoryStatus CollectMemoryUsage();
 	private:
 		friend class Engine;
@@ -48,6 +68,9 @@ namespace GOTOEngine
 
 		std::vector<Camera*> m_cameras;
 		std::vector<Renderer*> m_renderers;
+
+		float m_targetWidth;
+		float m_targetHeight;
 
 		IRenderAPI* GetRenderAPI() { return m_pRenderAPI; }
 

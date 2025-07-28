@@ -39,6 +39,10 @@ namespace GOTOEngine
         ButtonR1,         // Right Shoulder
         ButtonStart,      // Start/Options/Menu
         ButtonSelect,     // Back/Share/View
+        DPadUp,           // D-Pad 위
+        DPadDown,         // D-Pad 아래
+        DPadLeft,         // D-Pad 왼쪽
+        DPadRight,        // D-Pad 오른쪽
         Count
     };
 
@@ -51,6 +55,8 @@ namespace GOTOEngine
         RightStickY,
         LeftTrigger,
         RightTrigger,
+        DPadX,          // D-Pad 가로축 (-1: 왼쪽, 0: 중립, +1: 오른쪽)
+        DPadY,          // D-Pad 세로축 (-1: 아래, 0: 중립, +1: 위)
         Count
     };
 
@@ -87,6 +93,11 @@ namespace GOTOEngine
         float GetLeftTrigger(int gamepadIndex);   // 왼쪽 트리거 (0.0f ~ 1.0f)
         float GetRightTrigger(int gamepadIndex);  // 오른쪽 트리거 (0.0f ~ 1.0f)
 
+        // D-Pad 편의 함수들
+        Vector2 GetDPad(int gamepadIndex);           // D-Pad 축 (X, Y)
+        float GetDPadX(int gamepadIndex);            // D-Pad 가로축 (-1, 0, +1)
+        float GetDPadY(int gamepadIndex);            // D-Pad 세로축 (-1, 0, +1)
+
         // === 게임패드 상태 정보 ===
         bool IsGamepadConnected(int gamepadIndex);
         int GetConnectedGamepadCount();
@@ -120,6 +131,11 @@ namespace GOTOEngine
 #define INPUT_GET_RIGHTSTICK(index) GOTOEngine::InputManager::Get()->GetRightStick(index)
 #define INPUT_GET_LEFTTRIGGER(index) GOTOEngine::InputManager::Get()->GetLeftTrigger(index)
 #define INPUT_GET_RIGHTTRIGGER(index) GOTOEngine::InputManager::Get()->GetRightTrigger(index)
+
+// === D-Pad 입력 매크로 ===
+#define INPUT_GET_DPAD(index) GOTOEngine::InputManager::Get()->GetDPad(index)
+#define INPUT_GET_DPAD_X(index) GOTOEngine::InputManager::Get()->GetDPadX(index)
+#define INPUT_GET_DPAD_Y(index) GOTOEngine::InputManager::Get()->GetDPadY(index)
 
 // === 핫플러그 매크로 ===
 #define INPUT_GAMEPAD_JUST_CONNECTED(index) GOTOEngine::InputManager::Get()->WasGamepadJustConnected(index)

@@ -2,15 +2,11 @@
 #include "IGamepadDevice.h"
 #include <Windows.h>
 #include <Xinput.h>
-#include <functional>
 
 #pragma comment(lib, "xinput.lib")
 
 namespace GOTOEngine
 {
-    // 게임패드 연결/해제 이벤트 콜백
-    using GamepadConnectionCallback = std::function<void(int gamepadIndex, bool connected)>;
-
     class XInputGamepadDevice : public IGamepadDevice
     {
     public:
@@ -67,6 +63,10 @@ namespace GOTOEngine
         // 축 값 정규화 (데드존 처리 포함)
         float NormalizeAxis(SHORT value, SHORT deadzone) const;
         float NormalizeTrigger(BYTE value) const;
+
+        // D-Pad 헬퍼 함수들
+        float GetDPadX(const XINPUT_GAMEPAD& gamepad) const;
+        float GetDPadY(const XINPUT_GAMEPAD& gamepad) const;
 
         // 핫플러그 처리
         void HandleConnectionStateChange();

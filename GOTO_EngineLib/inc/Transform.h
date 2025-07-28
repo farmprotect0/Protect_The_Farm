@@ -48,8 +48,8 @@ namespace GOTOEngine
 		const Vector2& GetLocalScale() const { return m_localScale; }
 
 		// 자식 그래프
-		void SetParent(Transform* parent);
-		void SetParent(Transform* parent, bool worldPositionStays);
+		virtual void SetParent(Transform* parent);
+		virtual void SetParent(Transform* parent, bool worldPositionStays);
 		Transform* GetParent() const { return m_parent; }
 		Transform* GetChild(size_t idx);
 		size_t GetChildCount() const { return m_childs.size(); }
