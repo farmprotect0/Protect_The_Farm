@@ -3,13 +3,13 @@
 #include "Component.h"
 #include "Matrix3x3.h"
 #include "Mathf.h"
-#include <cmath>
+#include "Delegate.h"
 
 namespace GOTOEngine
 {
 	class Transform : public Component
 	{
-	private:
+	protected:
 		friend class GameObject;
 
 		Vector2 m_localPosition;
@@ -59,6 +59,8 @@ namespace GOTOEngine
 
 		void SetSiblingIndex(size_t idx);
 		size_t GetSiblingIndex() const;
+
+		Delegate<void> onHierarchyChanged;
 
 		// 월드 공간 변환
 		void LookAt(const Vector2& target);

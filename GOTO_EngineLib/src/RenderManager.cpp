@@ -8,6 +8,9 @@
 #include "Renderer.h"
 #include "algorithm"
 #include "Matrix3x3.h"
+#include "Canvas.h"
+#include "RectTransform.h"
+#include "Graphic.h"
 #ifdef _DEBUG
 #include <iostream>
 #include "PhysicsManager.h"
@@ -104,12 +107,28 @@ void GOTOEngine::RenderManager::UnRegisterRenderer(Renderer* renderer)
 	SetRendererSortDirty();
 }
 
+void GOTOEngine::RenderManager::RegisterCanvas(Canvas* canvas)
+{
+	m_canvases.push_back(canvas);
+	SetCanvasSortDirty();
+}
+
+void GOTOEngine::RenderManager::UnRegisterCanvas(Canvas* canvas)
+{
+	m_canvases.erase(
+		std::remove_if(m_canvases.begin(), m_canvases.end(),
+			[canvas](const auto& item) { return item == canvas; }),
+		m_canvases.end());
+	SetCanvasSortDirty();
+}
+
 void GOTOEngine::RenderManager::SortCamera()
 {
 	std::sort(m_cameras.begin(), m_cameras.end(),
 		[](Camera* a, Camera* b) {
 			return a->GetDepth() < b->GetDepth();
 		});
+	m_needCamDepthSort = false; // 정렬이 끝났으므로 플래그 초기화
 }
 
 void GOTOEngine::RenderManager::SortRenderer()
@@ -118,6 +137,16 @@ void GOTOEngine::RenderManager::SortRenderer()
 		[](Renderer* a, Renderer* b) {
 			return a->m_renderOrder < b->m_renderOrder;
 		});
+	m_needRenderOrderSort = false; // 정렬이 끝났으므로 플래그 초기화
+}
+
+void GOTOEngine::RenderManager::SortCanvas()
+{
+	std::sort(m_canvases.begin(), m_canvases.end(),
+		[](Canvas* a, Canvas* b) {
+			return a->GetSortOrder() < b->GetSortOrder();
+		});
+	m_needCanvasOrderSort = false; // 정렬이 끝났으므로 플래그 초기화
 }
 
 void GOTOEngine::RenderManager::StartRender()
@@ -235,7 +264,30 @@ void GOTOEngine::RenderManager::Render()
 	}
 
 	// 캔버스 렌더링
+	for (auto canvas : m_canvases)
+	{
+		if(!canvas->IsActiveAndEnabled())
+			continue;
 
+		if(canvas->IsNeedGraphicSort())
+			canvas->SortGraphics();
+
+		auto canvasSize = canvas->GetCanvasSize();
+
+
+		for (auto graphic : canvas->m_graphics)
+		{
+			if (!graphic->GetEnabled())
+				continue;
+
+			auto rectTransform = graphic->GetRectTransform();
+
+			auto sizeDelta = rectTransform->GetSizeDelta();
+			auto position = rectTransform->GetPosition();
+
+			m_pRenderAPI->DrawRect({ position.x,position.y,sizeDelta.x,sizeDelta.y }, true, {}, { 255,255,255,255 }, true);
+		}
+	}
 }
 
 const GOTOEngine::IWindow* GOTOEngine::RenderManager::GetWindow() const

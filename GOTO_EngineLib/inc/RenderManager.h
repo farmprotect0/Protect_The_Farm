@@ -60,14 +60,16 @@ namespace GOTOEngine
 		friend class Engine;
 		friend class Camera;
 		friend class Renderer;
-		friend class Texture2D;
+		friend class Texture2D; 
 		friend class Font;
+		friend class Canvas;
 		void StartUp(IWindow* window);
 		void ShutDown();
 		IRenderAPI* m_pRenderAPI = nullptr;
 
 		std::vector<Camera*> m_cameras;
 		std::vector<Renderer*> m_renderers;
+		std::vector<Canvas*> m_canvases;
 
 		float m_targetWidth;
 		float m_targetHeight;
@@ -78,10 +80,16 @@ namespace GOTOEngine
 		void UnRegisterCamera(Camera* cam);
 		void RegisterRenderer(Renderer* renderer);
 		void UnRegisterRenderer(Renderer* renderer);
+		void RegisterCanvas(Canvas* canvas);	
+		void UnRegisterCanvas(Canvas* canvas);
+
 		void SortCamera();
 		void SortRenderer();
+		void SortCanvas();
+
 		void SetCamSortDirty() { m_needCamDepthSort = true; }
 		void SetRendererSortDirty() { m_needRenderOrderSort = true; }
+		void SetCanvasSortDirty() { m_needCanvasOrderSort = true; }
 
 		/// <summary>
 		/// 렌더링을 시작합니다.
@@ -114,6 +122,7 @@ namespace GOTOEngine
 
 		bool m_needCamDepthSort = false;
 		bool m_needRenderOrderSort = false;
+		bool m_needCanvasOrderSort = false;
 	};
 }
 

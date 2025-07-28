@@ -4,6 +4,9 @@
 #include "Animator.h"
 #include "AnimatorController.h"
 #include "PlayerFSMController.h"
+#include <Image.h>
+#include <Canvas.h>
+#include <RectTransform.h>
 
 
 void PlayScene::Initialize()
@@ -25,4 +28,17 @@ void PlayScene::Initialize()
 	player->AddComponent<PlayerFSMController>();
 
 	player->GetTransform()->SetLocalScale({ 10.0f,10.0f });
+
+
+	auto canvasGO = new GameObject(L"UI");
+	auto canvas = canvasGO->AddComponent<Canvas>();
+
+	canvas->SetSortOrder(1000); // UI는 높은 렌더링 순서로 설정
+
+	auto simpleImage = new GameObject(L"SimpleImage");
+	simpleImage->AddComponent<Image>();
+	simpleImage->GetComponent<RectTransform>()->SetSizeDelta({ 200.0f, 100.0f });
+	simpleImage->GetComponent<RectTransform>()->SetPosition({ 100.0f, 100.0f });
+
+	simpleImage->GetComponent<RectTransform>()->SetParent(canvasGO->GetTransform(), false);
 }
