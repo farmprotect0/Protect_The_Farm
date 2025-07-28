@@ -288,7 +288,7 @@ void GOTOEngine::RenderManager::Render()
 			auto sizeFactorY = canvasSize.y / screenSize.y;
 			auto currentPos  =  rectTransform->GetAnchoredPosition();
 
-			m_pRenderAPI->DrawRect({ currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x * sizeFactorX,sizeDelta.y * sizeFactorY }, true, {}, { 255,255,255,255 }, true);
+			m_pRenderAPI->DrawRect({ currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, true, {}, { 255,255,255,255 }, true);
 		}
 	}
 }
