@@ -1,11 +1,14 @@
 ﻿#pragma once
 #include <any>
 #include <ScriptBehaviour.h>
+#include <SpriteRenderer.h>
+#include <ResourceManager.h>
+
 #include "BaseEnemyObject.h"
 
 namespace GOTOEngine
 {
-	enum gimmickEnemyType
+	enum E_GimmickEnemyType
 	{
 		rabbit,	// 토끼
 		hamster	// 다람쥐 (Squirrel)
@@ -13,16 +16,19 @@ namespace GOTOEngine
 
 	class GimmickEnemy : public BaseEnemyObject
 	{
-		gimmickEnemyType m_gimmickEnemyType;
+		E_GimmickEnemyType m_gimmickEnemyType;
 
 
 	public:
 
 		void Initialize(std::any param) override
 		{
-			if (param.type() == typeid(gimmickEnemyType)) m_gimmickEnemyType = std::any_cast<gimmickEnemyType>(param);
+			if (param.type() == typeid(E_GimmickEnemyType)) m_gimmickEnemyType = std::any_cast<E_GimmickEnemyType>(param);
 			
-			m_gimmickEnemyType;
+			GetTransform()->SetPosition({ 0,0 });
+			GetTransform()->SetLossyScale({ 0.5f, 0.5f });
+
+			
 		}
 		void Awake()
 		{
@@ -30,7 +36,7 @@ namespace GOTOEngine
 
 			std::cout << "GimmickEnemy Awake" << std::endl;
 
-			m_enemyType = EnemyType::gimmick;
+			m_enemyType = E_EnemyType::gimmick;
 
 			m_moveLoop = true;
 			m_moveSpeed = 10.0f;
@@ -41,6 +47,8 @@ namespace GOTOEngine
 
 			m_destroyTime = 8.0f;
 
+
+			AddComponent<SpriteRenderer>()->SetSprite(Resource::Load<Sprite>(L"../Resources/artResource/Animal/Gimmick/Rabbit_idle.gif"));
 		}
 	};
 }

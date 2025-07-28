@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include <any>
 #include <ScriptBehaviour.h>
+
 #include "BaseEnemyObject.h"
 namespace GOTOEngine
 {
-	enum itemEnemyType
+	enum E_ItemEnemyType
 	{
 		iceBird,	// 얼음새
 		bombBird,	// 폭탄새
@@ -13,14 +14,15 @@ namespace GOTOEngine
 
 	class ItemEnemy : public BaseEnemyObject
 	{
-		itemEnemyType m_itemEnemyType;
+		E_ItemEnemyType m_itemEnemyType;
 
 
 	public:
 
 		void Initialize(std::any param) override
 		{
-			if (param.type() == typeid(itemEnemyType)) m_itemEnemyType = std::any_cast<itemEnemyType>(param);
+			if (param.type() == typeid(E_ItemEnemyType)) m_itemEnemyType = std::any_cast<E_ItemEnemyType>(param);
+
 
 		}
 		void Awake()
@@ -29,7 +31,7 @@ namespace GOTOEngine
 
 			std::cout << "ItemEnemy Awake" << std::endl;
 
-			m_enemyType = EnemyType::itemspawn;
+			m_enemyType = E_EnemyType::itemspawn;
 
 			m_moveLoop = true;
 			m_moveSpeed = 10.0f;
