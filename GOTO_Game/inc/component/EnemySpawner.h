@@ -12,7 +12,6 @@
 #include "ItemEnemy.h"
 
 
-
 namespace GOTOEngine
 {
 	class EnemySpawner : public ScriptBehaviour
