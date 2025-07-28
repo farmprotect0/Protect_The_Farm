@@ -283,9 +283,9 @@ void GOTOEngine::RenderManager::Render()
 			auto rectTransform = graphic->GetRectTransform();
 
 			auto sizeDelta = rectTransform->GetSizeDelta();
-			auto position = rectTransform->GetPosition();
+			auto anchoredPos = rectTransform->GetAnchoredPosition();
 
-			m_pRenderAPI->DrawRect({ position.x,position.y,sizeDelta.x,sizeDelta.y }, true, {}, { 255,255,255,255 }, true);
+			m_pRenderAPI->DrawRect({ anchoredPos.x,anchoredPos.y,sizeDelta.x,sizeDelta.y }, true, {}, { 255,255,255,255 }, true);
 		}
 	}
 }
