@@ -5,13 +5,19 @@
 #include <any>
 
 
-// 비트 플래그
-// 1, 1, 1 (원형 or 지그재그)
-// 좌우, 상하, 포물선, 타원
+enum E_Enemy_Move_Type
+{
+	NONE = 0,					// 아무 움직임 없음 (0000)
+	MOVE_LEFT_RIGHT = 1 << 0,	// 좌우 이동 (0001)
+	MOVE_UP_DOWN = 1 << 1,		// 상하 이동 (0010)
+	MOVE_CIRCULAR = 1 << 2,		// 원형 이동 (0100)
+	MOVE_ZIGZAG = 1 << 3,		// 지그재그 이동 (1000)
+	MOVE_PARABOLIC = 1 << 4,	// 포물선 이동 (10000)
+};
 
 namespace GOTOEngine
 {
-	enum EnemyType
+	enum E_EnemyType
 	{
 		move,
 		gimmick,
@@ -21,7 +27,7 @@ namespace GOTOEngine
 	class BaseEnemyObject : public ScriptBehaviour
 	{
 	protected:
-		EnemyType m_enemyType = EnemyType::move;
+		E_EnemyType m_enemyType = E_EnemyType::move;
 		//std::string m_enemyName;
 
 		bool m_moveLoop = true;

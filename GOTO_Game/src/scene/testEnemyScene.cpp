@@ -9,7 +9,9 @@
 #include <ResourceManager.h>
 
 //#include "MoveEnemy.h"
+#include "Camera.h"
 #include "EnemySpawner.h"
+#include "CameraMove.h"
 
 using namespace std;
 
@@ -23,4 +25,10 @@ void testEnemyScene::Initialize()
 	spawner->GetTransform()->SetLossyScale({ 2.0f,2.0f });
 
 	spawner->AddComponent<EnemySpawner>();
+
+	auto camera_GO = Camera::CreateMainCamera();
+	camera_GO->AddComponent<CameraMove>();
+	camera_GO->GetComponent<Camera>()->SetRect({ 0,0,1.0f,1.0f });
+
+
 }

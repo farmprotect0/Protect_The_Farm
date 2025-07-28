@@ -5,7 +5,7 @@
 
 namespace GOTOEngine
 {
-	enum moveEnemyType
+	enum E_MoveEnemyType
 	{
 		mole,	// 두더지
 		crow	// 까마귀
@@ -13,16 +13,16 @@ namespace GOTOEngine
 
 	class MoveEnemy : public BaseEnemyObject
 	{
-		moveEnemyType m_moveEnemyType;
+		E_MoveEnemyType m_moveEnemyType;
 
 
 	public:
 
 		void Initialize(std::any param) override
 		{
-			if (param.type() == typeid(moveEnemyType)) m_moveEnemyType = std::any_cast<moveEnemyType>(param);
+			if (param.type() == typeid(E_MoveEnemyType)) m_moveEnemyType = std::any_cast<E_MoveEnemyType>(param);
 
-
+			
 
 
 		}
@@ -32,7 +32,7 @@ namespace GOTOEngine
 
 			std::cout << "Enemy Awake" << std::endl;
 
-			m_enemyType = EnemyType::move;
+			m_enemyType = E_EnemyType::move;
 
 			m_moveLoop = true;
 			m_moveSpeed = 10.0f;
