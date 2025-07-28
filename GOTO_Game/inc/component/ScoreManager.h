@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <ScriptBehaviour.h>
 #include <RenderManager.h>
 #include <SpriteRenderer.h>

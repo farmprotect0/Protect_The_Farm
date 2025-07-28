@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <any>
 #include <ScriptBehaviour.h>
 #include "BaseEnemyObject.h"
 namespace GOTOEngine
@@ -12,22 +13,21 @@ namespace GOTOEngine
 
 	class ItemEnemy : public BaseEnemyObject
 	{
-		itemEnemyType m_moveEnemyType;
+		itemEnemyType m_itemEnemyType;
 
 
 	public:
 
-		void Initialize() override
+		void Initialize(std::any param) override
 		{
-
-			//std::cout << GetObject << std::endl;
+			if (param.type() == typeid(itemEnemyType)) m_itemEnemyType = std::any_cast<itemEnemyType>(param);
 
 		}
 		void Awake()
 		{
 			__super::Awake();
 
-			std::cout << "MoveEnemy Awake" << std::endl;
+			std::cout << "ItemEnemy Awake" << std::endl;
 
 			m_enemyType = EnemyType::itemspawn;
 
