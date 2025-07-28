@@ -6,11 +6,12 @@
 #include "Delegate.h"
 #include "D2DRenderAPI.h"
 #include "Renderer.h"
-#include "algorithm"
+#include <algorithm>
 #include "Matrix3x3.h"
 #include "Canvas.h"
 #include "RectTransform.h"
 #include "Graphic.h"
+#include "Screen.h"
 #ifdef _DEBUG
 #include <iostream>
 #include "PhysicsManager.h"
@@ -272,8 +273,8 @@ void GOTOEngine::RenderManager::Render()
 		if(canvas->IsNeedGraphicSort())
 			canvas->SortGraphics();
 
+		auto screenSize = Screen::GetSize();
 		auto canvasSize = canvas->GetCanvasSize();
-
 
 		for (auto graphic : canvas->m_graphics)
 		{
@@ -283,9 +284,11 @@ void GOTOEngine::RenderManager::Render()
 			auto rectTransform = graphic->GetRectTransform();
 
 			auto sizeDelta = rectTransform->GetSizeDelta();
-			auto anchoredPos = rectTransform->GetAnchoredPosition();
+			auto sizeFactorX = canvasSize.x / screenSize.x;
+			auto sizeFactorY = canvasSize.y / screenSize.y;
+			auto currentPos  =  rectTransform->GetAnchoredPosition();
 
-			m_pRenderAPI->DrawRect({ anchoredPos.x,anchoredPos.y,sizeDelta.x,sizeDelta.y }, true, {}, { 255,255,255,255 }, true);
+			m_pRenderAPI->DrawRect({ currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x * sizeFactorX,sizeDelta.y * sizeFactorY }, true, {}, { 255,255,255,255 }, true);
 		}
 	}
 }
