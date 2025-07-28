@@ -23,6 +23,8 @@ namespace GOTOEngine
 		float p2IceTimer = 0.0f;
 		const float timelimit = 5.0f;
 	public:
+		int p1count = 0;
+		int p2count = 0;
     ItemManager()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Update);
@@ -43,6 +45,24 @@ namespace GOTOEngine
 					UseItem(2, item);
 					p2Items.pop();
 				}
+			}
+			if (INPUT_GET_KEYDOWN(KeyCode::Alpha3)) {
+				p1Items.push(ItemType::Bomb);
+			}
+			if (INPUT_GET_KEYDOWN(KeyCode::Alpha4)) {
+				p1Items.push(ItemType::Icebomb);
+			}
+			if (INPUT_GET_KEYDOWN(KeyCode::Alpha5)) {
+				p1Items.push(ItemType::Ticket);
+			}
+			if (INPUT_GET_KEYDOWN(KeyCode::Alpha6)) {
+				p2Items.push(ItemType::Bomb);
+			}
+			if (INPUT_GET_KEYDOWN(KeyCode::Alpha7)) {
+				p2Items.push(ItemType::Icebomb);
+			}
+			if (INPUT_GET_KEYDOWN(KeyCode::Alpha8)) {
+				p2Items.push(ItemType::Ticket);
 			}
 			if (p1TicketTimer > 0.0f) {
 				p1TicketTimer -= TIME_GET_DELTATIME();
@@ -77,6 +97,7 @@ namespace GOTOEngine
 			if (p1IceTimer > 0.0f) {
 				p1IceTimer -= TIME_GET_DELTATIME();
 				if (p1IceTimer <= 0.0f) {
+					p1IceTimer = 0.0f;
 					//빙결 해제
 				}
 			}
@@ -96,12 +117,28 @@ namespace GOTOEngine
 				if (player == 1) {
 					//P1의 동물리스트 내부 객체 카운트
 					//P1의 동물리스트 내부 객체 전부 삭제
-					//카운트 수에 따라 점수증가
+					if (p1count >= 1 && p1count <= 3) {
+						scoreManager->P1Score += 3 * scoreManager->P1Bonus;
+					}
+					else if (p1count >= 4 && p1count <= 6) {
+						scoreManager->P1Score += 5 * scoreManager->P1Bonus;
+					}
+					else if (p1count >= 7) {
+						scoreManager->P1Score += 7 * scoreManager->P1Bonus;
+					}
 				}
 				else {
 					//P2의 동물리스트 내부 객체 카운트
 					//P2의 동물리스트 내부 객체 전부 삭제
-					//카운트 수에 따라 점수증가
+					if (p2count >= 1 && p2count <= 3) {
+						scoreManager->P2Score += 3 * scoreManager->P2Bonus;
+					}
+					else if (p2count >= 4 && p2count <= 6) {
+						scoreManager->P2Score += 5 * scoreManager->P2Bonus;
+					}
+					else if (p2count >= 7) {
+						scoreManager->P2Score += 7 * scoreManager->P2Bonus;
+					}
 				}
 				break;
 			case ItemType::Icebomb:
