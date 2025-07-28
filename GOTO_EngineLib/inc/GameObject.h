@@ -74,7 +74,7 @@ namespace GOTOEngine
 				UpdateActiveInHierarchy();
 			}
 
-			newComponent->AdditionalInitialize(); // 컴포넌트 초기화 호출
+			static_cast<Component*>(newComponent)->AdditionalInitialize(); // 컴포넌트 초기화 호출
 
 			return newComponent;
 		}

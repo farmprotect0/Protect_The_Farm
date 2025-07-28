@@ -46,24 +46,6 @@ void GOTOEngine::Canvas::SortGraphics()
 	m_needGraphicSort = false;
 }
 
-int GOTOEngine::Canvas::CalculateHierarchyOrder(RectTransform* rectTransform)
-{
-	if (!rectTransform) return 0;
-
-	int order = 0;
-	int multiplier = 1;
-
-	for (RectTransform* current = rectTransform;
-		current && current != this->GetRectTransform();
-		current = dynamic_cast<RectTransform*>(current->GetParent()))
-	{
-		order += current->GetSiblingIndex() * multiplier;
-		multiplier *= 100; // 각 레벨당 최대 100개의 자식을 가정
-	}
-
-	return order;
-}
-
 GOTOEngine::Canvas::~Canvas()
 {
 	RenderManager::Get()->UnRegisterCanvas(this);

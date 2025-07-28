@@ -7,6 +7,7 @@ namespace GOTOEngine
 	class Graphic : public UIBehaviour
 	{
 	private:
+        friend class RectTransform;
 		Canvas* m_canvas;
 		Color m_color;
 		bool m_raycastTarget;
@@ -15,12 +16,11 @@ namespace GOTOEngine
         void OnEnable();
         void OnDisable();
         void OnCanvasHierarchyChanged() override;
-
+    protected:
+        void AdditionalInitialize() override;
 	public:
         Graphic();
         virtual ~Graphic();
-
-		void AdditionalInitialize() override;
 
         void Dispose() override;
 

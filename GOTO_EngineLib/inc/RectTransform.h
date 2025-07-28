@@ -40,7 +40,7 @@ namespace GOTOEngine
         void SetPivot(const Vector2& pivot);
         const Vector2& GetPivot() const;
 
-        // Transform 오버라이드
-        void SetParent(Transform* parent, bool worldPositionStays = true) override;
+        void SetParent(Transform* parent, bool worldPositionStays) override;
+        void SetSiblingIndex(size_t index) override;
     };
 }

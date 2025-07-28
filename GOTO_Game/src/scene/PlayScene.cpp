@@ -37,8 +37,8 @@ void PlayScene::Initialize()
 
 	auto simpleImage = new GameObject(L"SimpleImage");
 	simpleImage->AddComponent<Image>();
-	simpleImage->GetComponent<RectTransform>()->SetSizeDelta({ 200.0f, 100.0f });
-	simpleImage->GetComponent<RectTransform>()->SetPosition({ 100.0f, 100.0f });
+	simpleImage->GetComponent<RectTransform>()->SetSizeDelta({ 100.0f, 100.0f });
+	simpleImage->GetComponent<RectTransform>()->SetPosition({ 0.0f, 0.0f });
 
 	simpleImage->GetComponent<RectTransform>()->SetParent(canvasGO->GetTransform(), false);
 }

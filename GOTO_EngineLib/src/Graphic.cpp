@@ -31,14 +31,8 @@ GOTOEngine::Graphic::~Graphic()
 {
 }
 
-void GOTOEngine::Graphic::AdditionalInitialize()
-{
-    GetTransform()->onHierarchyChanged += std::make_pair(this, &Graphic::OnCanvasHierarchyChanged);
-}
-
 void GOTOEngine::Graphic::Dispose()
 {
-    GetTransform()->onHierarchyChanged -= std::make_pair(this, &Graphic::OnCanvasHierarchyChanged);
 }
 
 void GOTOEngine::Graphic::OnEnable()
@@ -66,6 +60,11 @@ void GOTOEngine::Graphic::OnCanvasHierarchyChanged()
 			m_canvas->RegisterGraphic(this);
 		}
     }
+}
+
+void GOTOEngine::Graphic::AdditionalInitialize()
+{
+    OnCanvasHierarchyChanged();
 }
 
 void GOTOEngine::Graphic::SetColor(const Color& color)

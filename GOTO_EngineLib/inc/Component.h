@@ -21,8 +21,9 @@ namespace GOTOEngine
 				m_gameObject = nullptr;
 			}
 		}
-	public:
+
 		virtual void AdditionalInitialize() {};
+	public:
 		GameObject* GetGameObject() { return m_gameObject; }
 		Transform* GetTransform() { return m_gameObject->GetTransform(); }
 

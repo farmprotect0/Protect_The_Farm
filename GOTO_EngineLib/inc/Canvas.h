@@ -21,7 +21,6 @@ namespace GOTOEngine
 		void RegisterGraphic(Graphic* graphic);
 		void UnregisterGraphic(Graphic* graphic);
 		void SortGraphics();
-		int CalculateHierarchyOrder(RectTransform* rectTransform);
 		virtual ~Canvas();
 		void Dispose() override
 		{

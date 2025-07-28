@@ -1,6 +1,6 @@
 #include "RectTransform.h"
 #include "Canvas.h"
-
+#include "Graphic.h"
 
 GOTOEngine::RectTransform::RectTransform()
 {
@@ -12,15 +12,18 @@ GOTOEngine::RectTransform::~RectTransform()
 
 void GOTOEngine::RectTransform::SetAnchorMin(const Vector2& anchorMin)
 {
+	m_anchorMin = anchorMin;
 }
 
 void GOTOEngine::RectTransform::SetAnchorMax(const Vector2& anchorMax)
 {
+	m_anchorMax = anchorMax;
 }
 
 void GOTOEngine::RectTransform::SetAnchors(const Vector2& anchorMin, const Vector2& anchorMax)
 {
-
+	m_anchorMin = anchorMin;
+	m_anchorMax = anchorMax;
 }
 
 const GOTOEngine::Vector2& GOTOEngine::RectTransform::GetAnchorMin() const
@@ -48,6 +51,7 @@ const GOTOEngine::Vector2& GOTOEngine::RectTransform::GetAnchoredPosition() cons
 
 void GOTOEngine::RectTransform::SetSizeDelta(const Vector2& sizeDelta)
 {
+	m_sizeDelta = sizeDelta;
 }
 
 const GOTOEngine::Vector2& GOTOEngine::RectTransform::GetSizeDelta() const
@@ -58,6 +62,7 @@ const GOTOEngine::Vector2& GOTOEngine::RectTransform::GetSizeDelta() const
 
 void GOTOEngine::RectTransform::SetPivot(const Vector2& pivot)
 {
+	m_pivot = pivot;
 }
 
 const GOTOEngine::Vector2& GOTOEngine::RectTransform::GetPivot() const
@@ -69,4 +74,21 @@ const GOTOEngine::Vector2& GOTOEngine::RectTransform::GetPivot() const
 void GOTOEngine::RectTransform::SetParent(Transform* parent, bool worldPositionStays)
 {
 	Transform::SetParent(parent, worldPositionStays);
+
+	auto graphics = GetComponents<Graphic>();
+	for (auto graphic : graphics)
+	{
+		graphic->OnCanvasHierarchyChanged();
+	}
+}
+
+void GOTOEngine::RectTransform::SetSiblingIndex(size_t index)
+{
+	Transform::SetSiblingIndex(index);
+
+	auto graphics = GetComponents<Graphic>();
+	for (auto graphic : graphics)
+	{
+		graphic->OnCanvasHierarchyChanged();
+	}
 }

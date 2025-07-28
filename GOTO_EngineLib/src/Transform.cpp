@@ -82,8 +82,6 @@ void GOTOEngine::Transform::SetSiblingIndex(size_t idx)
 			children.begin() + current_idx,
 			children.begin() + current_idx + 1);
 	}
-
-	onHierarchyChanged.Invoke();
 }
 
 size_t GOTOEngine::Transform::GetSiblingIndex() const
@@ -244,7 +242,6 @@ void GOTOEngine::Transform::SetParent(Transform* parent, bool worldPositionStays
 	GetGameObject()->UpdateActiveInHierarchy(); // 부모가 바뀌었으므로 Hierarchy 활성화 상태 업데이트
 
 	MarkDirty();
-	onHierarchyChanged.Invoke();
 }
 
 GOTOEngine::Transform* GOTOEngine::Transform::GetChild(size_t idx)
