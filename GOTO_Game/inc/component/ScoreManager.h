@@ -1,6 +1,5 @@
 #pragma once
 #include <ScriptBehaviour.h>
-#include <InputManager.h>
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
 
