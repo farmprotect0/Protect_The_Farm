@@ -152,17 +152,14 @@
     <ClInclude Include="inc\box2d-lite\Joint.h" />
     <ClInclude Include="inc\box2d-lite\MathUtils.h" />
     <ClInclude Include="inc\box2d-lite\World.h" />
-    <ClInclude Include="inc\Canvas.h" />
     <ClInclude Include="inc\Collider2D.h" />
     <ClInclude Include="inc\D2DBitmap.h" />
-    <ClInclude Include="inc\Graphic.h" />
     <ClInclude Include="inc\IGamepadDevice.h" />
     <ClInclude Include="inc\IRenderBitmap.h" />
     <ClInclude Include="inc\IRenderFont.h" />
     <ClInclude Include="inc\json.hpp" />
     <ClInclude Include="inc\miniaudio\miniaudio.h" />
     <ClInclude Include="inc\PhysicsManager.h" />
-    <ClInclude Include="inc\RectTransform.h" />
     <ClInclude Include="inc\Resource.h" />
     <ClInclude Include="inc\BBox.h" />
     <ClInclude Include="inc\Behaviour.h" />
@@ -208,7 +205,6 @@
     <ClInclude Include="inc\Texture2D.h" />
     <ClInclude Include="inc\TimeManager.h" />
     <ClInclude Include="inc\Transform.h" />
-    <ClInclude Include="inc\UIBehaviour.h" />
     <ClInclude Include="inc\Vector2.h" />
     <ClInclude Include="inc\Vector3.h" />
     <ClInclude Include="inc\Vector4.h" />
@@ -224,7 +220,6 @@
     <ClCompile Include="src\AudioListener.cpp" />
     <ClCompile Include="src\AudioManager.cpp" />
     <ClCompile Include="src\AudioSource.cpp" />
-    <ClCompile Include="src\Canvas.cpp" />
     <ClCompile Include="src\Collider2D.cpp" />
     <ClCompile Include="src\miniaudio\miniaudio.c" />
     <ClCompile Include="src\PhysicsManager.cpp" />

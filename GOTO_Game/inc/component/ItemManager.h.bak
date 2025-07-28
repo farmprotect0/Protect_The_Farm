@@ -21,6 +21,10 @@ namespace GOTOEngine
 		float p2TicketTimer = 0.0f;
 		const float ticketDuration = 5.0f;
 	public:
+    ItemManager()
+    {
+        REGISTER_BEHAVIOUR_MESSAGE(Update);
+    }
 		ScoreManager* scoreManager = new ScoreManager;
 		void Update() {
 			if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)) {

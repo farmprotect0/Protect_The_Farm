@@ -23,10 +23,11 @@ namespace GOTOEngine
 			if (instance == nullptr)
 			{
 				instance = this;
+				DontDestroyOnLoad(this);
 			}
 			else
 			{
-
+				Destroy(GetGameObject());	
 			}
 		}
 
