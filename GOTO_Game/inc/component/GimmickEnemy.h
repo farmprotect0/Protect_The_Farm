@@ -1,44 +1,54 @@
 ﻿#pragma once
+#include <any>
 #include <ScriptBehaviour.h>
+#include <SpriteRenderer.h>
+#include <ResourceManager.h>
+
 #include "BaseEnemyObject.h"
 
-enum gimmickEnemyType
+namespace GOTOEngine
 {
-	rabbit,	// 토끼
-	hamster	// 다람쥐 (Squirrel)
-};
-
-
-using namespace GOTOEngine;
-class GimmickEnemy : public BaseEnemyObject
-{
-	gimmickEnemyType m_moveEnemyType;
-
-
-public:
-
-	void Initialize() override
+	enum E_GimmickEnemyType
 	{
+		rabbit,	// 토끼
+		hamster	// 다람쥐 (Squirrel)
+	};
 
-		//std::cout << GetObject << std::endl;
-
-	}
-	void Awake()
+	class GimmickEnemy : public BaseEnemyObject
 	{
-		__super::Awake();
+		E_GimmickEnemyType m_gimmickEnemyType;
 
-		std::cout << "MoveEnemy Awake" << std::endl;
 
-		m_enemyType = EnemyType::gimmick;
+	public:
 
-		m_moveLoop = true;
-		m_moveSpeed = 10.0f;
+		void Initialize(std::any param) override
+		{
+			if (param.type() == typeid(E_GimmickEnemyType)) m_gimmickEnemyType = std::any_cast<E_GimmickEnemyType>(param);
+			
+			GetTransform()->SetPosition({ 0,0 });
+			GetTransform()->SetLossyScale({ 0.5f, 0.5f });
 
-		m_enemyhp = 10.0f;
-		m_DieScore = 10.0f;
-		m_oneTargetScore = 1.0f;
+			
+		}
+		void Awake()
+		{
+			__super::Awake();
 
-		m_destroyTime = 8.0f;
+			std::cout << "GimmickEnemy Awake" << std::endl;
 
-	}
-};
+			m_enemyType = E_EnemyType::gimmick;
+
+			m_moveLoop = true;
+			m_moveSpeed = 10.0f;
+
+			m_enemyhp = 10.0f;
+			m_DieScore = 10.0f;
+			m_oneTargetScore = 1.0f;
+
+			m_destroyTime = 8.0f;
+
+
+			AddComponent<SpriteRenderer>()->SetSprite(Resource::Load<Sprite>(L"../Resources/artResource/Animal/Gimmick/Rabbit_idle.gif"));
+		}
+	};
+}

@@ -153,14 +153,20 @@
     <ClCompile Include="src\component\PlayerHealth.cpp" />
     <ClCompile Include="src\GameApp.cpp" />
     <ClCompile Include="src\scene\SampleScene.cpp" />
+    <ClCompile Include="src\scene\testEnemyScene.cpp" />
     <ClCompile Include="src\scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\component\BaseEnemyObject.h" />
     <ClInclude Include="inc\component\CameraMove.h" />
+    <ClInclude Include="inc\component\EnemySpawner.h" />
+    <ClInclude Include="inc\component\GimmickEnemy.h" />
+    <ClInclude Include="inc\component\ItemEnemy.h" />
     <ClInclude Include="inc\component\ItemManager.h" />
     <ClInclude Include="inc\component\GameManager.h" />
     <ClInclude Include="inc\component\MemoryUsageGUI.h" />
     <ClInclude Include="inc\component\MonsterAttack.h" />
+    <ClInclude Include="inc\component\MoveEnemy.h" />
     <ClInclude Include="inc\component\MushroomCreator.h" />
     <ClInclude Include="inc\component\PlayerController.h" />
     <ClInclude Include="inc\component\PlayerHealth.h" />
@@ -173,6 +179,7 @@
     <ClInclude Include="inc\component\PlayerFSMController.h" />
     <ClInclude Include="inc\scene\PhysicsScene.h" />
     <ClInclude Include="inc\scene\AnimationScene.h" />
+    <ClInclude Include="inc\scene\testEnemyScene.h" />
     <ClInclude Include="inc\scene\TitleScene.h" />
     <ClInclude Include="inc\scene\SampleScene.h" />
     <ClInclude Include="inc\scene\PlayScene.h" />

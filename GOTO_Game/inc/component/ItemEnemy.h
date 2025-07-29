@@ -1,44 +1,47 @@
 ﻿#pragma once
+#include <any>
 #include <ScriptBehaviour.h>
+
 #include "BaseEnemyObject.h"
-
-enum itemEnemyType
+namespace GOTOEngine
 {
-	iceBird,	// 얼음새
-	bombBird,	// 폭탄새
-	goldBird	// 황금새
-};
-
-using namespace GOTOEngine;
-class ItemEnemy : public BaseEnemyObject
-{
-	itemEnemyType m_moveEnemyType;
-
-
-public:
-
-	void Initialize() override
+	enum E_ItemEnemyType
 	{
+		iceBird,	// 얼음새
+		bombBird,	// 폭탄새
+		goldBird	// 황금새
+	};
 
-		//std::cout << GetObject << std::endl;
-
-	}
-	void Awake()
+	class ItemEnemy : public BaseEnemyObject
 	{
-		__super::Awake();
+		E_ItemEnemyType m_itemEnemyType;
 
-		std::cout << "MoveEnemy Awake" << std::endl;
 
-		m_enemyType = EnemyType::itemspawn;
+	public:
 
-		m_moveLoop = true;
-		m_moveSpeed = 10.0f;
+		void Initialize(std::any param) override
+		{
+			if (param.type() == typeid(E_ItemEnemyType)) m_itemEnemyType = std::any_cast<E_ItemEnemyType>(param);
 
-		m_enemyhp = 10.0f;
-		m_DieScore = 10.0f;
-		m_oneTargetScore = 1.0f;
 
-		m_destroyTime = 8.0f;
+		}
+		void Awake()
+		{
+			__super::Awake();
 
-	}
-};
+			std::cout << "ItemEnemy Awake" << std::endl;
+
+			m_enemyType = E_EnemyType::itemspawn;
+
+			m_moveLoop = true;
+			m_moveSpeed = 10.0f;
+
+			m_enemyhp = 10.0f;
+			m_DieScore = 10.0f;
+			m_oneTargetScore = 1.0f;
+
+			m_destroyTime = 8.0f;
+
+		}
+	};
+}
