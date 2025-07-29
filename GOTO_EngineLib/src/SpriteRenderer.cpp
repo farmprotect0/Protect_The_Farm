@@ -64,3 +64,17 @@ void GOTOEngine::SpriteRenderer::SetSprite(Sprite* sprite, Rect srcRect)
         m_sprite->SetRect(srcRect);
     }
 }
+
+void GOTOEngine::SpriteRenderer::SetSprite(const std::wstring filePath)
+{
+	SetSprite(Resource::Load<Sprite>(filePath));
+}
+
+void GOTOEngine::SpriteRenderer::SetSprite(const std::wstring filePath, Rect srcRect)
+{
+    SetSprite(Resource::Load<Sprite>(filePath));
+    if (m_sprite)
+    {
+        m_sprite->SetRect(srcRect);
+    }
+}
