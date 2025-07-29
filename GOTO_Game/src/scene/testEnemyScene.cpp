@@ -8,10 +8,14 @@
 #include <SceneManager.h>
 #include <ResourceManager.h>
 
-//#include "MoveEnemy.h"
 #include "Camera.h"
-#include "EnemySpawner.h"
 #include "CameraMove.h"
+#include "Canvas.h"
+
+#include "EnemySpawner.h"
+#include "ItemManager.h"
+#include "ScoreManager.h"
+
 
 using namespace std;
 
@@ -28,7 +32,14 @@ void testEnemyScene::Initialize()
 
 	auto camera_GO = Camera::CreateMainCamera();
 	camera_GO->AddComponent<CameraMove>();
-	camera_GO->GetComponent<Camera>()->SetRect({ 0,0,1.0f,1.0f });
+	camera_GO->GetComponent<Camera>()->SetRect({ 0, 0, 1.0f,1.0f });
 
+
+	auto canvas = new GameObject(L"Canvas");
+	canvas->AddComponent<Canvas>();
+	auto itemManager = new GameObject(L"아이템매니저");
+	itemManager->AddComponent<ItemManager>();
+	auto scoreManager = new GameObject(L"스코어매니저");
+	scoreManager->AddComponent<ScoreManager>();
 
 }

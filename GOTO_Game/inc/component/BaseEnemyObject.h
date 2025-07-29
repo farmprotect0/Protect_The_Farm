@@ -1,19 +1,11 @@
 ﻿#pragma once
 #include <ScriptBehaviour.h>
+#include <TimeManager.h>
 #include <string.h>
 #include <iostream>
 #include <any>
 
-
-enum E_Enemy_Move_Type
-{
-	NONE = 0,					// 아무 움직임 없음 (0000)
-	MOVE_LEFT_RIGHT = 1 << 0,	// 좌우 이동 (0001)
-	MOVE_UP_DOWN = 1 << 1,		// 상하 이동 (0010)
-	MOVE_CIRCULAR = 1 << 2,		// 원형 이동 (0100)
-	MOVE_ZIGZAG = 1 << 3,		// 지그재그 이동 (1000)
-	MOVE_PARABOLIC = 1 << 4,	// 포물선 이동 (10000)
-};
+#include "BaseMovement.h"
 
 namespace GOTOEngine
 {
@@ -26,19 +18,24 @@ namespace GOTOEngine
 
 	class BaseEnemyObject : public ScriptBehaviour
 	{
+	private:
+		std::vector<BaseMovement*> m_movementComponents;
+
 	protected:
 		E_EnemyType m_enemyType = E_EnemyType::move;
 		//std::string m_enemyName;
 
+		int m_moveFlag = MOVE_LEFT_RIGHT;
 		bool m_moveLoop = true;
-		float m_moveSpeed = 10.0f;
 
 		float m_enemyhp = 10.0f;
-		float m_DieScore = 10.0f;
-		float m_oneTargetScore = 1.0f;
+		float m_DieScore = 10.0f;			// 죽었을 때 점수
+		float m_oneTargetScore = 1.0f;		// 한발 쐈을 때 점수
 
 		// 스폰확률
 		float m_destroyTime = 8.0f;
+
+		bool m_frozen;
 
 	public:
     BaseEnemyObject()
@@ -48,24 +45,49 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(OnDisable);
         REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
         REGISTER_BEHAVIOUR_MESSAGE(Start);
+        REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		virtual ~BaseEnemyObject() = default;
 
 		virtual void Awake()
 		{
-			std::cout << "base Awake" << std::endl;
-
+			// 등록한 movement들 추가
+			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
 		}
 		void Start() {}
+
+		void Update()
+		{
+			if (m_frozen == true || m_movementComponents.empty())
+			{
+				return;
+			}
+
+			// 프레임마다 합산할 변수
+			Vector2 totalMovement = Vector2::Zero();
+
+			for (BaseMovement* movement : m_movementComponents)
+			{
+				totalMovement += movement->Move(TimeManager::Get()->GetDeltaTime());
+			}
+
+			GetTransform()->Translate(totalMovement, true);
+		}
+
 		void OnEnable() {}
 		void OnDisable() {}
 		void OnDestroy() {}
 
-		virtual void Initialize(std::any param) {
+		virtual void Initialize(std::any param, int _moveflag = NONE) {
 			std::cout << "Base Initialize with std::any" << std::endl;
 		}
 
+		void AddMovementComponent(BaseMovement* movement)
+		{
+			m_movementComponents.push_back(movement);
+		}
 
+		
 		virtual void OnEnemyPlay() {}
 	};
 }
