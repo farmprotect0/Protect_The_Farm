@@ -54,6 +54,15 @@
     <ClCompile Include="src\scene\testEnemyScene.cpp">
       <Filter>소스 파일\씬</Filter>
     </ClCompile>
+    <ClCompile Include="src\scene\TestItemScene.cpp">
+      <Filter>소스 파일\씬</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\ItemManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\ScoreManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\TestComponent.h">
@@ -132,6 +141,9 @@
       <Filter>헤더 파일\컴포넌트</Filter>
     </ClInclude>
     <ClInclude Include="inc\scene\testEnemyScene.h">
+      <Filter>헤더 파일\씬</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\scene\TestItemScene.h">
       <Filter>헤더 파일\씬</Filter>
     </ClInclude>
   </ItemGroup>
