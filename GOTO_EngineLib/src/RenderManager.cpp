@@ -273,22 +273,12 @@ void GOTOEngine::RenderManager::Render()
 		if(canvas->IsNeedGraphicSort())
 			canvas->SortGraphics();
 
-		auto screenSize = Screen::GetSize();
-		auto canvasSize = canvas->GetCanvasSize();
-
 		for (auto graphic : canvas->m_graphics)
 		{
-			if (!graphic->GetEnabled())
+			if (!graphic->IsActiveAndEnabled())
 				continue;
 
-			auto rectTransform = graphic->GetRectTransform();
-
-			auto sizeDelta = rectTransform->GetSizeDelta();
-			auto sizeFactorX = canvasSize.x / screenSize.x;
-			auto sizeFactorY = canvasSize.y / screenSize.y;
-			auto currentPos  =  rectTransform->GetAnchoredPosition();
-
-			m_pRenderAPI->DrawRect({ currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, true, {}, { 255,255,255,255 }, true);
+			graphic->Render();
 		}
 	}
 }

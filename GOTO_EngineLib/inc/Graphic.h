@@ -4,10 +4,12 @@
 
 namespace GOTOEngine
 {
+    class IRenderAPI;
 	class Graphic : public UIBehaviour
 	{
 	private:
         friend class RectTransform;
+    protected:
 		Canvas* m_canvas;
 		Color m_color;
 		bool m_raycastTarget;
@@ -16,6 +18,7 @@ namespace GOTOEngine
         void OnEnable();
         void OnDisable();
         void OnCanvasHierarchyChanged() override;
+        IRenderAPI* GetRenderAPIFromManager();
     protected:
         void AdditionalInitialize() override;
 	public:

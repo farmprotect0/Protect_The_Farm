@@ -63,6 +63,7 @@ namespace GOTOEngine
 		friend class Texture2D; 
 		friend class Font;
 		friend class Canvas;
+		friend class Graphic;
 		void StartUp(IWindow* window);
 		void ShutDown();
 		IRenderAPI* m_pRenderAPI = nullptr;

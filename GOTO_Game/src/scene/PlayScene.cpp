@@ -36,8 +36,9 @@ void PlayScene::Initialize()
 	canvas->SetSortOrder(1000); // UI는 높은 렌더링 순서로 설정
 
 	auto simpleImage = new GameObject(L"SimpleImage");
-	simpleImage->AddComponent<Image>();
-	simpleImage->GetComponent<RectTransform>()->SetSizeDelta({ 100.0f, 100.0f });
+	auto imageComp = simpleImage->AddComponent<Image>();
+	
+	imageComp->SetSprite(Resource::Load<Sprite>(L"../Resources/Demo/Crosshair.png"));
 	simpleImage->GetComponent<RectTransform>()->SetAnchoredPosition({ 960.0f, 540.0f });
 
 	simpleImage->GetComponent<RectTransform>()->SetParent(canvasGO->GetTransform(), false);

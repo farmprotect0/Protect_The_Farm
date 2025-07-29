@@ -1,6 +1,8 @@
 #include "Graphic.h"
 #include "Canvas.h"
 #include "RectTransform.h"
+#include "RenderManager.h"
+#include "IRenderAPI.h"
 
 GOTOEngine::Canvas* GOTOEngine::Graphic::FindCanvasInParents()
 {
@@ -62,6 +64,11 @@ void GOTOEngine::Graphic::OnCanvasHierarchyChanged()
     }
 }
 
+GOTOEngine::IRenderAPI* GOTOEngine::Graphic::GetRenderAPIFromManager()
+{
+	return RenderManager::Get()->GetRenderAPI();
+}
+
 void GOTOEngine::Graphic::AdditionalInitialize()
 {
     OnCanvasHierarchyChanged();
@@ -96,6 +103,3 @@ GOTOEngine::RectTransform* GOTOEngine::Graphic::GetRectTransform()
     return dynamic_cast<RectTransform*>(GetGameObject()->GetTransform());
 }
 
-void GOTOEngine::Graphic::Render()
-{
-}
