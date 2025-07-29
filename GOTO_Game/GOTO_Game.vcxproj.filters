@@ -54,7 +54,7 @@
     <ClCompile Include="src\component\ItemManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\ScoreManager.cpp">
+    <ClCompile Include="src\component\GameManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\scene\StartScene.cpp">
@@ -107,13 +107,10 @@
     <ClInclude Include="inc\scene\PlayScene.h">
       <Filter>헤더 파일\씬</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\GameManager.h">
-      <Filter>헤더 파일\컴포넌트</Filter>
-    </ClInclude>
     <ClInclude Include="inc\component\ItemManager.h">
       <Filter>헤더 파일\컴포넌트</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\ScoreManager.h">
+    <ClInclude Include="inc\component\GameManager.h">
       <Filter>헤더 파일\컴포넌트</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\GimmickEnemy.h">

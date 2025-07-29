@@ -1,45 +1,34 @@
-#pragma once
+ï»¿#pragma once
 #include <ScriptBehaviour.h>
-#include <InputManager.h>
+#include <RenderManager.h>
+#include <SpriteRenderer.h>
 #include <TimeManager.h>
-#include <Transform.h>
-#include <Camera.h>
+#include <InputManager.h>
+#include <Text.h>
+#include "RectTransform.h"
+#include "Screen.h"
 
 namespace GOTOEngine
 {
 	class GameManager : public ScriptBehaviour
 	{
-	private:
 	public:
     GameManager()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
-        REGISTER_BEHAVIOUR_MESSAGE(Start);
+        REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
+		int P1Score = 0;
+		int P2Score = 0;
+		int P1Bonus = 1;
+		int P2Bonus = 1;
+		static int winner;
+		float GameTimer = 120.0f;
 		static GameManager* instance;
-
-		void Awake()
-		{
-			if (instance == nullptr)
-			{
-				instance = this;
-				DontDestroyOnLoad(this);
-			}
-			else
-			{
-				Destroy(GetGameObject());	
-			}
-		}
-
-		void Start()
-		{
-			auto camera = Camera::GetMainCamera();
-			if (camera)
-			{
-				camera->SetSize(1.0f);
-				camera->SetDepth(0);
-				camera->SetBackGroundColor(Color{ 0, 0, 0, 255 }); // °ËÀº»ö ¹è°æ
-			}
-		}
+		Text* P1sctext;
+		Text* P2sctext;
+		Text* Timetext;
+		void Awake();
+		void Update();
 	};
 }

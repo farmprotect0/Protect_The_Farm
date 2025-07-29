@@ -1,8 +1,9 @@
-#include "ScoreManager.h"
-using namespace GOTOEngine;
-ScoreManager* ScoreManager::instance = nullptr;
+#include "GameManager.h"
 
-void ScoreManager::Awake(){
+using namespace GOTOEngine;
+GameManager* GameManager::instance = nullptr;
+
+void GameManager::Awake(){
 	if (!instance)
 	{
 		instance = this;
@@ -35,7 +36,7 @@ void ScoreManager::Awake(){
 	Timetext->SetFont(L"../Resources/Maplestory Light.ttf");
 
 }
-void ScoreManager::Update() {
+void GameManager::Update() {
 	if (GameTimer > 0.0f) {
 		GameTimer -= TIME_GET_DELTATIME();
 		if (GameTimer <= 0.0f) {
@@ -57,4 +58,4 @@ void ScoreManager::Update() {
 	Timetext->text = std::to_wstring(static_cast<int>(floor(GameTimer)));
 }
 
-int GOTOEngine::ScoreManager::winner = 0;
+int GOTOEngine::GameManager::winner = 0;
