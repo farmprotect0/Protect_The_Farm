@@ -91,3 +91,7 @@ namespace GOTOEngine
 		virtual void OnEnemyPlay() {}
 	};
 }
+
+
+// enemy move size
+//Screen::GetWidth() * 0.5f, Screen::GetHeight()});

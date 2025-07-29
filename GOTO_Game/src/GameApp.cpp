@@ -9,25 +9,19 @@
 #include "SceneManager.h"
 
 // ¾À
-//#include "TitleScene.h"
-//#include "SampleScene.h"
-//#include "AnimationScene.h"
-//#include "PhysicsScene.h"
 #include "PlayScene.h"
 #include "StartScene.h"
 #include "TestItemScene.h"
+#include "testEnemyScene.h"
 
 void StartEngineLoop()
 {
 	ENGINE_INIT(1920, 1080, L"D2D Game");
 
 	//¾À ÇÒ´ç ¹× Ãß°¡
-	//SCENE_ADD_SCENE<TitleScene>(L"Title");
-	//SCENE_ADD_SCENE<SampleScene>(L"SampleScene");
-	//SCENE_ADD_SCENE<AnimationScene>(L"AnimationScene");
-	//SCENE_ADD_SCENE<PhysicsScene>(L"PhysicsScene");
 	SCENE_ADD_SCENE<PlayScene>(L"PlayScene");
 	SCENE_ADD_SCENE<TestItemScene>(L"TestItemScene");
+	SCENE_ADD_SCENE<testEnemyScene>(L"testEnemyScene");
 	SCENE_ADD_SCENE<StartScene>(L"StartScene");
 
 	//Ã¹ ¾ÀÀ¸·Î º¯È¯

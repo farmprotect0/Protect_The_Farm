@@ -5,8 +5,10 @@
 #include <RectTransform.h>
 #include <SpriteRenderer.h>
 #include "CrosshairPrefab.h"
+
 #include "ItemManager.h"
 #include "GameManager.h"
+#include "EnemySpawner.h"
 
 void PlayScene::Initialize()
 {
@@ -31,4 +33,6 @@ void PlayScene::Initialize()
 	itemManager->AddComponent<ItemManager>();
 	auto gameManager = new GameObject(L"스코어매니저");
 	gameManager->AddComponent<GameManager>();
+	auto spawner = new GameObject(L"enemySpawner");
+	spawner->AddComponent<EnemySpawner>();
 }
