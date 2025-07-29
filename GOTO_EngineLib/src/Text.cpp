@@ -11,7 +11,7 @@ void GOTOEngine::Text::AdditionalInitialize()
     auto rectTransform = GetRectTransform();
     if (rectTransform && rectTransform->GetSizeDelta().x == 0 && rectTransform->GetSizeDelta().y == 0)
     {
-        rectTransform->SetSizeDelta({ 500, 500 });
+        rectTransform->SetSizeDelta({ 100, 100 });
     }
 }
 
@@ -66,6 +66,7 @@ void GOTOEngine::Text::Render()
     auto sizeFactorY = canvasSize.y / screenSize.y;
     auto currentPos = rectTransform->GetAnchoredPosition();
 
-    renderAPI->DrawString(text.c_str(), { currentPos.x * sizeFactorX,0,sizeDelta.x,sizeDelta.y }, m_font->GetFont(), size, FontStyleHelper::ToRenderFontStyle(fontStyle), m_color, {},static_cast<int>(horizontalAlign), static_cast<int>(verticalAlign), true);
+
+    renderAPI->DrawString(text.c_str(), { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, IsValidObject(m_font) ? m_font->GetFont() : nullptr , size, FontStyleHelper::ToRenderFontStyle(fontStyle), m_color, {},static_cast<int>(horizontalAlign), static_cast<int>(verticalAlign), true);
 }
 

@@ -216,9 +216,9 @@ namespace GOTOEngine
         switch (axis)
         {
         case GamepadAxis::LeftStickX:
-            return std::abs(gamepad.sThumbLX) < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ? 0.0f : static_cast<float>(gamepad.sThumbLX) / 32767;
+            return static_cast<float>(gamepad.sThumbLX) / 32767.0f;//std::abs(gamepad.sThumbLX) < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ? 0.0f : static_cast<float>(gamepad.sThumbLX) / 32767.0f;
         case GamepadAxis::LeftStickY:
-            return  std::abs(gamepad.sThumbLY) < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ? 0.0f : static_cast<float>(gamepad.sThumbLY) / 32767;
+            return static_cast<float>(gamepad.sThumbLY) / 32767.0f;// std::abs(gamepad.sThumbLY) < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ? 0.0f : static_cast<float>(gamepad.sThumbLY) / 32767.0f;
         case GamepadAxis::RightStickX:
             return gamepad.sThumbRX;
         case GamepadAxis::RightStickY:
