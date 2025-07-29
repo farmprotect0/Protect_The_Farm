@@ -14,6 +14,7 @@
 //#include "AnimationScene.h"
 //#include "PhysicsScene.h"
 #include "PlayScene.h"
+#include "StartScene.h"
 #include "TestItemScene.h"
 
 void StartEngineLoop()
@@ -27,9 +28,10 @@ void StartEngineLoop()
 	//SCENE_ADD_SCENE<PhysicsScene>(L"PhysicsScene");
 	SCENE_ADD_SCENE<PlayScene>(L"PlayScene");
 	SCENE_ADD_SCENE<TestItemScene>(L"TestItemScene");
+	SCENE_ADD_SCENE<StartScene>(L"StartScene");
 
 	//첫 씬으로 변환
-	SCENE_CHANGE_SCENE(L"TestItemScene");
+	SCENE_CHANGE_SCENE(L"PlayScene");
 
 	ENGINE_RUN();
 	ENGINE_SHUTDOWN();

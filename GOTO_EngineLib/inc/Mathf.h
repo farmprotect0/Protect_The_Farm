@@ -13,5 +13,6 @@ namespace GOTOEngine
 		static float PI;
 		static float NormalizeAngle(float angle);
 		static bool Approximately(float a, float b);
+		static float Clamp(float value, float min, float max);
 	};
 }
