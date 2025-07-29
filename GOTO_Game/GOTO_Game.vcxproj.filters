@@ -51,20 +51,20 @@
     <ClCompile Include="src\scene\TestItemScene.cpp">
       <Filter>소스 파일\씬</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\ItemManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\GameManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scene\StartScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\prefab\CrosshairPrefab.cpp">
       <Filter>소스 파일\프리펩</Filter>
     </ClCompile>
     <ClCompile Include="src\prefab\StartMenuPrefab.cpp">
       <Filter>소스 파일\프리펩</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\StartScene.cpp">
+      <Filter>소스 파일\씬</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GameManager.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\ItemManager.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,9 +134,6 @@
     <ClInclude Include="inc\scene\TestItemScene.h">
       <Filter>헤더 파일\씬</Filter>
     </ClInclude>
-    <ClInclude Include="inc\scene\StartScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="inc\component\CrosshairMove.h">
       <Filter>헤더 파일\컴포넌트</Filter>
     </ClInclude>
@@ -146,11 +143,14 @@
     <ClInclude Include="inc\component\CrosshairFire.h">
       <Filter>헤더 파일\컴포넌트</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\StartManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="inc\prefab\StartMenuPrefab.h">
       <Filter>헤더 파일\프리펩</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\StartManager.h">
+      <Filter>헤더 파일\컴포넌트</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\scene\StartScene.h">
+      <Filter>헤더 파일\씬</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

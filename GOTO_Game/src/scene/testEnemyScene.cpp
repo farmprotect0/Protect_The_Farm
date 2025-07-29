@@ -14,8 +14,6 @@
 
 #include "EnemySpawner.h"
 #include "ItemManager.h"
-#include "ScoreManager.h"
-
 
 using namespace std;
 
@@ -39,7 +37,6 @@ void testEnemyScene::Initialize()
 	canvas->AddComponent<Canvas>();
 	auto itemManager = new GameObject(L"아이템매니저");
 	itemManager->AddComponent<ItemManager>();
-	auto scoreManager = new GameObject(L"스코어매니저");
-	scoreManager->AddComponent<ScoreManager>();
+
 
 }
