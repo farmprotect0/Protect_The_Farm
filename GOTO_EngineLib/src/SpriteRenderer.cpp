@@ -9,10 +9,10 @@
 
 void GOTOEngine::SpriteRenderer::Render(Matrix3x3& matrix)
 {
-    auto renderAPI = GetRenderAPIFromManager();
-
     if (m_sprite && m_sprite->m_texture)
     {
+        auto renderAPI = GetRenderAPIFromManager();
+
         auto bitmap = m_sprite->m_texture->GetBitmap();
 
         auto spriteRect = m_sprite->GetRect();

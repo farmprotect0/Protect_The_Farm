@@ -207,8 +207,6 @@ void GOTOEngine::RenderManager::Render()
 		if (!camera->GetEnabled())
 			continue;
 
-		
-
 		//카메라 행렬 구하기
 		Matrix3x3 cameraMat = camera->GetMatrix();
 		auto camRect = camera->GetRect();

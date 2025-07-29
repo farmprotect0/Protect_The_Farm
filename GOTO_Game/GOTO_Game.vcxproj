@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GOTO_Game\inc\scene;$(SolutionDir)GOTO_Game\inc\component;$(SolutionDir)GOTO_EngineLib\inc;$(SolutionDir)GOTO_EngineLib\inc\miniaudio;$(SolutionDir)GOTO_EngineLib\inc\box2d-lite;$(SolutionDir)GOTO_Game\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GOTO_Game\inc\scene;$(SolutionDir)GOTO_Game\inc\component;$(SolutionDir)GOTO_EngineLib\inc;$(SolutionDir)GOTO_EngineLib\inc\miniaudio;$(SolutionDir)GOTO_EngineLib\inc\box2d-lite;$(SolutionDir)GOTO_Game\inc\prefab;$(SolutionDir)GOTO_Game\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -146,6 +146,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\prefab\StartMenuPrefab.cpp" />
+    <ClCompile Include="src\prefab\CrosshairPrefab.cpp" />
     <ClCompile Include="src\component\ItemManager.cpp" />
     <ClCompile Include="src\component\ScoreManager.cpp" />
     <ClCompile Include="src\scene\PlayScene.cpp" />
@@ -159,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
     <ClInclude Include="inc\component\CameraMove.h" />
+    <ClInclude Include="inc\component\CrosshairFire.h" />
     <ClInclude Include="inc\component\EnemySpawner.h" />
     <ClInclude Include="inc\component\GimmickEnemy.h" />
     <ClInclude Include="inc\component\ItemEnemy.h" />
@@ -182,6 +185,9 @@
     <ClInclude Include="inc\scene\PlayScene.h" />
     <ClInclude Include="inc\scene\TestItemScene.h" />
     <ClInclude Include="inc\scene\StartScene.h" />
+    <ClInclude Include="inc\prefab\CrosshairPrefab.h" />
+    <ClInclude Include="inc\component\CrosshairMove.h" />
+    <ClInclude Include="inc\prefab\StartMenuPrefab.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

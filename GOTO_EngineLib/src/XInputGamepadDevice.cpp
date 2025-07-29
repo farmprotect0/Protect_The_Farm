@@ -198,6 +198,40 @@ namespace GOTOEngine
         }
     }
 
+    float XInputGamepadDevice::GetAxisRaw(int axisIndex) const
+    {
+        if (!m_isConnected || axisIndex < 0 || axisIndex >= static_cast<int>(GamepadAxis::Count))
+            return 0.0f;
+
+		return GetAxisRaw(static_cast<GamepadAxis>(axisIndex));
+    }
+
+    float XInputGamepadDevice::GetAxisRaw(GamepadAxis axis) const
+    {
+        if (!m_isConnected)
+            return 0.0f;
+
+        const XINPUT_GAMEPAD& gamepad = m_currentState.Gamepad;
+
+        switch (axis)
+        {
+        case GamepadAxis::LeftStickX:
+            return std::abs(gamepad.sThumbLX) < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ? 0.0f : static_cast<float>(gamepad.sThumbLX) / 32767;
+        case GamepadAxis::LeftStickY:
+            return  std::abs(gamepad.sThumbLY) < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ? 0.0f : static_cast<float>(gamepad.sThumbLY) / 32767;
+        case GamepadAxis::RightStickX:
+            return gamepad.sThumbRX;
+        case GamepadAxis::RightStickY:
+            return gamepad.sThumbRY;
+        case GamepadAxis::LeftTrigger:
+            return gamepad.bLeftTrigger;
+        case GamepadAxis::RightTrigger:
+            return gamepad.bRightTrigger;
+        default:
+            return 0.0f;
+        }
+    }
+
     Vector2 XInputGamepadDevice::GetLeftStick() const
     {
         return Vector2{
