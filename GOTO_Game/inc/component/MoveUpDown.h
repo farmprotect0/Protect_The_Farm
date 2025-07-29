@@ -8,7 +8,7 @@
 
 namespace GOTOEngine
 {
-    class MoveLeftRight : public BaseMovement
+    class MoveUpDown : public BaseMovement
     {
     private:
         Vector2 m_initialPosition;
@@ -18,10 +18,10 @@ namespace GOTOEngine
         void Awake() override
         {
             __super::Awake();
-            
+
             m_initialPosition = GetGameObject()->GetTransform()->GetPosition();
 
-            m_moveSpeed = 80.0f;
+            m_moveSpeed = 140.0f;
 
             m_role = E_Move_Role::PATH;
         }
@@ -29,13 +29,13 @@ namespace GOTOEngine
         {
             if (m_isLoop)
             {
-                return Vector2(m_moveSpeed * m_flipDirection * deltaTime, 0);
+                return Vector2(0, m_moveSpeed * m_flipDirection * deltaTime);
             }
             else
             {
                 float totalTime = TimeManager::Get()->GetTime();
-                float deltaX = sin(deltaTime * m_moveSpeed) * m_distance;
-                return Vector2(deltaX, 0);
+                float deltaY = sin(deltaTime * m_moveSpeed) * m_distance;
+                return Vector2(0, deltaY);
             }
         }
 
