@@ -149,15 +149,12 @@
     <ClCompile Include="src\component\ItemManager.cpp" />
     <ClCompile Include="src\component\ScoreManager.cpp" />
     <ClCompile Include="src\scene\PlayScene.cpp" />
-    <ClCompile Include="src\scene\PhysicsScene.cpp" />
-    <ClCompile Include="src\scene\AnimationScene.cpp" />
     <ClCompile Include="src\component\MonsterAttack.cpp" />
     <ClCompile Include="src\component\PlayerHealth.cpp" />
     <ClCompile Include="src\GameApp.cpp" />
-    <ClCompile Include="src\scene\SampleScene.cpp" />
     <ClCompile Include="src\scene\testEnemyScene.cpp" />
-    <ClCompile Include="src\scene\TitleScene.cpp" />
     <ClCompile Include="src\scene\TestItemScene.cpp" />
+    <ClCompile Include="src\scene\StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
@@ -180,13 +177,10 @@
     <ClInclude Include="inc\component\TestComponent.h" />
     <ClInclude Include="inc\component\PlayerGUI.h" />
     <ClInclude Include="inc\component\PlayerFSMController.h" />
-    <ClInclude Include="inc\scene\PhysicsScene.h" />
-    <ClInclude Include="inc\scene\AnimationScene.h" />
     <ClInclude Include="inc\scene\testEnemyScene.h" />
-    <ClInclude Include="inc\scene\TitleScene.h" />
-    <ClInclude Include="inc\scene\SampleScene.h" />
     <ClInclude Include="inc\scene\PlayScene.h" />
     <ClInclude Include="inc\scene\TestItemScene.h" />
+    <ClInclude Include="inc\scene\StartScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
