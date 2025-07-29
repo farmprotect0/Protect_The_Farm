@@ -3,6 +3,7 @@
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
 #include <TimeManager.h>
+#include <InputManager.h>
 #include <Text.h>
 #include "RectTransform.h"
 #include "Screen.h"
@@ -21,7 +22,7 @@ namespace GOTOEngine
 		int P2Score = 0;
 		int P1Bonus = 1;
 		int P2Bonus = 1;
-		int winner = 0;
+		static int winner;
 		float GameTimer = 120.0f;
 		static ScoreManager* instance;
 		Text* P1sctext;
