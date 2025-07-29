@@ -152,5 +152,8 @@
     <ClInclude Include="inc\prefab\StartMenuPrefab.h">
       <Filter>헤더 파일\프리펩</Filter>
     </ClInclude>
+    <ClInclude Include="inc\component\CameraShaker.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,10 +13,13 @@ void StartScene::Initialize()
 	//Ä«¸Þ¶ó
 	auto mainCam = Camera::CreateMainCamera();
 
-	if (!GameObject::Find(L"Player"))
+	if (!GameObject::Find(L"Player1") && !GameObject::Find(L"Player2"))
 	{
 		auto CrossHair1GO = CrosshairPrefab::CreateCrosshair(0);
 		auto CrossHair2GO = CrosshairPrefab::CreateCrosshair(1);
+
+		CrossHair1GO->name = L"Player1";
+		CrossHair2GO->name = L"Player2";
 
 		CrossHair1GO->GetComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
 		CrossHair2GO->GetComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);

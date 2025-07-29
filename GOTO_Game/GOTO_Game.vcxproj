@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
     <ClInclude Include="inc\component\CameraMove.h" />
+    <ClInclude Include="inc\component\CameraShaker.h" />
     <ClInclude Include="inc\component\CrosshairFire.h" />
     <ClInclude Include="inc\component\EnemySpawner.h" />
     <ClInclude Include="inc\component\GimmickEnemy.h" />
