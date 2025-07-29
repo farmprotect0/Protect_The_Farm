@@ -17,6 +17,9 @@ namespace GOTOEngine
 		friend class Object;
 		friend class Component;
 		friend class Transform;
+		friend class RectTransform;
+		friend class Canvas;
+		friend class Graphic;
 
 		std::vector<Component*> m_components;
 		std::string m_tag;
@@ -31,6 +34,8 @@ namespace GOTOEngine
 		void UpdateActiveInHierarchy();
 
 		void Dispose() override;
+
+		void EnsureRectTransform();
 
 		~GameObject();
 		static std::vector<GameObject*> s_allGameObjects;
@@ -63,30 +68,13 @@ namespace GOTOEngine
 			newComponent->m_gameObject = this;
 			RegisterComponent(newComponent);
 
-			//auto rectTransform = dynamic_cast<RectTransform*>(m_transform);
-			//if (!rectTransform && (std::is_same<Canvas, T>::value || std::is_base_of<Graphic, T>::value))
-			//{
-			//	auto parent = m_transform->GetParent();
-			//	auto childs = m_transform->m_childs;
+			if constexpr (std::is_same<T, Canvas>::value || std::is_base_of<Graphic, T>::value)
+			{
+				EnsureRectTransform();
+				UpdateActiveInHierarchy();
+			}
 
-			//	UnregisterComponent(m_transform);
-			//	delete m_transform;
-			//	rectTransform = new RectTransform();
-			//	m_transform = rectTransform;
-			//	m_transform->m_gameObject = this;
-			//	m_transform->SetParent(parent);
-			//	
-			//	for (auto& child : childs)
-			//	{
-			//		child->SetParent(m_transform, false); // 부모를 새로 만든 RectTransform으로 설정
-			//	}
-
-			//	RegisterComponent(m_transform); // Transform을 컴포넌트로 등록
-
-			//	UpdateActiveInHierarchy();
-
-			//	newComponent->m_rectTransform = rectTransform;
-			//}
+			static_cast<Component*>(newComponent)->AdditionalInitialize(); // 컴포넌트 초기화 호출
 
 			return newComponent;
 		}
@@ -104,6 +92,20 @@ namespace GOTOEngine
 			}
 
 			return nullptr;
+		}
+
+		template <typename T>
+		std::vector<T*> GetComponents()
+		{
+			// T가 Component의 파생 클래스이거나 Component 자체인지 확인
+			static_assert(std::is_base_of<Component, T>::value, "GetComponents()의 T는 Component를 상속받아야 합니다.");
+			std::vector<T*> result;
+			for (auto comp : m_components)
+			{
+				if (T* typedComp = dynamic_cast<T*>(comp))
+					result.push_back(typedComp);
+			}
+			return result;
 		}
 
 		Transform* GetTransform() { return m_transform; }
