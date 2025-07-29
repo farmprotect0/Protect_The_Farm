@@ -25,7 +25,6 @@ namespace GOTOEngine
 		float p1IceTimer = 0.0f;
 		float p2IceTimer = 0.0f;
 		const float timelimit = 5.0f;
-		GameObject* canvas;
 		Image* p1itemImage;
 		Image* p2itemImage;
 	public:

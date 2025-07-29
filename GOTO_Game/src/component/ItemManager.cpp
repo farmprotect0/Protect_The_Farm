@@ -15,9 +15,7 @@ void ItemManager::Awake() {
 	{
 		Destroy(GetGameObject());
 	}
-
-	canvas = new GameObject;
-	canvas->AddComponent<Canvas>();
+	auto canvas = GameObject::Find(L"Canvas");
 	auto p1item = new GameObject;
 	auto p2item = new GameObject;
 	p1item->GetTransform()->SetParent(canvas->GetTransform());

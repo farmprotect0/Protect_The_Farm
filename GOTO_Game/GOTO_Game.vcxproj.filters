@@ -30,23 +30,11 @@
     <ClCompile Include="src\GameApp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene\TitleScene.cpp">
-      <Filter>소스 파일\씬</Filter>
-    </ClCompile>
     <ClCompile Include="src\component\MonsterAttack.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
     <ClCompile Include="src\component\PlayerHealth.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scene\AnimationScene.cpp">
-      <Filter>소스 파일\씬</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scene\SampleScene.cpp">
-      <Filter>소스 파일\씬</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scene\PhysicsScene.cpp">
-      <Filter>소스 파일\씬</Filter>
     </ClCompile>
     <ClCompile Include="src\scene\PlayScene.cpp">
       <Filter>소스 파일\씬</Filter>
@@ -63,13 +51,13 @@
     <ClCompile Include="src\component\ScoreManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\scene\StartScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\TestComponent.h">
       <Filter>헤더 파일\컴포넌트</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\scene\TitleScene.h">
-      <Filter>헤더 파일\씬</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\CameraMove.h">
       <Filter>헤더 파일\컴포넌트</Filter>
@@ -82,9 +70,6 @@
     </ClInclude>
     <ClInclude Include="inc\component\RenderInfoDraw.h">
       <Filter>헤더 파일\컴포넌트</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\scene\SampleScene.h">
-      <Filter>헤더 파일\씬</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\MemoryUsageGUI.h">
       <Filter>헤더 파일\컴포넌트</Filter>
@@ -100,12 +85,6 @@
     </ClInclude>
     <ClInclude Include="inc\component\PlayerHealth.h">
       <Filter>헤더 파일\컴포넌트</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\scene\AnimationScene.h">
-      <Filter>헤더 파일\씬</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\scene\PhysicsScene.h">
-      <Filter>헤더 파일\씬</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\PlayerController.h">
       <Filter>헤더 파일\컴포넌트</Filter>
@@ -145,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="inc\scene\TestItemScene.h">
       <Filter>헤더 파일\씬</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\scene\StartScene.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
