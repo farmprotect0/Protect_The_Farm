@@ -63,6 +63,9 @@
     <ClCompile Include="src\prefab\CrosshairPrefab.cpp">
       <Filter>소스 파일\프리펩</Filter>
     </ClCompile>
+    <ClCompile Include="src\prefab\StartMenuPrefab.cpp">
+      <Filter>소스 파일\프리펩</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\TestComponent.h">
@@ -145,9 +148,12 @@
     </ClInclude>
     <ClInclude Include="inc\component\CrosshairFire.h">
       <Filter>헤더 파일\컴포넌트</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="inc\component\StartManager.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\prefab\StartMenuPrefab.h">
+      <Filter>헤더 파일\프리펩</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -146,6 +146,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\prefab\StartMenuPrefab.cpp" />
     <ClCompile Include="src\prefab\CrosshairPrefab.cpp" />
     <ClCompile Include="src\component\ItemManager.cpp" />
     <ClCompile Include="src\component\ScoreManager.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="inc\scene\StartScene.h" />
     <ClInclude Include="inc\prefab\CrosshairPrefab.h" />
     <ClInclude Include="inc\component\CrosshairMove.h" />
+    <ClInclude Include="inc\prefab\StartMenuPrefab.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

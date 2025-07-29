@@ -28,6 +28,8 @@ namespace GOTOEngine
         // 아날로그 축 입력
         float GetAxis(int axisIndex) const override;
         float GetAxis(GamepadAxis axis) const override;
+        float GetAxisRaw(int axisIndex) const override;
+        float GetAxisRaw(GamepadAxis axis) const override;
 
         // 편의 함수들
         Vector2 GetLeftStick() const override;

@@ -88,6 +88,7 @@ namespace GOTOEngine
 
         // ¾Æ³¯·Î±× Ãà ÀÔ·Â
         float GetGamepadAxis(int gamepadIndex, GamepadAxis axis);
+        float GetGamepadAxisRaw(int gamepadIdex, GamepadAxis axis);
         Vector2 GetLeftStick(int gamepadIndex);   // ¿ÞÂÊ ½ºÆ½ (X, Y)
         Vector2 GetRightStick(int gamepadIndex);  // ¿À¸¥ÂÊ ½ºÆ½ (X, Y)
         float GetLeftTrigger(int gamepadIndex);   // ¿ÞÂÊ Æ®¸®°Å (0.0f ~ 1.0f)
@@ -126,6 +127,7 @@ namespace GOTOEngine
 #define INPUT_GET_GAMEPAD_BUTTONDOWN(index, button) GOTOEngine::InputManager::Get()->GetGamepadButtonDown(index, button)
 #define INPUT_GET_GAMEPAD_BUTTONUP(index, button) GOTOEngine::InputManager::Get()->GetGamepadButtonUp(index, button)
 #define INPUT_GET_GAMEPAD_AXIS(index, axis) GOTOEngine::InputManager::Get()->GetGamepadAxis(index, axis)
+#define INPUT_GET_GAMEPAD_AXISRAW(index, axis) GOTOEngine::InputManager::Get()->GetGamepadAxisRaw(index, axis)
 #define INPUT_GAMEPAD_IS_CONNECTED(index) GOTOEngine::InputManager::Get()->IsGamepadConnected(index)
 #define INPUT_GET_LEFTSTICK(index) GOTOEngine::InputManager::Get()->GetLeftStick(index)
 #define INPUT_GET_RIGHTSTICK(index) GOTOEngine::InputManager::Get()->GetRightStick(index)

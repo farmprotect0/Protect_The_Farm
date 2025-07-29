@@ -15,14 +15,14 @@ namespace GOTOEngine
     }
 		int id = 0;
 
-		Delegate<void> onFire;
+		Delegate<void,int> onFire;
 
 		void Update()
 		{
-			if ((id == 0 && INPUT_GET_KEYDOWN(KeyCode::LeftShift)) || ( id == 1 && INPUT_GET_KEYDOWN(KeyCode::RightShift)) || INPUT_GET_GAMEPAD_BUTTONDOWN(id, GamepadButton::ButtonSouth))
+			if ((id == 0 && INPUT_GET_KEYDOWN(KeyCode::RightShift)) || ( id == 1 && INPUT_GET_KEYDOWN(KeyCode::LeftShift)) || INPUT_GET_GAMEPAD_BUTTONDOWN(id, GamepadButton::ButtonSouth))
 			{
-				onFire.Invoke();
-				std::cout << "Crosshair Fire!" << std::endl;
+				onFire.Invoke(id);
+				std::cout << "Crosshair Fire! : " << id << std::endl;
 			}
 		}
 	};
