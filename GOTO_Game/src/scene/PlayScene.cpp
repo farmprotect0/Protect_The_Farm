@@ -5,7 +5,8 @@
 #include <RectTransform.h>
 #include <SpriteRenderer.h>
 #include "CrosshairPrefab.h"
-
+#include "ItemManager.h"
+#include "GameManager.h"
 
 void PlayScene::Initialize()
 {
@@ -23,4 +24,11 @@ void PlayScene::Initialize()
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
 	BackgdoundSprite->SetSprite(L"../Resources/Demo/BG.png");
 	BackgroundGO->GetTransform()->SetLossyScale({ 1.35f, 1.35f});
+
+	auto canvas = new GameObject(L"Canvas");
+	canvas->AddComponent<Canvas>();
+	auto itemManager = new GameObject(L"아이템매니저");
+	itemManager->AddComponent<ItemManager>();
+	auto gameManager = new GameObject(L"스코어매니저");
+	gameManager->AddComponent<GameManager>();
 }

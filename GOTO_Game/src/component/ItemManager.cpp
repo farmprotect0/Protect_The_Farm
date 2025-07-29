@@ -45,14 +45,14 @@ void ItemManager::Update(){
 
 	auto sss = p1Items;
 
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)) {
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)||INPUT_GET_GAMEPAD_BUTTONDOWN(0,GamepadButton::ButtonL1)) {
 		if (!p1Items.empty()) {
 			ItemType item = p1Items[0];
 			UseItem(1, item);
 			p1Items.erase(p1Items.begin());
 		}
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha2)) {
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha2) || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonL1)) {
 		if (!p2Items.empty()) {
 			ItemType item = p2Items[0];
 			UseItem(2, item);
