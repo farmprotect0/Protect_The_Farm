@@ -219,7 +219,7 @@
     <ClInclude Include="inc\WStringHelper.h" />
     <ClInclude Include="inc\AnimatorController.h" />
     <ClInclude Include="inc\XInputGamepadDevice.h" />
-    <ClInclude Include="Text.h" />
+    <ClInclude Include="inc\Text.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphic.cpp" />
@@ -278,7 +278,7 @@
     <ClCompile Include="src\WinAPIWindow.cpp" />
     <ClCompile Include="src\WStringHelper.cpp" />
     <ClCompile Include="src\XInputGamepadDevice.cpp" />
-    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="src\Text.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

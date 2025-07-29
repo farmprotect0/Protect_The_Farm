@@ -300,7 +300,7 @@
     <ClInclude Include="inc\Image.h">
       <Filter>헤더 파일\코어 컴포넌트</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
+    <ClInclude Include="inc\Text.h">
       <Filter>헤더 파일\코어 컴포넌트</Filter>
     </ClInclude>
   </ItemGroup>
@@ -473,7 +473,7 @@
     <ClCompile Include="src\Image.cpp">
       <Filter>소스 파일\코어 컴포넌트</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
+    <ClCompile Include="src\Text.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
