@@ -176,6 +176,7 @@
     <ClInclude Include="inc\component\PlayerRotate.h" />
     <ClInclude Include="inc\component\RenderInfoDraw.h" />
     <ClInclude Include="inc\component\ScoreManager.h" />
+    <ClInclude Include="inc\component\StartManager.h" />
     <ClInclude Include="inc\component\TestComponent.h" />
     <ClInclude Include="inc\component\PlayerGUI.h" />
     <ClInclude Include="inc\component\PlayerFSMController.h" />
