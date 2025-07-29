@@ -15,18 +15,25 @@ void ScoreManager::Awake(){
 	auto p1scitem = new GameObject;
 	auto p2scitem = new GameObject;
 	auto timeitem = new GameObject;
+	P1sctext = p1scitem->AddComponent<Text>();
+	P2sctext = p2scitem->AddComponent<Text>();
+	Timetext = timeitem->AddComponent<Text>();
+
 	p1scitem->GetTransform()->SetParent(canvas->GetTransform());
 	p2scitem->GetTransform()->SetParent(canvas->GetTransform());
 	timeitem->GetTransform()->SetParent(canvas->GetTransform());
-	P1sctext = p1scitem->AddComponent<Text>();
-	P2sctext = p1scitem->AddComponent<Text>();
-	Timetext = p1scitem->AddComponent<Text>();
+
 	P1sctext->GetRectTransform()->SetAnchoredPosition({
 			Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.8f });
 	P2sctext->GetRectTransform()->SetAnchoredPosition({
 			Screen::GetWidth() * 0.8f, Screen::GetHeight() * 0.8f });
 	Timetext->GetRectTransform()->SetAnchoredPosition({
-			Screen::GetWidth() * 0.4f, Screen::GetHeight() * 0.8f });
+			Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.8f });
+
+	P1sctext->SetFont(L"../Resources/Maplestory Light.ttf");
+	P2sctext->SetFont(L"../Resources/Maplestory Light.ttf");
+	Timetext->SetFont(L"../Resources/Maplestory Light.ttf");
+
 }
 void ScoreManager::Update() {
 	if (GameTimer > 0.0f) {
@@ -44,10 +51,10 @@ void ScoreManager::Update() {
 			}
 		}
 	}
-	P1sctext->SetFont(L"../Resources/Maplestory Light.ttf");
-	P2sctext->SetFont(L"../Resources/Maplestory Light.ttf");
-	Timetext->SetFont(L"../Resources/Maplestory Light.ttf");
+
 	P1sctext->text = std::to_wstring(P1Score);
 	P2sctext->text = std::to_wstring(P2Score);
-	Timetext->text = std::to_wstring(GameTimer);
+	Timetext->text = std::to_wstring(static_cast<int>(floor(GameTimer)));
 }
+
+int GOTOEngine::ScoreManager::winner = 0;
