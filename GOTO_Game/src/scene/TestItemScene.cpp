@@ -9,7 +9,7 @@
 #include <ResourceManager.h>
 #include "Camera.h"
 #include "ItemManager.h"
-#include "ScoreManager.h"
+#include "GameManager.h"
 #include "Canvas.h"
 
 void TestItemScene::Initialize() {
@@ -18,6 +18,6 @@ void TestItemScene::Initialize() {
 	canvas->AddComponent<Canvas>();
 	auto itemManager = new GameObject(L"아이템매니저");
 	itemManager->AddComponent<ItemManager>();
-	auto scoreManager = new GameObject(L"스코어매니저");
-	scoreManager->AddComponent<ScoreManager>();
+	auto gameManager = new GameObject(L"스코어매니저");
+	gameManager->AddComponent<GameManager>();
 }

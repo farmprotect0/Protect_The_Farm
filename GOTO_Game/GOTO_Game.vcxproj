@@ -149,7 +149,7 @@
     <ClCompile Include="src\prefab\StartMenuPrefab.cpp" />
     <ClCompile Include="src\prefab\CrosshairPrefab.cpp" />
     <ClCompile Include="src\component\ItemManager.cpp" />
-    <ClCompile Include="src\component\ScoreManager.cpp" />
+    <ClCompile Include="src\component\GameManager.cpp" />
     <ClCompile Include="src\scene\PlayScene.cpp" />
     <ClCompile Include="src\component\MonsterAttack.cpp" />
     <ClCompile Include="src\component\PlayerHealth.cpp" />
@@ -166,7 +166,6 @@
     <ClInclude Include="inc\component\GimmickEnemy.h" />
     <ClInclude Include="inc\component\ItemEnemy.h" />
     <ClInclude Include="inc\component\ItemManager.h" />
-    <ClInclude Include="inc\component\GameManager.h" />
     <ClInclude Include="inc\component\MemoryUsageGUI.h" />
     <ClInclude Include="inc\component\MonsterAttack.h" />
     <ClInclude Include="inc\component\MoveEnemy.h" />
@@ -176,7 +175,7 @@
     <ClInclude Include="inc\component\PlayerMove.h" />
     <ClInclude Include="inc\component\PlayerRotate.h" />
     <ClInclude Include="inc\component\RenderInfoDraw.h" />
-    <ClInclude Include="inc\component\ScoreManager.h" />
+    <ClInclude Include="inc\component\GameManager.h" />
     <ClInclude Include="inc\component\StartManager.h" />
     <ClInclude Include="inc\component\TestComponent.h" />
     <ClInclude Include="inc\component\PlayerGUI.h" />

@@ -1,5 +1,5 @@
 #include "ItemManager.h"
-#include "ScoreManager.h"
+#include "GameManager.h"
 
 using namespace GOTOEngine;
 
@@ -81,7 +81,7 @@ void ItemManager::Update(){
 		p1TicketTimer -= TIME_GET_DELTATIME();
 		if (p1TicketTimer <= 0.0f) {
 			p1TicketTimer = 0.0f;
-			ScoreManager::instance->P1Bonus = 1;
+			GameManager::instance->P1Bonus = 1;
 		}
 	}
 
@@ -89,7 +89,7 @@ void ItemManager::Update(){
 		p2TicketTimer -= TIME_GET_DELTATIME();
 		if (p2TicketTimer <= 0.0f) {
 			p2TicketTimer = 0.0f;
-			ScoreManager::instance->P2Bonus = 1;
+			GameManager::instance->P2Bonus = 1;
 		}
 	}
 	if (p1IceTimer > 0.0f) {
@@ -155,26 +155,26 @@ void ItemManager::UseItem(int player, ItemType item)
 			//P1의 동물리스트 내부 객체 카운트
 			//P1의 동물리스트 내부 객체 전부 삭제
 			if (p1count >= 1 && p1count <= 3) {
-				ScoreManager::instance->P1Score += 3 * ScoreManager::instance->P1Bonus;
+				GameManager::instance->P1Score += 3 * GameManager::instance->P1Bonus;
 			}
 			else if (p1count >= 4 && p1count <= 6) {
-				ScoreManager::instance->P1Score += 5 * ScoreManager::instance->P1Bonus;
+				GameManager::instance->P1Score += 5 * GameManager::instance->P1Bonus;
 			}
 			else if (p1count >= 7) {
-				ScoreManager::instance->P1Score += 7 * ScoreManager::instance->P1Bonus;
+				GameManager::instance->P1Score += 7 * GameManager::instance->P1Bonus;
 			}
 		}
 		else {
 			//P2의 동물리스트 내부 객체 카운트
 			//P2의 동물리스트 내부 객체 전부 삭제
 			if (p2count >= 1 && p2count <= 3) {
-				ScoreManager::instance->P2Score += 3 * ScoreManager::instance->P2Bonus;
+				GameManager::instance->P2Score += 3 * GameManager::instance->P2Bonus;
 			}
 			else if (p2count >= 4 && p2count <= 6) {
-				ScoreManager::instance->P2Score += 5 * ScoreManager::instance->P2Bonus;
+				GameManager::instance->P2Score += 5 * GameManager::instance->P2Bonus;
 			}
 			else if (p2count >= 7) {
-				ScoreManager::instance->P2Score += 7 * ScoreManager::instance->P2Bonus;
+				GameManager::instance->P2Score += 7 * GameManager::instance->P2Bonus;
 			}
 		}
 		break;
@@ -192,11 +192,11 @@ void ItemManager::UseItem(int player, ItemType item)
 		break;
 	case ItemType::Ticket:
 		if (player == 1) {
-			ScoreManager::instance->P1Bonus = 2;
+			GameManager::instance->P1Bonus = 2;
 			p1TicketTimer = timelimit;
 		}
 		else {
-			ScoreManager::instance->P2Bonus = 2;
+			GameManager::instance->P2Bonus = 2;
 			p2TicketTimer = timelimit;
 		}
 		break;
