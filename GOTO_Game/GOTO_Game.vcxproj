@@ -146,6 +146,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\component\ItemManager.cpp" />
+    <ClCompile Include="src\component\ScoreManager.cpp" />
     <ClCompile Include="src\scene\PlayScene.cpp" />
     <ClCompile Include="src\scene\PhysicsScene.cpp" />
     <ClCompile Include="src\scene\AnimationScene.cpp" />
@@ -155,6 +157,7 @@
     <ClCompile Include="src\scene\SampleScene.cpp" />
     <ClCompile Include="src\scene\testEnemyScene.cpp" />
     <ClCompile Include="src\scene\TitleScene.cpp" />
+    <ClCompile Include="src\scene\TestItemScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
@@ -183,6 +186,7 @@
     <ClInclude Include="inc\scene\TitleScene.h" />
     <ClInclude Include="inc\scene\SampleScene.h" />
     <ClInclude Include="inc\scene\PlayScene.h" />
+    <ClInclude Include="inc\scene\TestItemScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
