@@ -18,12 +18,9 @@ namespace GOTOEngine
 
 	public:
 
-		void Initialize(std::any param) override
+		void Initialize(std::any param, int _moveflag = NONE) override
 		{
 			if (param.type() == typeid(E_MoveEnemyType)) m_moveEnemyType = std::any_cast<E_MoveEnemyType>(param);
-
-			
-
 
 		}
 		void Awake()
@@ -35,7 +32,6 @@ namespace GOTOEngine
 			m_enemyType = E_EnemyType::move;
 
 			m_moveLoop = true;
-			m_moveSpeed = 10.0f;
 
 			m_enemyhp = 10.0f;
 			m_DieScore = 10.0f;
