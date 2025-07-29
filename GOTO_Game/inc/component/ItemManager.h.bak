@@ -4,7 +4,6 @@
 #include <InputManager.h>
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
-#include <queue>
 #include "Canvas.h"
 #include "Image.h"
 #include "RectTransform.h"
@@ -18,15 +17,15 @@ namespace GOTOEngine
 	class ItemManager : public ScriptBehaviour
 	{
 	private:
-		std::queue<ItemType> p1Items;
-		std::queue<ItemType> p2Items;
+		std::vector<ItemType> p1Items;
+		std::vector<ItemType> p2Items;
 		float p1TicketTimer = 0.0f;
 		float p2TicketTimer = 0.0f;
 		float p1IceTimer = 0.0f;
 		float p2IceTimer = 0.0f;
 		const float timelimit = 5.0f;
-		Image* p1itemImage;
-		Image* p2itemImage;
+		Image* p1itemImage[7];
+		Image* p2itemImage[7];
 	public:
     ItemManager()
     {
@@ -40,5 +39,6 @@ namespace GOTOEngine
 		int p2count = 0;
 		void Update();
 		void UseItem(int player, ItemType item);
+		void AddItem(int player, ItemType item);
 	};
 }
