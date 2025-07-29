@@ -6,5 +6,7 @@ using namespace GOTOEngine;
 GameObject* StartMenuPrefab::CreateStartMenu()
 {
 	auto GO = new GameObject(L"StartMenu");
+
+
 	return GO;
 }

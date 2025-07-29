@@ -23,7 +23,7 @@ GOTOEngine::Canvas* GOTOEngine::Graphic::FindCanvasInParents()
     return nullptr;
 }
 
-GOTOEngine::Graphic::Graphic() : m_canvas(nullptr), m_color(255, 255,255, 255), m_raycastTarget(true)
+GOTOEngine::Graphic::Graphic() : m_canvas(nullptr), m_color(255, 255, 255, 255), m_raycastTarget(true)
 {
     REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
     REGISTER_BEHAVIOUR_MESSAGE(OnDisable);

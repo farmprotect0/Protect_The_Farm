@@ -19,16 +19,8 @@ void PlayScene::Initialize()
 	player2Cam->SetRect({ 0.5f, 0.0f, 0.5f, 1.0f });
 	player2Cam->SetRenderLayer(1 << 2);
 
-	auto canvasGO = new GameObject(L"UI");
-	auto canvas = canvasGO->AddComponent<Canvas>();
-
-	canvas->SetSortOrder(1000); // UI는 높은 렌더링 순서로 설정
-
-	auto simpleImage = new GameObject(L"SimpleImage");
-	auto imageComp = simpleImage->AddComponent<Image>();
-	
-	imageComp->SetSprite(Resource::Load<Sprite>(L"../Resources/Demo/Crosshair.png"));
-	simpleImage->GetComponent<RectTransform>()->SetAnchoredPosition({ 960.0f, 540.0f });
-
-	simpleImage->GetComponent<RectTransform>()->SetParent(canvasGO->GetTransform(), false);
+	auto BackgroundGO = new GameObject(L"Background");	
+	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
+	BackgdoundSprite->SetSprite(L"../Resources/Demo/BG.png");
+	BackgroundGO->GetTransform()->SetLossyScale({ 1.35f, 1.35f});
 }
