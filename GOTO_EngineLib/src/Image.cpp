@@ -55,3 +55,26 @@ void GOTOEngine::Image::SetSprite(Sprite* sprite)
     }
     m_sprite = sprite;
 }
+
+void GOTOEngine::Image::SetSprite(Sprite* sprite, Rect srcRect)
+{
+    SetSprite(sprite);
+    if (m_sprite)
+    {
+        m_sprite->SetRect(srcRect);
+    }
+}
+
+void GOTOEngine::Image::SetSprite(const std::wstring filePath)
+{
+    SetSprite(Resource::Load<Sprite>(filePath));
+}
+
+void GOTOEngine::Image::SetSprite(const std::wstring filePath, Rect srcRect)
+{
+    SetSprite(Resource::Load<Sprite>(filePath));
+    if (m_sprite)
+    {
+        m_sprite->SetRect(srcRect);
+    }
+}
