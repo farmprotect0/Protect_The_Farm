@@ -45,7 +45,7 @@ void GOTOEngine::Image::SetSprite(Sprite* sprite)
         {
             sprite->IncreaseRefCount();
 			auto rectTransform = GetRectTransform();
-            if (rectTransform)
+            if (rectTransform && rectTransform->GetSizeDelta().x == 0 && rectTransform->GetSizeDelta().y)
             {
                 rectTransform->SetSizeDelta({ sprite->GetRect().width,sprite->GetRect().height });
             }
