@@ -25,7 +25,7 @@ void StartEngineLoop()
 	SCENE_ADD_SCENE<StartScene>(L"StartScene");
 
 	//첫 씬으로 변환
-	SCENE_CHANGE_SCENE(L"testEnemyScene");
+	SCENE_CHANGE_SCENE(L"StartScene");
 
 	ENGINE_RUN();
 	ENGINE_SHUTDOWN();

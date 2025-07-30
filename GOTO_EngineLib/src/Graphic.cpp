@@ -76,6 +76,7 @@ void GOTOEngine::Graphic::AdditionalInitialize()
 
 void GOTOEngine::Graphic::SetColor(const Color& color)
 {
+    m_color = color;
 }
 
 const GOTOEngine::Color & GOTOEngine::Graphic::GetColor() const

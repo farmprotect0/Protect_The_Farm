@@ -56,7 +56,7 @@ namespace GOTOEngine
 
 			// 죽는 애니메이션 필요
 
-			Destroy(GetGameObject(), 5.0f);
+			Destroy(GetGameObject(), 2.0f);
 		}
 	};
 }

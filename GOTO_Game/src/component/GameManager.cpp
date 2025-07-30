@@ -34,6 +34,9 @@ void GameManager::Awake(){
 	P1sctext->SetFont(L"../Resources/Maplestory Light.ttf");
 	P2sctext->SetFont(L"../Resources/Maplestory Light.ttf");
 	Timetext->SetFont(L"../Resources/Maplestory Light.ttf");
+	P1sctext->SetColor({ 255,0,0,255 });
+	P2sctext->SetColor({ 255,0,0,255 });
+	Timetext->SetColor({ 255,0,0,255 });
 
 }
 void GameManager::Update() {
