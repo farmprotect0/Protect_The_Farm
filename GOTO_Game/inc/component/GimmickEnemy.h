@@ -41,20 +41,22 @@ namespace GOTOEngine
 
 			m_isMoveLoop = true;
 
-			m_enemyhp = 10.0f;
-			m_DieScore = 10.0f;
-			m_oneTargetScore = 1.0f;
-
 			m_destroyTime = 8.0f;
 
 
-			AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Animal/Gimmick/Rabbit_idle.gif");
+			AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Rabit.png");
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
 
 			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
 			auto collider = AddComponent<Collider2D>();
 			
 			collider->SetSize({ spriteRect.width * GetTransform()->GetLossyScale().x , spriteRect.height * GetTransform()->GetLossyScale().y});
+		}
+
+		void OnDie() override
+		{
+			// 죽는 애니메이션 필요
+			OnDestroy();
 		}
 	};
 }
