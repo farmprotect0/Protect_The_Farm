@@ -9,13 +9,14 @@
 #include <RectTransform.h>
 #include <Screen.h>
 
-#include "Camera.h"
-#include "CameraMove.h"
-#include "Canvas.h"
-
 #include "EnemySpawner.h"
 #include "ItemManager.h"
 #include "GameManager.h"
+#include "GimmickManager.h"
+
+#include "StartMenuPrefab.h"
+#include "CameraShaker.h"
+#include "CrosshairFire.h"
 
 using namespace std;
 
@@ -27,18 +28,20 @@ void testEnemyScene::Initialize()
 	//카메라
 	auto mainCam = Camera::CreateMainCamera();
 
-	if (!GameObject::Find(L"Player"))
+	if (!GameObject::Find(L"Player1") && !GameObject::Find(L"Player2"))
 	{
 		auto CrossHair1GO = CrosshairPrefab::CreateCrosshair(0);
 		auto CrossHair2GO = CrosshairPrefab::CreateCrosshair(1);
 
-		CrossHair1GO->GetComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
-		CrossHair2GO->GetComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
+		CrossHair1GO->name = L"Player1";
+		CrossHair2GO->name = L"Player2";
 
 		//커서 유지
 		Object::DontDestroyOnLoad(CrossHair1GO);
 		Object::DontDestroyOnLoad(CrossHair2GO);
 	}
+
+	StartMenuPrefab::CreateStartMenu();
 	//*/
 
 	//*/ Play Scene
@@ -46,11 +49,23 @@ void testEnemyScene::Initialize()
 	auto player1Cam = player1CamGO->GetComponent<Camera>();
 	player1Cam->SetRect({ 0.0f, 0.0f, 0.5f, 1.0f });
 	player1Cam->SetRenderLayer(1 << 1);
+	auto player1CamShaker = player1Cam->AddComponent<CameraShaker>();
+	auto player1CrosshairGO = GameObject::Find(L"Player1");
+	if (Object::IsValidObject(player1CrosshairGO))
+	{
+		player1CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player1CamShaker](int id) { player1CamShaker->ShakeCamera(24, 55, 8); });
+	}
 
 	auto player2CamGO = Camera::CreateSubCamera();
 	auto player2Cam = player2CamGO->GetComponent<Camera>();
 	player2Cam->SetRect({ 0.5f, 0.0f, 0.5f, 1.0f });
 	player2Cam->SetRenderLayer(1 << 2);
+	auto player2CamShaker = player2Cam->AddComponent<CameraShaker>();
+	auto player2CrosshairGO = GameObject::Find(L"Player2");
+	if (Object::IsValidObject(player2CrosshairGO))
+	{
+		player2CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player2CamShaker](int id) { player2CamShaker->ShakeCamera(24, 55, 8); });
+	}
 
 	//auto BackgroundGO = new GameObject(L"Background");
 	//auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
@@ -63,6 +78,8 @@ void testEnemyScene::Initialize()
 	itemManager->AddComponent<ItemManager>();
 	auto gameManager = new GameObject(L"스코어매니저");
 	gameManager->AddComponent<GameManager>();
+	auto gimmickManager = new GameObject(L"기믹매니저");
+	gimmickManager->AddComponent<GimmickManager>();
 	auto spawner = new GameObject(L"enemySpawner");
 	spawner->AddComponent<EnemySpawner>();
 	//*/

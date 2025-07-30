@@ -153,7 +153,7 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int mov
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
 		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(goldCrow, moveFlag, isLoop);
-		break;
+		break; 
 	default:
 		break;
 	}
@@ -173,6 +173,32 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int mov
 	}
 
 	return newEnemyObject;
+}
+
+void GOTOEngine::EnemySpawner::CreateEnemy(int player, int moveFlag, bool isLoop)
+{
+	GameObject* baseObject = CreateEnemy(E_EnemyType::move, moveFlag, isLoop);
+
+	baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);
+	baseObject->layer = 1 << player;
+
+	// 랜덤
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
+	std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
+
+	baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
+
+	if (player == 1)
+	{
+		m_p1Enemy.push_back(baseObject);
+	}
+	else if (player == 2)
+	{
+		m_p2Enemy.push_back(baseObject);
+	}
+
 }
 
 bool GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy)  
