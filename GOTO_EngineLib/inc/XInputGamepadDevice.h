@@ -43,6 +43,14 @@ namespace GOTOEngine
         bool WasJustDisconnected() const override;
         void ClearConnectionEvents() override;
 
+		// 진동 기능
+		void SetVibration(float leftMotor, float rightMotor) override;
+		void StopVibration() override;
+		void PlaySimpleVibration(float duration, float strength) override;
+
+		// 게임패드 인덱스
+		int GetGamepadIndex() const override { return m_controllerIndex; }
+
     private:
         int m_controllerIndex;
         bool m_isConnected;
@@ -54,6 +62,8 @@ namespace GOTOEngine
         XINPUT_STATE m_previousState;
 
         GamepadConnectionCallback m_connectionCallback;
+
+        float m_vibrationTimer = 0.0f;
 
         // GamepadButton을 XInput 버튼으로 매핑
         WORD GetXInputButton(GamepadButton button) const;

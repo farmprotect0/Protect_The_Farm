@@ -24,7 +24,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 
     spriteRenderer->SetRenderLayer((1 << (id + 1)));
 
-	GO->AddComponent<Collider2D>()->SetSize({ 100.0f, 100.0f }); // Collider 크기 조정
+	GO->AddComponent<Collider2D>()->SetSize({ 45.0f, 45.0f }); // Collider 크기 조정
 
 	return GO;
 }
