@@ -51,8 +51,6 @@ void ItemManager::OnDestroy() {
 
 void ItemManager::Update(){
 
-	auto sss = p1Items;
-
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)||INPUT_GET_GAMEPAD_BUTTONDOWN(0,GamepadButton::ButtonL1)) {
 		if (!p1Items.empty()) {
 			ItemType item = p1Items[0];

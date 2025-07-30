@@ -1,4 +1,5 @@
 #include "GimmickManager.h"
+#include <CrosshairMove.h>
 
 using namespace GOTOEngine;
 
@@ -25,14 +26,14 @@ void GimmickManager::Update() {
 		p1gimmick1Timer -= TIME_GET_DELTATIME();
 		if (p1gimmick1Timer <= 0.0f) {
 			p1gimmick1Timer = 0.0f;
-			//플레이어2의 조작반전 해제
+			CrosshairMove::reverseInput2 = false;
 		}
 	}
 	if (p2gimmick1Timer > 0.0f) {
 		p2gimmick1Timer -= TIME_GET_DELTATIME();
 		if (p2gimmick1Timer <= 0.0f) {
 			p2gimmick1Timer = 0.0f;
-			//플레이어1의 조작반전 해제
+			CrosshairMove::reverseInput1 = false;
 		}
 	}
 	if (p1gimmick2Timer > 0.0f) {
@@ -49,6 +50,12 @@ void GimmickManager::Update() {
 			//플레이어1의 시야 가리기 해제
 		}
 	}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha9)) {
+		GimmickOn(1, 1);
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0)) {
+		GimmickOn(2, 1);
+	}
 };
 
 void GimmickManager::GimmickOn(int player, int gimmick) {
@@ -56,11 +63,11 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 	{
 	case 1:
 		if (player == 1) {
-			//플레이어2의 조작 반전
+			CrosshairMove::reverseInput2 = true;
 			p1gimmick1Timer = timelimit;
 		}
 		else {
-			//플레이어1의 조작 반전
+			CrosshairMove::reverseInput1 = true;
 			p2gimmick1Timer = timelimit;
 		}
 		break;

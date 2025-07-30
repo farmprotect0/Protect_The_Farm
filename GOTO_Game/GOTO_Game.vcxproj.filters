@@ -72,7 +72,7 @@
     <ClCompile Include="src\component\StartMenu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GimmickManager.cpp">
+    <ClCompile Include="src\component\GimmickManager.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
     <ClCompile Include="src\component\CrosshairMove.cpp">
@@ -188,7 +188,7 @@
     <ClInclude Include="inc\component\CrosshairCollide.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GimmickManager.h">
+    <ClInclude Include="inc\component\GimmickManager.h">
       <Filter>헤더 파일\컴포넌트</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\CrosshairInteractButton.h">

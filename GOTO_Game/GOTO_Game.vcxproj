@@ -146,7 +146,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GimmickManager.cpp" />
+    <ClCompile Include="src\component\GimmickManager.cpp" />
     <ClCompile Include="src\component\CrosshairMove.cpp" />
     <ClCompile Include="src\component\EnemySpawner.cpp" />
     <ClCompile Include="src\component\StartMenu.cpp" />
@@ -163,7 +163,7 @@
     <ClCompile Include="src\scene\StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GimmickManager.h" />
+    <ClInclude Include="inc\component\GimmickManager.h" />
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
     <ClInclude Include="inc\component\BaseMovement.h" />
     <ClInclude Include="inc\component\CameraMove.h" />
