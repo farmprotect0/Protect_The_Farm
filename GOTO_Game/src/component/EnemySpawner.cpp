@@ -1,5 +1,4 @@
 ﻿#include "EnemySpawner.h"
-
 #include "BaseEnemyObject.h"
 #include "MoveEnemy.h"
 #include "GimmickEnemy.h"
@@ -27,46 +26,83 @@ void GOTOEngine::EnemySpawner::Awake()
 
 void GOTOEngine::EnemySpawner::Update()
 {
-	if (INPUT_GET_KEYDOWN(KeyCode::Z)) // p1 enemy 토끼 생성
+	if (INPUT_GET_KEYDOWN(KeyCode::Z)) // p1 enemy 까마귀 생성 (MoveEnemy)
 	{
-		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.
+		GameObject* baseObject = CreateEnemy(E_EnemyType::move, 0b0001, true);
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
 		baseObject->layer = 1 << 1;
 
+		m_p1Enemy.push_back(baseObject);
+	}
+	if (INPUT_GET_KEYUP(KeyCode::X)) // p1 enemy 토끼 생성 (GimmickEnemy)
+	{
+		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick, 0b0111, true);
+
+		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
+		baseObject->layer = 1 << 1;
 
 		m_p1Enemy.push_back(baseObject);
-		std::cout << "current p1 objects size : " << m_p1Enemy.size() << std::endl;
 	}
-	if (INPUT_GET_KEYUP(KeyCode::X)) // p1 enemy 까마귀 생성
+	if (INPUT_GET_KEYUP(KeyCode::C)) // p1 enemy 얼음새 생성 (ItemEnemy)
 	{
+		GameObject* baseObject = CreateEnemy(E_EnemyType::itemspawn, 0b0001, true);
 
+		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
+		baseObject->layer = 1 << 1;
 
+		m_p1Enemy.push_back(baseObject);
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 토끼 생성
+	if (INPUT_GET_KEYDOWN(KeyCode::I)) // p2 enemy 까마귀 생성 (MoveEnemy)
 	{
-		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.
+		GameObject* baseObject = CreateEnemy(E_EnemyType::move, 0b0001, true);
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
 		baseObject->layer = 1 << 2;
 
 		m_p2Enemy.push_back(baseObject);
-		std::cout << "current p2 objects size : " << m_p2Enemy.size() << std::endl;
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::P)) // p2 enemy 까마귀 생성
+	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 토끼 생성 (GimmickEnemy)
 	{
+		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick, 0b0111, true);
 
+		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
+		baseObject->layer = 1 << 2;
+
+		m_p2Enemy.push_back(baseObject);
 	}
+	if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 얼음새 생성 (ItemEnemy)
+	{
+		GameObject* baseObject = CreateEnemy(E_EnemyType::itemspawn, 0b0001, true);
 
+		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
+		baseObject->layer = 1 << 2;
+
+		m_p2Enemy.push_back(baseObject);
+	}
 }
 
-GameObject* GOTOEngine::EnemySpawner::CreateEnemy(Vector2 position, int moveFlag)
+GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int moveFlag, bool isLoop)
 {
 	GameObject* newEnemyObject = new GameObject(L"토끼");
-	//newEnemyObject->GetTransform()->SetPosition(position);
-
-	newEnemyObject->AddComponent<GimmickEnemy>();
-	newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(rabbit, moveFlag, true);
+	
+	switch(enemyType)
+	{
+	case move:
+		newEnemyObject->AddComponent<MoveEnemy>();
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(crow, moveFlag, isLoop);
+		break;
+	case gimmick:
+		newEnemyObject->AddComponent<GimmickEnemy>();
+		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(squirrel, moveFlag, isLoop);
+		break;
+	case itemspawn:
+		newEnemyObject->AddComponent<ItemEnemy>();
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(iceCrow, moveFlag, isLoop);
+		break;
+	default:
+		break;
+	}
 
 	// flag 스크립트	부착
 	if (moveFlag & MOVE_LEFT_RIGHT) // 0b0001
