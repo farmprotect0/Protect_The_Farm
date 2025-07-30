@@ -18,23 +18,23 @@ void GOTOEngine::EnemySpawner::Awake()
 
 void GOTOEngine::EnemySpawner::Update()
 {
-	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 생성
+	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 토끼 생성
 	{
 		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
-		baseObject->layer = 1;
+		baseObject->layer = 1 << 1;
 
 
 		m_p1Enemy.push_back(baseObject);
 		std::cout << "current p1 objects size : " << m_p1Enemy.size() << std::endl;
 	}
-	if (INPUT_GET_KEYUP(KeyCode::R)) // disable
-	{
-		//GameObject* baseObject = m_objects[0];
-		//m_objects[0]->SetActive(false);
+	//if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 까마귀 생성
+	//{
+	//	//GameObject* baseObject = m_objects[0];
+	//	//m_objects[0]->SetActive(false);
 
-	}
+	//}
 	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 생성
 	{
 		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.

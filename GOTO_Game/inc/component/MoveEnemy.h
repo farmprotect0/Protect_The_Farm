@@ -36,6 +36,22 @@ namespace GOTOEngine
 
 			m_destroyTime = 8.0f;
 
+
+			AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
+			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
+
+
+			//auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
+			//auto collider = AddComponent<Collider2D>();
+		}
+
+		void OnBulletDie() override
+		{
+			__super::OnBulletDie();
+
+			// 죽는 애니메이션 필요
+
+			Destroy(GetGameObject(), 5.0f);
 		}
 	};
 }

@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include <any>
-#include <ScriptBehaviour.h>
 #include <SpriteRenderer.h>
 #include <ResourceManager.h>
 #include <Collider2D.h>
+
+#include <any>
 
 #include "BaseEnemyObject.h"
 
@@ -28,10 +28,6 @@ namespace GOTOEngine
 			__super::Initialize(param, _moveflag, _moveLoop);
 
 			if (param.type() == typeid(E_GimmickEnemyType)) m_gimmickEnemyType = std::any_cast<E_GimmickEnemyType>(param);
-			
-			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
-
-			
 		}
 		void Awake()
 		{
@@ -46,6 +42,7 @@ namespace GOTOEngine
 
 			AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Rabit.png");
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
+			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 
 			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
 			auto collider = AddComponent<Collider2D>();
@@ -53,10 +50,13 @@ namespace GOTOEngine
 			collider->SetSize({ spriteRect.width * GetTransform()->GetLossyScale().x , spriteRect.height * GetTransform()->GetLossyScale().y});
 		}
 
-		void OnDie() override
+		void OnBulletDie() override
 		{
+			__super::OnBulletDie();
+
 			// 죽는 애니메이션 필요
-			OnDestroy();
+
+			Destroy(GetGameObject(), 5.0f);
 		}
 	};
 }
