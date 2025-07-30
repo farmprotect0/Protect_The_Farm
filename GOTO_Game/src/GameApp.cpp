@@ -1,14 +1,14 @@
-// ÄÜ¼ÖÀ» °â¿ëÇÑ ÁøÀÔÁ¡À» Á¤ÀÇÇÕ´Ï´Ù.
+ï»¿// ì½˜ì†”ì„ ê²¸ìš©í•œ ì§„ì…ì ì„ ì •ì˜í•©ë‹ˆë‹¤.
 
-// ±âº» ¶óÀÌºê·¯¸®
+// ê¸°ë³¸ ë¼ì´ë¸ŒëŸ¬ë¦¬
 #include <iostream>
 #include <Windows.h>
 
-// ¿£Áø ¹× ¸Å´ÏÀú
+// ì—”ì§„ ë° ë§¤ë‹ˆì €
 #include "Engine.h"
 #include "SceneManager.h"
 
-// ¾À
+// ì”¬
 #include "PlayScene.h"
 #include "StartScene.h"
 #include "TestItemScene.h"
@@ -18,14 +18,14 @@ void StartEngineLoop()
 {
 	ENGINE_INIT(1920, 1080, L"D2D Game");
 
-	//¾À ÇÒ´ç ¹× Ãß°¡
+	//ì”¬ í• ë‹¹ ë° ì¶”ê°€
 	SCENE_ADD_SCENE<PlayScene>(L"PlayScene");
 	SCENE_ADD_SCENE<TestItemScene>(L"TestItemScene");
 	SCENE_ADD_SCENE<testEnemyScene>(L"testEnemyScene");
 	SCENE_ADD_SCENE<StartScene>(L"StartScene");
 
-	//Ã¹ ¾ÀÀ¸·Î º¯È¯
-	SCENE_CHANGE_SCENE(L"StartScene");
+	//ì²« ì”¬ìœ¼ë¡œ ë³€í™˜
+	SCENE_CHANGE_SCENE(L"testEnemyScene");
 
 	ENGINE_RUN();
 	ENGINE_SHUTDOWN();
