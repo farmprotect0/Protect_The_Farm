@@ -19,6 +19,8 @@ namespace GOTOEngine
 		int id = 0;
 		Rect clampRect = { 0, 0, 1.0f, 1.0f }; // 화면의 크기에 맞춰 조정
 
+		float timeSpeed = 1.0f;
+
 		void Update()
 		{
 			float hInput, vInput;
@@ -41,6 +43,21 @@ namespace GOTOEngine
 			{
 				hInput += INPUT_GET_GAMEPAD_AXIS(id, GamepadAxis::LeftStickX);
 				vInput += INPUT_GET_GAMEPAD_AXIS(id, GamepadAxis::LeftStickY);
+			}
+
+			if (id == 0)
+			{
+				auto targetTimeSpeed = 1.0f;
+				auto targetMoveSpeed = 340.0f;
+				if (INPUT_GET_KEY(KeyCode::Space))
+				{
+					targetTimeSpeed = 0.25f;
+					targetMoveSpeed = 340.0f * 4.0f;
+				}
+				timeSpeed = Mathf::Lerp(timeSpeed, targetTimeSpeed, 6.0f * TIME_GET_DELTATIME());
+				moveSpeed = Mathf::Lerp(moveSpeed, targetMoveSpeed, 6.0f * TIME_GET_DELTATIME());
+
+				TimeManager::Get()->SetTimeScale(timeSpeed);
 			}
 
 			auto moveInput = Vector2::ClampMagnitude(Vector2{ hInput, vInput }, 1.0f);

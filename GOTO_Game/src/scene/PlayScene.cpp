@@ -8,6 +8,8 @@
 
 #include "ItemManager.h"
 #include "GameManager.h"
+#include "CameraShaker.h"
+#include "CrosshairFire.h"
 #include "EnemySpawner.h"
 
 void PlayScene::Initialize()
@@ -16,11 +18,23 @@ void PlayScene::Initialize()
 	auto player1Cam = player1CamGO->GetComponent<Camera>();
 	player1Cam->SetRect({ 0.0f, 0.0f, 0.5f, 1.0f });
 	player1Cam->SetRenderLayer(1 << 1);
+	auto player1CamShaker = player1Cam->AddComponent<CameraShaker>();
+	auto player1CrosshairGO = GameObject::Find(L"Player1");
+	if (Object::IsValidObject(player1CrosshairGO))
+	{
+		player1CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player1CamShaker](int id, const std::vector<GameObject*>& objs) { player1CamShaker->ShakeCamera(24, 55, 8); });
+	}
 
 	auto player2CamGO = Camera::CreateSubCamera();
 	auto player2Cam = player2CamGO->GetComponent<Camera>();
 	player2Cam->SetRect({ 0.5f, 0.0f, 0.5f, 1.0f });
 	player2Cam->SetRenderLayer(1 << 2);
+	auto player2CamShaker = player2Cam->AddComponent<CameraShaker>();
+	auto player2CrosshairGO = GameObject::Find(L"Player2");
+	if (Object::IsValidObject(player2CrosshairGO))
+	{
+		player2CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player2CamShaker](int id, const std::vector<GameObject*>& objs) { player2CamShaker->ShakeCamera(24, 55, 8); });
+	}
 
 	auto BackgroundGO = new GameObject(L"Background");	
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();

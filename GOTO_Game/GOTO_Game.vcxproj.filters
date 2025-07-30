@@ -69,6 +69,9 @@
     <ClCompile Include="src\component\EnemySpawner.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
+    <ClCompile Include="src\component\StartMenu.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\TestComponent.h">
@@ -149,6 +152,9 @@
     <ClInclude Include="inc\prefab\StartMenuPrefab.h">
       <Filter>헤더 파일\프리펩</Filter>
     </ClInclude>
+    <ClInclude Include="inc\component\CameraShaker.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="inc\component\StartManager.h">
       <Filter>헤더 파일\컴포넌트</Filter>
     </ClInclude>
@@ -166,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="inc\component\MoveUpDown.h">
       <Filter>헤더 파일\컴포넌트</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\StartMenu.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
