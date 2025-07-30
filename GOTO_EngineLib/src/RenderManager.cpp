@@ -250,7 +250,11 @@ void GOTOEngine::RenderManager::Render()
 				transform = Matrix3x3::Scale(1.0f, -1.0f) * transform;
 
 				////TRS 세팅
-				transform = wrapper->GetTransform()->GetWorldMatrix() * transform;
+				transform = Matrix3x3::TRS(
+					{ wrapper->GetBody()->position.x,wrapper->GetBody()->position.y },
+					wrapper->GetBody()->rotation, // degree를 radian으로 변환
+					{ 1.0f, 1.0f }
+				) * transform;
 
 				////유니티 좌표계 매트릭스 적용
 				transform = cameraMat * transform;

@@ -22,8 +22,6 @@ void PlayScene::Initialize()
 		player1CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player1CamShaker](int id) { player1CamShaker->ShakeCamera(24, 55, 8); });
 	}
 
-
-
 	auto player2CamGO = Camera::CreateSubCamera();
 	auto player2Cam = player2CamGO->GetComponent<Camera>();
 	player2Cam->SetRect({ 0.5f, 0.0f, 0.5f, 1.0f });

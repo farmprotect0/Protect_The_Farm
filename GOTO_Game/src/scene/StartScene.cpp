@@ -21,9 +21,6 @@ void StartScene::Initialize()
 		CrossHair1GO->name = L"Player1";
 		CrossHair2GO->name = L"Player2";
 
-		CrossHair1GO->GetComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
-		CrossHair2GO->GetComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
-
 		//커서 유지
 		Object::DontDestroyOnLoad(CrossHair1GO);
 		Object::DontDestroyOnLoad(CrossHair2GO);
