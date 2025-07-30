@@ -1,5 +1,6 @@
 #include "StartMenuPrefab.h"
 #include "StartMenu.h"
+#include "CrosshairInteractButton.h"
 
 #include <GameObject.h>
 #include <Canvas.h>
@@ -22,6 +23,10 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	auto startButtonP1Col = startButtonP1ColGO->AddComponent<Collider2D>();
 	auto startButtonP2ColGO = new GameObject(L"StartButtonP2Col");
 	auto startButtonP2Col = startButtonP2ColGO->AddComponent<Collider2D>();
+	auto startInteractButtonP1 = startButtonP1ColGO->AddComponent<CrosshairInteractButton>();
+	startInteractButtonP1->parentButton = startButtonGO->GetTransform();
+	auto startInteractButtonP2 = startButtonP2ColGO->AddComponent<CrosshairInteractButton>();
+	startInteractButtonP2->parentButton = startButtonGO->GetTransform();
 
 	auto spriteSize = startButtonGO->GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
 	startButtonP1Col->SetSize({ spriteSize.width, spriteSize.height });
@@ -53,9 +58,9 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	exitButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/MenuButton.png");
 
 	//버튼 콜라이더 추가
-	auto exitButtonP1ColGO = new GameObject(L"StartButtonP1Col");
+	auto exitButtonP1ColGO = new GameObject(L"ExitButtonP1Col");
 	auto exitButtonP1Col = exitButtonP1ColGO->AddComponent<Collider2D>();
-	auto exitButtonP2ColGO = new GameObject(L"StartButtonP2Col");
+	auto exitButtonP2ColGO = new GameObject(L"ExitButtonP2Col");
 	auto exitButtonP2Col = exitButtonP2ColGO->AddComponent<Collider2D>();
 
 	exitButtonP1Col->SetSize({ spriteSize.width, spriteSize.height });

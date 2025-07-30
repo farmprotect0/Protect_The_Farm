@@ -2,7 +2,9 @@
 #include "Vector2.h"
 #include <cstring>
 #include <cmath>
+#include "TimeManager.h"
 #include "InputManager.h" 
+#include "Mathf.h"
 
 namespace GOTOEngine
 {
@@ -15,6 +17,7 @@ namespace GOTOEngine
         , m_connectionCallback(nullptr)
     {
         ResetState();
+
     }
 
     bool XInputGamepadDevice::IsConnected() const
@@ -42,6 +45,15 @@ namespace GOTOEngine
             // 연결되지 않은 경우 입력 상태 초기화
             memset(&m_currentState, 0, sizeof(XINPUT_STATE));
         }
+
+		m_vibrationTimer -= TIME_GET_DELTATIME();
+		m_vibrationTimer = Mathf::Max(m_vibrationTimer, 0.0f);
+		if (m_vibrationTimer <= 0.0f)
+		{
+			// 진동 타이머가 0이 되면 진동 중지
+			XINPUT_VIBRATION vibration = { 0, 0 };
+			XInputSetState(m_controllerIndex, &vibration);
+		}
     }
 
     void XInputGamepadDevice::HandleConnectionStateChange()
@@ -104,6 +116,26 @@ namespace GOTOEngine
     {
         m_wasJustConnected = false;
         m_wasJustDisconnected = false;
+    }
+
+    void XInputGamepadDevice::SetVibration(float leftMotor, float rightMotor)
+    {
+    }
+
+    void XInputGamepadDevice::StopVibration()
+    {
+    }
+
+    void XInputGamepadDevice::PlaySimpleVibration(float duration, float strength)
+    {
+		if (!m_isConnected)
+			return;
+		XINPUT_VIBRATION vibration;
+		vibration.wLeftMotorSpeed = static_cast<WORD>(strength * 65535.0f);
+		vibration.wRightMotorSpeed = static_cast<WORD>(strength * 65535.0f);
+		XInputSetState(m_controllerIndex, &vibration);
+		// 진동 타이머 설정
+		m_vibrationTimer = duration;
     }
 
     bool XInputGamepadDevice::GetButton(int buttonIndex) const
