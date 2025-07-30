@@ -22,7 +22,7 @@ void PlayScene::Initialize()
 	auto player1CrosshairGO = GameObject::Find(L"Player1");
 	if (Object::IsValidObject(player1CrosshairGO))
 	{
-		player1CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player1CamShaker](int id) { player1CamShaker->ShakeCamera(24, 55, 8); });
+		player1CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player1CamShaker](int id, const std::vector<GameObject*>& objs) { player1CamShaker->ShakeCamera(24, 55, 8); });
 	}
 
 	auto player2CamGO = Camera::CreateSubCamera();
@@ -33,7 +33,7 @@ void PlayScene::Initialize()
 	auto player2CrosshairGO = GameObject::Find(L"Player2");
 	if (Object::IsValidObject(player2CrosshairGO))
 	{
-		player2CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player2CamShaker](int id) { player2CamShaker->ShakeCamera(24, 55, 8); });
+		player2CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player2CamShaker](int id, const std::vector<GameObject*>& objs) { player2CamShaker->ShakeCamera(24, 55, 8); });
 	}
 
 	auto BackgroundGO = new GameObject(L"Background");	

@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\component\EnemySpawner.cpp" />
+    <ClCompile Include="src\component\StartMenu.cpp" />
     <ClCompile Include="src\prefab\StartMenuPrefab.cpp" />
     <ClCompile Include="src\prefab\CrosshairPrefab.cpp" />
     <ClCompile Include="src\component\ItemManager.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="inc\prefab\CrosshairPrefab.h" />
     <ClInclude Include="inc\component\CrosshairMove.h" />
     <ClInclude Include="inc\prefab\StartMenuPrefab.h" />
+    <ClInclude Include="inc\component\StartMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

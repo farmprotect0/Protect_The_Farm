@@ -1,7 +1,7 @@
 #include "Renderer.h"
 #include "RenderManager.h"
 
-GOTOEngine::Renderer::Renderer() : m_enabled(true), m_renderOrder(0), m_renderLayer(static_cast<size_t>(-1))
+GOTOEngine::Renderer::Renderer() : m_enabled(true), m_renderOrder(0), m_renderLayer(static_cast<std::uint32_t>(-1))
 {
 	RenderManager::Get()->RegisterRenderer(this);
 }
@@ -41,7 +41,7 @@ void GOTOEngine::Renderer::SetRenderOrder(int value)
 	m_renderOrder = value;
 }
 
-void GOTOEngine::Renderer::SetRenderLayer(size_t layer)
+void GOTOEngine::Renderer::SetRenderLayer(std::uint32_t layer)
 {
 	m_renderLayer = layer;
 }

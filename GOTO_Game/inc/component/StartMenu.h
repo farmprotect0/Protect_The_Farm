@@ -7,15 +7,15 @@ namespace GOTOEngine
 	class StartMenu : public ScriptBehaviour
 	{
 	public:
+    StartMenu()
+    {
+        REGISTER_BEHAVIOUR_MESSAGE(Update);
+    }
 		Transform* startButton;
 		Transform* optionsButton;
 		Transform* exitButton;
 
-		StartMenu()
-		{
-		}
-
-		void Awake()
+		void Update()
 		{
 
 		}
