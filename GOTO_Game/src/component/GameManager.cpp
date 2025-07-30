@@ -52,6 +52,12 @@ void GameManager::Update() {
 			}
 		}
 	}
+	if (P1Score < 0) {
+		winner = 2;
+	}
+	if (P2Score < 0) {
+		winner = 1;
+	}
 
 	P1sctext->text = std::to_wstring(P1Score);
 	P2sctext->text = std::to_wstring(P2Score);
