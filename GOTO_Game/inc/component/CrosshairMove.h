@@ -26,6 +26,8 @@ namespace GOTOEngine
 
 		float timeSpeed = 1.0f;
 
+		bool reverseInput = false;
+
 		void Awake()
 		{
 			m_collider = GetComponent<CrosshairCollide>();
@@ -53,6 +55,12 @@ namespace GOTOEngine
 			{
 				hInput += INPUT_GET_GAMEPAD_AXIS(id, GamepadAxis::LeftStickX);
 				vInput += INPUT_GET_GAMEPAD_AXIS(id, GamepadAxis::LeftStickY);
+			}
+
+			if (reverseInput)
+			{
+				hInput = -hInput;
+				vInput = -vInput;
 			}
 
 			auto currentSpeedFactor = 1.0f;
