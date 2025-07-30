@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include "BaseEnemyObject.h"
 
+#include <SpriteRenderer.h>
+#include <Collider2D.h>
+
 
 namespace GOTOEngine
 {
@@ -38,10 +41,12 @@ namespace GOTOEngine
 
 			AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
+			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 
+			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
+			auto collider = AddComponent<Collider2D>();
 
-			//auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
-			//auto collider = AddComponent<Collider2D>();
+			collider->SetSize({ spriteRect.width * GetTransform()->GetLossyScale().x , spriteRect.height * GetTransform()->GetLossyScale().y });
 		}
 
 		void OnBulletDie() override

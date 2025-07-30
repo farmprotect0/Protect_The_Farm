@@ -2,7 +2,6 @@
 #include "BaseEnemyObject.h"
 
 #include <SpriteRenderer.h>
-//#include <ResourceManager.h>
 #include <Collider2D.h>
 
 
@@ -51,15 +50,24 @@ namespace GOTOEngine
 
 			m_destroyTime = 8.0f;
 
-
-			AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Rabit.png");
+			switch (m_gimmickEnemyType)
+			{
+			case rabbit:
+				GetGameObject()->name = L"토끼";
+				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Rabit.png");
+				break;
+			case squirrel:
+				GetGameObject()->name = L"다람쥐";
+				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Squirrel.png");
+				break;
+			}
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
 			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 
 			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
 			auto collider = AddComponent<Collider2D>();
 			
-			collider->SetSize({ spriteRect.width * GetTransform()->GetLossyScale().x , spriteRect.height * GetTransform()->GetLossyScale().y});
+			collider->SetSize({ spriteRect.width * GetTransform()->GetLossyScale().x, spriteRect.height * GetTransform()->GetLossyScale().y });
 		}
 
 		void OnBulletDie() override
