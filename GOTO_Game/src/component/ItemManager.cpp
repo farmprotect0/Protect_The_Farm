@@ -1,5 +1,8 @@
-#include "ItemManager.h"
+Ôªø#include "ItemManager.h"
 #include "GameManager.h"
+
+#include "BaseEnemyObject.h"
+#include "EnemySpawner.h"
 
 using namespace GOTOEngine;
 
@@ -16,14 +19,14 @@ void ItemManager::Awake() {
 		Destroy(GetGameObject());
 	}
 	auto canvas = GameObject::Find(L"Canvas");
-	// ¿ÃπÃ¡ˆ ∞£∞› π◊ ±‚∫ª ¿ßƒ° º≥¡§
+	// Ïù¥ÎØ∏ÏßÄ Í∞ÑÍ≤© Î∞è Í∏∞Î≥∏ ÏúÑÏπò ÏÑ§Ï†ï
 	float spacing = 60.0f;
 	Vector2 p1StartPos = { Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.5f };
 	Vector2 p2StartPos = { Screen::GetWidth() * 0.6f, Screen::GetHeight() * 0.5f };
 
 	for (int i = 0; i < 7; ++i)
 	{
-		// «√∑π¿ÃæÓ 1 æ∆¿Ã≈€ ø¿∫Í¡ß∆Æ ª˝º∫ π◊ º≥¡§
+		// ÌîåÎ†àÏù¥Ïñ¥ 1 ÏïÑÏù¥ÌÖú Ïò§Î∏åÏ†ùÌä∏ ÏÉùÏÑ± Î∞è ÏÑ§Ï†ï
 		auto p1item = new GameObject;
 		p1item->GetTransform()->SetParent(canvas->GetTransform());
 		p1itemImage[i] = p1item->AddComponent<Image>();
@@ -31,7 +34,7 @@ void ItemManager::Awake() {
 			p1StartPos.x + spacing * i, p1StartPos.y });
 		p1itemImage[i]->GetRectTransform()->SetSizeDelta({ 50.0f, 50.0f });
 
-		// «√∑π¿ÃæÓ 2 æ∆¿Ã≈€ ø¿∫Í¡ß∆Æ ª˝º∫ π◊ º≥¡§
+		// ÌîåÎ†àÏù¥Ïñ¥ 2 ÏïÑÏù¥ÌÖú Ïò§Î∏åÏ†ùÌä∏ ÏÉùÏÑ± Î∞è ÏÑ§Ï†ï
 		auto p2item = new GameObject;
 		p2item->GetTransform()->SetParent(canvas->GetTransform());
 		p2itemImage[i] = p2item->AddComponent<Image>();
@@ -96,7 +99,11 @@ void ItemManager::Update(){
 		p1IceTimer -= TIME_GET_DELTATIME();
 		if (p1IceTimer <= 0.0f) {
 			p1IceTimer = 0.0f;
-			//∫˘∞· «ÿ¡¶
+			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+			for (auto* enemy : enemies)
+			{
+				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
+			}
 		}
 	}
 
@@ -104,7 +111,12 @@ void ItemManager::Update(){
 		p2IceTimer -= TIME_GET_DELTATIME();
 		if (p2IceTimer <= 0.0f) {
 			p2IceTimer = 0.0f;
-			//∫˘∞· «ÿ¡¶
+			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+			for (auto* enemy : enemies)
+			{
+				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
+			}
+		
 		}
 	}
 	for (int i = 0; i < 7; ++i) {
@@ -152,8 +164,13 @@ void ItemManager::UseItem(int player, ItemType item)
 	switch (item) {
 	case ItemType::Bomb:
 		if (player == 1) {
-			//P1¿« µøπ∞∏ÆΩ∫∆Æ ≥ª∫Œ ∞¥√º ƒ´øÓ∆Æ
-			//P1¿« µøπ∞∏ÆΩ∫∆Æ ≥ª∫Œ ∞¥√º ¿¸∫Œ ªË¡¶
+			//P1Ïùò ÎèôÎ¨ºÎ¶¨Ïä§Ìä∏ ÎÇ¥Î∂Ä Í∞ùÏ≤¥ Ïπ¥Ïö¥Ìä∏
+			//P1Ïùò ÎèôÎ¨ºÎ¶¨Ïä§Ìä∏ ÎÇ¥Î∂Ä Í∞ùÏ≤¥ Ï†ÑÎ∂Ä ÏÇ≠Ï†ú
+			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+
+			p1count = enemies.size();
+			EnemySpawner::instance->Setp1EnemyAllDestroy();
+
 			if (p1count >= 1 && p1count <= 3) {
 				GameManager::instance->P1Score += 3 * GameManager::instance->P1Bonus;
 			}
@@ -165,8 +182,13 @@ void ItemManager::UseItem(int player, ItemType item)
 			}
 		}
 		else {
-			//P2¿« µøπ∞∏ÆΩ∫∆Æ ≥ª∫Œ ∞¥√º ƒ´øÓ∆Æ
-			//P2¿« µøπ∞∏ÆΩ∫∆Æ ≥ª∫Œ ∞¥√º ¿¸∫Œ ªË¡¶
+			//P2Ïùò ÎèôÎ¨ºÎ¶¨Ïä§Ìä∏ ÎÇ¥Î∂Ä Í∞ùÏ≤¥ Ïπ¥Ïö¥Ìä∏
+			//P2Ïùò ÎèôÎ¨ºÎ¶¨Ïä§Ìä∏ ÎÇ¥Î∂Ä Í∞ùÏ≤¥ Ï†ÑÎ∂Ä ÏÇ≠Ï†ú
+			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+
+			p2count = enemies.size();
+			EnemySpawner::instance->Setp2EnemyAllDestroy();
+
 			if (p2count >= 1 && p2count <= 3) {
 				GameManager::instance->P2Score += 3 * GameManager::instance->P2Bonus;
 			}
@@ -180,13 +202,28 @@ void ItemManager::UseItem(int player, ItemType item)
 		break;
 	case ItemType::Icebomb:
 		if (player == 1) {
-			//P1¿« µøπ∞∏ÆΩ∫∆Æ ≥ª∫Œ ∞¥√º ¿¸∫Œ ¿Ãµø ¡§¡ˆ
-			//P1¿« µøπ∞∏ÆΩ∫∆Æ ≥ª∫Œ ∞¥√º ¿¸∫Œ µΩ∫∆˘ Ω√∞£ ¡§¡ˆ
+			//P1Ïùò ÎèôÎ¨ºÎ¶¨Ïä§Ìä∏ ÎÇ¥Î∂Ä Í∞ùÏ≤¥ Ï†ÑÎ∂Ä Ïù¥Îèô Ï†ïÏßÄ
+			//P1Ïùò ÎèôÎ¨ºÎ¶¨Ïä§Ìä∏ ÎÇ¥Î∂Ä Í∞ùÏ≤¥ Ï†ÑÎ∂Ä ÎîîÏä§Ìè∞ ÏãúÍ∞Ñ Ï†ïÏßÄ
+			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+
+			for (auto* enemy : enemies)
+			{
+				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
+			}
+
 			p1IceTimer = timelimit;
 		}
 		else {
-			//P2¿« µøπ∞∏ÆΩ∫∆Æ ≥ª∫Œ ∞¥√º ¿¸∫Œ ¿Ãµø ¡§¡ˆ
-			//P2¿« µøπ∞∏ÆΩ∫∆Æ ≥ª∫Œ ∞¥√º ¿¸∫Œ µΩ∫∆˘ Ω√∞£ ¡§¡ˆ
+			//P2Ïùò ÎèôÎ¨ºÎ¶¨Ïä§Ìä∏ ÎÇ¥Î∂Ä Í∞ùÏ≤¥ Ï†ÑÎ∂Ä Ïù¥Îèô Ï†ïÏßÄ
+			//P2Ïùò ÎèôÎ¨ºÎ¶¨Ïä§Ìä∏ ÎÇ¥Î∂Ä Í∞ùÏ≤¥ Ï†ÑÎ∂Ä ÎîîÏä§Ìè∞ ÏãúÍ∞Ñ Ï†ïÏßÄ
+
+			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+
+			for (auto* enemy : enemies)
+			{
+				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
+			}
+
 			p2IceTimer = timelimit;
 		}
 		break;

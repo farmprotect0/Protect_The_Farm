@@ -146,6 +146,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\component\EnemySpawner.cpp" />
     <ClCompile Include="src\prefab\StartMenuPrefab.cpp" />
     <ClCompile Include="src\prefab\CrosshairPrefab.cpp" />
     <ClCompile Include="src\component\ItemManager.cpp" />
@@ -160,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
+    <ClInclude Include="inc\component\BaseMovement.h" />
     <ClInclude Include="inc\component\CameraMove.h" />
     <ClInclude Include="inc\component\CameraShaker.h" />
     <ClInclude Include="inc\component\CrosshairFire.h" />
@@ -169,7 +171,10 @@
     <ClInclude Include="inc\component\ItemManager.h" />
     <ClInclude Include="inc\component\MemoryUsageGUI.h" />
     <ClInclude Include="inc\component\MonsterAttack.h" />
+    <ClInclude Include="inc\component\MoveCircle.h" />
     <ClInclude Include="inc\component\MoveEnemy.h" />
+    <ClInclude Include="inc\component\MoveLeftRight.h" />
+    <ClInclude Include="inc\component\MoveUpDown.h" />
     <ClInclude Include="inc\component\MushroomCreator.h" />
     <ClInclude Include="inc\component\PlayerController.h" />
     <ClInclude Include="inc\component\PlayerHealth.h" />

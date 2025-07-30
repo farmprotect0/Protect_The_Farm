@@ -1,19 +1,13 @@
 ﻿#pragma once
 #include <ScriptBehaviour.h>
+#include <TimeManager.h>
+#include "Transform.h"
+#include "Screen.h"
 #include <string.h>
 #include <iostream>
 #include <any>
 
-
-enum E_Enemy_Move_Type
-{
-	NONE = 0,					// 아무 움직임 없음 (0000)
-	MOVE_LEFT_RIGHT = 1 << 0,	// 좌우 이동 (0001)
-	MOVE_UP_DOWN = 1 << 1,		// 상하 이동 (0010)
-	MOVE_CIRCULAR = 1 << 2,		// 원형 이동 (0100)
-	MOVE_ZIGZAG = 1 << 3,		// 지그재그 이동 (1000)
-	MOVE_PARABOLIC = 1 << 4,	// 포물선 이동 (10000)
-};
+#include "BaseMovement.h"
 
 namespace GOTOEngine
 {
@@ -26,19 +20,31 @@ namespace GOTOEngine
 
 	class BaseEnemyObject : public ScriptBehaviour
 	{
+	private:
+		std::vector<BaseMovement*> m_movementComponents;
+
 	protected:
 		E_EnemyType m_enemyType = E_EnemyType::move;
 		//std::string m_enemyName;
 
-		bool m_moveLoop = true;
-		float m_moveSpeed = 10.0f;
+		int m_moveFlag;
+		bool m_isMoveLoop = true;
+		int m_maxX;
+		int m_minX;
+		int m_maxY;
+		int m_minY;
 
 		float m_enemyhp = 10.0f;
-		float m_DieScore = 10.0f;
-		float m_oneTargetScore = 1.0f;
+		float m_DieScore = 10.0f;			// 죽었을 때 점수
+		float m_oneTargetScore = 1.0f;		// 한발 쐈을 때 점수
 
 		// 스폰확률
 		float m_destroyTime = 8.0f;
+
+		bool m_frozen;
+
+		int m_layer = 1;
+
 
 	public:
     BaseEnemyObject()
@@ -48,24 +54,96 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(OnDisable);
         REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
         REGISTER_BEHAVIOUR_MESSAGE(Start);
+        REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		virtual ~BaseEnemyObject() = default;
 
 		virtual void Awake()
 		{
-			std::cout << "base Awake" << std::endl;
+			// 등록한 movement들 추가
+			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
 
+			// player1
+			m_maxX = Screen::GetWidth() * 0.25f;
+			m_minX = Screen::GetWidth() * -0.25f;
+
+			m_maxY = Screen::GetHeight() * 0.5f;
+			m_minY = Screen::GetHeight() * 0.0f;
 		}
 		void Start() {}
+
+		void Update()
+		{
+			if (m_frozen == true || m_movementComponents.empty())
+			{
+				return;
+			}
+
+			float deltaTime = TimeManager::Get()->GetDeltaTime();
+			Vector2 currentPos = GetTransform()->GetPosition();
+
+			Vector2 pathDelta = Vector2::Zero();
+			Vector2 offset = Vector2::Zero();
+
+			for (BaseMovement* movement : m_movementComponents)
+			{
+				if (movement->GetRole() == E_Move_Role::PATH)
+				{
+					// 루프 로직
+					if (m_isMoveLoop)
+					{
+						if ((currentPos.x > m_maxX && movement->GetDirection() > 0) ||
+							(currentPos.x < m_minX && movement->GetDirection() < 0))
+						{
+							// sprite flip 필요
+							movement->FlipDirection();
+						}
+						if ((currentPos.y > m_maxY && movement->GetDirection() > 0) ||
+							(currentPos.y < m_minY && movement->GetDirection() < 0))
+						{
+							movement->FlipDirection();
+						}
+					}
+					pathDelta += movement->Move(deltaTime);
+				}
+				else // EMoveRole::OFFSET
+				{
+					offset += movement->Move(deltaTime);
+				}
+			}
+
+			GetTransform()->SetPosition(currentPos + pathDelta + offset);
+		}
+
 		void OnEnable() {}
 		void OnDisable() {}
 		void OnDestroy() {}
 
-		virtual void Initialize(std::any param) {
-			std::cout << "Base Initialize with std::any" << std::endl;
+		virtual void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false)
+		{
+			m_moveFlag = _moveflag;
+			m_isMoveLoop = _moveLoop;
 		}
 
+		void AddMovementComponent(BaseMovement* movement)
+		{
+			m_movementComponents.push_back(movement);
+		}
+
+		void SetEnemyFrozen(bool _frozen)
+		{
+			m_frozen = _frozen;
+		}
+
+		void SetEnemyLayer(int _layer = 1)
+		{
+			m_layer = _layer;
+		}
 
 		virtual void OnEnemyPlay() {}
 	};
 }
+
+
+// enemy move size
+//Screen::GetWidth() * 0.5f, Screen::GetHeight()});

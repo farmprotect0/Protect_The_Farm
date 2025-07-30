@@ -5,10 +5,13 @@
 #include <RectTransform.h>
 #include <SpriteRenderer.h>
 #include "CrosshairPrefab.h"
+
 #include "ItemManager.h"
 #include "GameManager.h"
 #include "CameraShaker.h"
 #include "CrosshairFire.h"
+#include "EnemySpawner.h"
+
 void PlayScene::Initialize()
 {
 	auto player1CamGO = Camera::CreateMainCamera();
@@ -44,4 +47,6 @@ void PlayScene::Initialize()
 	itemManager->AddComponent<ItemManager>();
 	auto gameManager = new GameObject(L"스코어매니저");
 	gameManager->AddComponent<GameManager>();
+	auto spawner = new GameObject(L"enemySpawner");
+	spawner->AddComponent<EnemySpawner>();
 }

@@ -1,16 +1,19 @@
-ï»¿// ì½˜ì†”ì„ ê²¸ìš©í•œ ì§„ì…ì ì„ ì •ì˜í•©ë‹ˆë‹¤.
+// ÄÜ¼ÖÀ» °â¿ëÇÑ ÁøÀÔÁ¡À» Á¤ÀÇÇÕ´Ï´Ù.
 
-// ê¸°ë³¸ ë¼ì´ë¸ŒëŸ¬ë¦¬
+// ±âº» ¶óÀÌºê·¯¸®
 #include <iostream>
 #include <Windows.h>
 
-// ì—”ì§„ ë° ë§¤ë‹ˆì €
+// ¿£Áø ¹× ¸Å´ÏÀú
 #include "Engine.h"
 #include "SceneManager.h"
 
-// ì”¬
+// ¾À
+//#include "TitleScene.h"
+//#include "SampleScene.h"
+//#include "AnimationScene.h"
+//#include "PhysicsScene.h"
 #include "PlayScene.h"
-#include "StartScene.h"
 #include "TestItemScene.h"
 #include "testEnemyScene.h"
 
@@ -18,13 +21,15 @@ void StartEngineLoop()
 {
 	ENGINE_INIT(1920, 1080, L"D2D Game");
 
-	//ì”¬ í• ë‹¹ ë° ì¶”ê°€
+	//¾À ÇÒ´ç ¹× Ãß°¡
+	//SCENE_ADD_SCENE<TitleScene>(L"Title");
+	//SCENE_ADD_SCENE<SampleScene>(L"SampleScene");
+	//SCENE_ADD_SCENE<AnimationScene>(L"AnimationScene");
+	//SCENE_ADD_SCENE<PhysicsScene>(L"PhysicsScene");
 	SCENE_ADD_SCENE<PlayScene>(L"PlayScene");
-	SCENE_ADD_SCENE<TestItemScene>(L"TestItemScene");
 	SCENE_ADD_SCENE<testEnemyScene>(L"testEnemyScene");
-	SCENE_ADD_SCENE<StartScene>(L"StartScene");
 
-	//ì²« ì”¬ìœ¼ë¡œ ë³€í™˜
+	//Ã¹ ¾ÀÀ¸·Î º¯È¯
 	SCENE_CHANGE_SCENE(L"testEnemyScene");
 
 	ENGINE_RUN();

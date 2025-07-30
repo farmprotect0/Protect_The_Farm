@@ -17,25 +17,22 @@ namespace GOTOEngine
 
 
 	public:
+		virtual ~MoveEnemy() = default;
 
-		void Initialize(std::any param) override
+		void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false) override
 		{
+			__super::Initialize(param, _moveflag, _moveLoop);
+
 			if (param.type() == typeid(E_MoveEnemyType)) m_moveEnemyType = std::any_cast<E_MoveEnemyType>(param);
-
-			
-
 
 		}
 		void Awake()
 		{
 			__super::Awake();
 
-			std::cout << "Enemy Awake" << std::endl;
-
 			m_enemyType = E_EnemyType::move;
 
-			m_moveLoop = true;
-			m_moveSpeed = 10.0f;
+			m_isMoveLoop = true;
 
 			m_enemyhp = 10.0f;
 			m_DieScore = 10.0f;

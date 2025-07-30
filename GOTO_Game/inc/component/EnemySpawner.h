@@ -11,46 +11,40 @@
 #include "GimmickEnemy.h"
 #include "ItemEnemy.h"
 
+#include "MoveLeftRight.h"
+#include "MoveUpDown.h"
+#include "MoveCircle.h"
 
 namespace GOTOEngine
 {
 	class EnemySpawner : public ScriptBehaviour
 	{
-	private:
-		std::vector<GameObject*> m_objects;
-
 	public:
     EnemySpawner()
     {
+        REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 
+		static EnemySpawner* instance;
+
+		std::vector<GameObject*> m_p1Enemy;
+		std::vector<GameObject*> m_p2Enemy;
+
+
 	public:
 		virtual ~EnemySpawner() = default;
-		void Update()
-		{
-			if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)) // 생성
-			{
-				GameObject* baseObject = new GameObject(L"토끼");
 
-				baseObject->AddComponent<GimmickEnemy>();
-				baseObject->GetComponent<GimmickEnemy>()->Initialize(rabbit);
+		void Awake();
+		void Update();
 
-				m_objects.push_back(baseObject);
-				std::cout << "current objects size : " << m_objects.size() << std::endl;
-			}
-			if (INPUT_GET_KEYUP(KeyCode::Alpha2)) // disable
-			{
-				//GameObject* baseObject = m_objects[0];
+		static GameObject* CreateEnemy(Vector2 position, int moveFlag);
 
-				
-				//m_objects[0]->SetActive(false);
+		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
+		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }
 
-			}
-			if (INPUT_GET_KEYDOWN(KeyCode::Alpha3))
-			{
-
-			}
-		}
+		void Setp1EnemyAllDestroy();
+		void Setp2EnemyAllDestroy();
 	};
 }
+
