@@ -99,7 +99,11 @@ void ItemManager::Update(){
 		p1IceTimer -= TIME_GET_DELTATIME();
 		if (p1IceTimer <= 0.0f) {
 			p1IceTimer = 0.0f;
-			//빙결 해제
+			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+			for (auto* enemy : enemies)
+			{
+				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
+			}
 		}
 	}
 
@@ -107,7 +111,12 @@ void ItemManager::Update(){
 		p2IceTimer -= TIME_GET_DELTATIME();
 		if (p2IceTimer <= 0.0f) {
 			p2IceTimer = 0.0f;
-			//빙결 해제
+			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+			for (auto* enemy : enemies)
+			{
+				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
+			}
+		
 		}
 	}
 	for (int i = 0; i < 7; ++i) {
@@ -157,6 +166,11 @@ void ItemManager::UseItem(int player, ItemType item)
 		if (player == 1) {
 			//P1의 동물리스트 내부 객체 카운트
 			//P1의 동물리스트 내부 객체 전부 삭제
+			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+
+			p1count = enemies.size();
+			EnemySpawner::instance->Setp1EnemyAllDestroy();
+
 			if (p1count >= 1 && p1count <= 3) {
 				GameManager::instance->P1Score += 3 * GameManager::instance->P1Bonus;
 			}
@@ -170,6 +184,11 @@ void ItemManager::UseItem(int player, ItemType item)
 		else {
 			//P2의 동물리스트 내부 객체 카운트
 			//P2의 동물리스트 내부 객체 전부 삭제
+			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+
+			p2count = enemies.size();
+			EnemySpawner::instance->Setp2EnemyAllDestroy();
+
 			if (p2count >= 1 && p2count <= 3) {
 				GameManager::instance->P2Score += 3 * GameManager::instance->P2Bonus;
 			}

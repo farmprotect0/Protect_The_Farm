@@ -17,6 +17,7 @@ namespace GOTOEngine
 
 
 	public:
+		virtual ~MoveEnemy() = default;
 
 		void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false) override
 		{
@@ -28,8 +29,6 @@ namespace GOTOEngine
 		void Awake()
 		{
 			__super::Awake();
-
-			std::cout << "Enemy Awake" << std::endl;
 
 			m_enemyType = E_EnemyType::move;
 

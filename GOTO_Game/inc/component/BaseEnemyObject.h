@@ -43,6 +43,9 @@ namespace GOTOEngine
 
 		bool m_frozen;
 
+		int m_layer = 1;
+
+
 	public:
     BaseEnemyObject()
     {
@@ -65,7 +68,7 @@ namespace GOTOEngine
 			m_minX = Screen::GetWidth() * -0.25f;
 
 			m_maxY = Screen::GetHeight() * 0.5f;
-			m_minY = Screen::GetHeight() * -0.5f;
+			m_minY = Screen::GetHeight() * 0.0f;
 		}
 		void Start() {}
 
@@ -130,6 +133,11 @@ namespace GOTOEngine
 		void SetEnemyFrozen(bool _frozen)
 		{
 			m_frozen = _frozen;
+		}
+
+		void SetEnemyLayer(int _layer = 1)
+		{
+			m_layer = _layer;
 		}
 
 		virtual void OnEnemyPlay() {}

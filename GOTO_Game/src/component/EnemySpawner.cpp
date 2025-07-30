@@ -22,6 +22,8 @@ void GOTOEngine::EnemySpawner::Update()
 	{
 		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.
 
+		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
+
 		m_p1Enemy.push_back(baseObject);
 		std::cout << "current p1 objects size : " << m_p1Enemy.size() << std::endl;
 	}
@@ -36,6 +38,8 @@ void GOTOEngine::EnemySpawner::Update()
 	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 생성
 	{
 		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.
+
+		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
 
 		m_p2Enemy.push_back(baseObject);
 		std::cout << "current p2 objects size : " << m_p2Enemy.size() << std::endl;
@@ -65,4 +69,29 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(Vector2 position, int moveFlag
 	}
 
 	return newEnemyObject;
+}
+
+void GOTOEngine::EnemySpawner::Setp1EnemyAllDestroy()
+{
+	for (auto& enemy : m_p1Enemy)
+	{
+		if (enemy)
+		{
+			GameObject::Destroy(enemy);
+			enemy = nullptr;
+		}
+	}
+	m_p1Enemy.clear();
+}
+void GOTOEngine::EnemySpawner::Setp2EnemyAllDestroy()
+{
+	for (auto& enemy : m_p2Enemy)
+	{
+		if (enemy)
+		{
+			GameObject::Destroy(enemy);
+			enemy = nullptr;
+		}
+	}
+	m_p2Enemy.clear();
 }

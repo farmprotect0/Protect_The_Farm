@@ -43,7 +43,8 @@ namespace GOTOEngine
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }
 
-
+		void Setp1EnemyAllDestroy();
+		void Setp2EnemyAllDestroy();
 	};
 }
 
