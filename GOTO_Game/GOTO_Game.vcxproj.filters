@@ -66,6 +66,9 @@
     <ClCompile Include="src\component\ItemManager.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
+    <ClCompile Include="src\component\EnemySpawner.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\TestComponent.h">

@@ -1,21 +1,21 @@
-#pragma once
+ï»¿#pragma once
 #include <ScriptBehaviour.h>
 
 namespace GOTOEngine
 {
     enum E_Enemy_Move_Type
     {
-        NONE = 0,					// ¾Æ¹« ¿òÁ÷ÀÓ ¾øÀ½ (0000)
-        MOVE_LEFT_RIGHT = 1 << 0,	// ÁÂ¿ì ÀÌµ¿ (0001)
-        MOVE_UP_DOWN = 1 << 1,		// »óÇÏ ÀÌµ¿ (0010)
-        MOVE_CIRCULAR = 1 << 2,		// ¿øÇü ÀÌµ¿ (0100)
-        //MOVE_PARABOLIC = 1 << 3,	// Æ÷¹°¼± ÀÌµ¿ (1000)
-        // ÀÌµ¿ Ãß°¡
+        NONE = 0,					// ì•„ë¬´ ì›€ì§ìž„ ì—†ìŒ (0000)
+        MOVE_LEFT_RIGHT = 1 << 0,	// ì¢Œìš° ì´ë™ (0001)
+        MOVE_UP_DOWN = 1 << 1,		// ìƒí•˜ ì´ë™ (0010)
+        MOVE_CIRCULAR = 1 << 2,		// ì›í˜• ì´ë™ (0100)
+        //MOVE_PARABOLIC = 1 << 3,	// í¬ë¬¼ì„  ì´ë™ (1000)
+        // ì´ë™ ì¶”ê°€
     };
     enum class E_Move_Role
     {
-        PATH,                       // Áß½ÉÃàÀ» ¿òÁ÷ÀÌ´Â ¿ªÇÒ
-        OFFSET                      // Áß½ÉÃàÀ¸·ÎºÎÅÍÀÇ ¿ÀÇÁ¼ÂÀ» °è»êÇÏ´Â ¿ªÇÒ
+        PATH,                       // ì¤‘ì‹¬ì¶•ì„ ì›€ì§ì´ëŠ” ì—­í• 
+        OFFSET                      // ì¤‘ì‹¬ì¶•ìœ¼ë¡œë¶€í„°ì˜ ì˜¤í”„ì…‹ì„ ê³„ì‚°í•˜ëŠ” ì—­í• 
     };
 
     class BaseMovement : public ScriptBehaviour
@@ -24,11 +24,11 @@ namespace GOTOEngine
         float m_moveSpeed = 10.0f;
         E_Move_Role m_role = E_Move_Role::PATH;
 
-        // ·çÇÁ »óÅÂ
+        // ë£¨í”„ ìƒíƒœ
         bool m_isLoop = true;
-        int m_flipDirection = 1;    // ¹æÇâ (1: Á¤¹æÇâ, -1: ¿ª¹æÇâ)
-        float m_minBounds = 0.0f;   // ÃÖ¼Ò °æ°è
-        float m_maxBounds = 0.0f;   // ÃÖ´ë °æ°è
+        int m_flipDirection = 1;    // ë°©í–¥ (1: ì •ë°©í–¥, -1: ì—­ë°©í–¥)
+        float m_minBounds = 0.0f;   // ìµœì†Œ ê²½ê³„
+        float m_maxBounds = 0.0f;   // ìµœëŒ€ ê²½ê³„
 
     public:
     BaseMovement()
@@ -37,7 +37,13 @@ namespace GOTOEngine
     }
    
         virtual void Awake() {}
+        virtual void Destory()
+        {
+            std::cout << "BaseMovement destroy" << std::endl;
+        }
+
         virtual void Initialize() {}
+
         virtual Vector2 Move(float deltaTime) = 0;
 
         void SetLoopMode(float min, float max)

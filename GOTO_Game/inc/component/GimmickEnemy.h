@@ -20,6 +20,7 @@ namespace GOTOEngine
 
 
 	public:
+		virtual ~GimmickEnemy() = default;
 
 		void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false) override
 		{
@@ -36,8 +37,6 @@ namespace GOTOEngine
 		{
 			__super::Awake();
 
-			std::cout << "GimmickEnemy Awake" << std::endl;
-
 			m_enemyType = E_EnemyType::gimmick;
 
 			m_isMoveLoop = true;
@@ -49,7 +48,8 @@ namespace GOTOEngine
 			m_destroyTime = 8.0f;
 
 
-			AddComponent<SpriteRenderer>()->SetSprite(Resource::Load<Sprite>(L"../Resources/artResource/Animal/Gimmick/Rabbit_idle.gif"));
+			AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Animal/Gimmick/Rabbit_idle.gif");
+			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
 		}
 	};
 }
