@@ -29,7 +29,6 @@ namespace GOTOEngine
 
 			if (param.type() == typeid(E_GimmickEnemyType)) m_gimmickEnemyType = std::any_cast<E_GimmickEnemyType>(param);
 			
-			//GetTransform()->SetPosition({ 0,0 });
 			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 
 			
@@ -55,7 +54,7 @@ namespace GOTOEngine
 			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
 			auto collider = AddComponent<Collider2D>();
 			
-			collider->SetSize({ spriteRect.width, spriteRect.height });
+			collider->SetSize({ spriteRect.width * GetTransform()->GetLossyScale().x , spriteRect.height * GetTransform()->GetLossyScale().y});
 		}
 	};
 }
