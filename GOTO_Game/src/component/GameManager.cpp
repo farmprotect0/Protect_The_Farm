@@ -39,6 +39,12 @@ void GameManager::Awake(){
 	Timetext->SetColor({ 255,0,0,255 });
 
 }
+
+void GameManager::OnDestroy() {
+	if (instance == this)
+		instance = nullptr;
+}
+
 void GameManager::Update() {
 	if (GameTimer > 0.0f) {
 		GameTimer -= TIME_GET_DELTATIME();
