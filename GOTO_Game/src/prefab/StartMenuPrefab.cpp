@@ -23,10 +23,14 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	auto startButtonP1Col = startButtonP1ColGO->AddComponent<Collider2D>();
 	auto startButtonP2ColGO = new GameObject(L"StartButtonP2Col");
 	auto startButtonP2Col = startButtonP2ColGO->AddComponent<Collider2D>();
+
 	auto startInteractButtonP1 = startButtonP1ColGO->AddComponent<CrosshairInteractButton>();
 	startInteractButtonP1->parentButton = startButtonGO->GetTransform();
+	startMenu->p1InteractButtons.push_back(startInteractButtonP1);
+
 	auto startInteractButtonP2 = startButtonP2ColGO->AddComponent<CrosshairInteractButton>();
 	startInteractButtonP2->parentButton = startButtonGO->GetTransform();
+	startMenu->p2InteractButtons.push_back(startInteractButtonP2);
 
 	auto spriteSize = startButtonGO->GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
 	startButtonP1Col->SetSize({ spriteSize.width, spriteSize.height });
@@ -51,6 +55,11 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	optionButtonCol->SetSize({ spriteSize.width, spriteSize.height });
 
 	optionButtonColGO->GetTransform()->SetParent(optionsButtonGO->GetTransform(), false);
+	auto optionInteractButton = optionButtonColGO->AddComponent<CrosshairInteractButton>();
+	optionInteractButton->parentButton = optionsButtonGO->GetTransform();
+
+	startMenu->p1InteractButtons.push_back(optionInteractButton);
+	startMenu->p2InteractButtons.push_back(optionInteractButton);
 
 	auto exitButtonGO = new GameObject(L"ExitButton");
 	startMenu->exitButton = exitButtonGO->GetTransform();
@@ -71,6 +80,14 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 
 	exitButtonP1ColGO->GetTransform()->SetParent(exitButtonGO->GetTransform(), false);
 	exitButtonP2ColGO->GetTransform()->SetParent(exitButtonGO->GetTransform(), false);
+
+	auto exitInteractButtonP1 = exitButtonP1ColGO->AddComponent<CrosshairInteractButton>();
+	exitInteractButtonP1->parentButton = exitButtonGO->GetTransform();
+	startMenu->p1InteractButtons.push_back(exitInteractButtonP1);
+
+	auto exitInteractButtonP2 = exitButtonP2ColGO->AddComponent<CrosshairInteractButton>();
+	exitInteractButtonP2->parentButton = exitButtonGO->GetTransform();
+	startMenu->p2InteractButtons.push_back(exitInteractButtonP2);
 
 	return GO;
 }

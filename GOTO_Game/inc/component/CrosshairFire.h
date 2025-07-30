@@ -47,7 +47,7 @@ namespace GOTOEngine
 
 			m_fireCooldown = fireRate;
 
-			//INPUT_PLAY_SIMPLE_GAMEPAD_VIBRATION(id, 0.32f, 0.67f);
+			INPUT_PLAY_SIMPLE_GAMEPAD_VIBRATION(id, 0.32f, 0.67f);
 
 			for (auto* obj : m_collider->GetCollideObjects())
 			{

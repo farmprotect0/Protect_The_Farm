@@ -13,8 +13,9 @@ namespace GOTOEngine
 
     }
 		Transform* parentButton = nullptr; // 부모 버튼 Transform
-		float interactedTime;
-		bool isInteracted;
+		float interactedTime = 0.0f;
+		bool isInteracted = false;
+		bool isSingleInteract = false;
 
 		void TakeDamage(float dmg) override
 		{
