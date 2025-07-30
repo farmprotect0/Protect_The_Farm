@@ -84,7 +84,7 @@ namespace GOTOEngine
 				if (IsValidObject(lastP2InteractButton))
 				{
 					// 이전 버튼의 상호작용 상태 초기화
-					lastP1InteractButton->isInteracted = false;
+					lastP2InteractButton->isInteracted = false;
 					auto lastButtonP2Sprite = lastP2InteractButton->parentButton->GetComponent<SpriteRenderer>();
 					if (IsValidObject(lastButtonP2Sprite))
 					{
