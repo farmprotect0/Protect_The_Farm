@@ -94,6 +94,10 @@ void GOTOEngine::PhysicsManager::PreApplyTransform()
 		if (m_physicsWorld2D->IsValidBody(body)
 			&& body->invMass == 0)
 		{
+			//if (!Object::IsValidObject(wrapperBody->GetTransform())
+			//	|| wrapperBody->GetTransform()->IsDestroyed())
+			//	continue;
+
 			auto transform = wrapperBody->GetTransform();
 
 			body->position = { transform->GetPosition().x, transform->GetPosition().y };
@@ -212,7 +216,7 @@ void GOTOEngine::PhysicsManager::UnRegisterCollider2D(Collider2D* collider)
 		auto body2DWrapper = m_currentBody2Ds[go];
 
 		//이미 중복 파괴되어 있음
-		if (!body2DWrapper->HasRigidbody())
+		if (!body2DWrapper->HasCollider())
 			return;
 
 		body2DWrapper->ExcludeRigidBody();

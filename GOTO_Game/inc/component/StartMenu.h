@@ -17,7 +17,7 @@ namespace GOTOEngine
 
 		void Update()
 		{
-
+			//매 프레임 마다
 		}
 	};
 }

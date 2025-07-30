@@ -108,6 +108,8 @@ namespace GOTOEngine
 			return result;
 		}
 
+		const std::vector<Component*>& GetAllComponents() { return m_components; }
+
 		Transform* GetTransform() { return m_transform; }
 
 		std::uint32_t layer = static_cast<std::uint32_t>(-1);

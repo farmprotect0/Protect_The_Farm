@@ -4,6 +4,7 @@
 #include <Delegate.h>
 #include <PhysicsManager.h>
 #include <Collider2D.h>
+#include "IAttackAble.h"
 
 namespace GOTOEngine
 {
@@ -29,25 +30,42 @@ namespace GOTOEngine
 
 		void Update()
 		{
-			if ((id == 0 && INPUT_GET_KEYDOWN(KeyCode::RightShift)) || ( id == 1 && INPUT_GET_KEYDOWN(KeyCode::LeftShift)) || INPUT_GET_GAMEPAD_BUTTONDOWN(id, GamepadButton::ButtonSouth))
-			{
-				if (IsValidObject(m_collider))
-				{
-					auto objects = PHYSICS_OVERLAP_BOX2D(GetTransform()->GetPosition(), m_collider->GetSize());
+			//입력 감지: 플레이어 ID별 키 또는 버튼 입력
+			bool firePressed = (id == 0 && INPUT_GET_KEYDOWN(KeyCode::RightShift)) ||
+				(id == 1 && INPUT_GET_KEYDOWN(KeyCode::LeftShift)) ||
+				INPUT_GET_GAMEPAD_BUTTONDOWN(id, GamepadButton::ButtonSouth);
 
-					for (auto obj : objects)
+			if (!firePressed || !IsValidObject(m_collider))
+				return;
+
+			const Vector2 position = GetTransform()->GetPosition();
+			const Vector2 size = m_collider->GetSize();
+			auto objects = PHYSICS_OVERLAP_BOX2D(position, size);
+
+			const int targetLayerMask = 1 << (id + 1);
+			GameObject* self = GetGameObject();
+
+			for (auto* obj : objects)
+			{
+				if (obj == self)
+					continue;
+
+				if ((obj->layer & targetLayerMask) == 0)
+					continue;
+
+				std::wcout << obj->name << std::endl;
+
+				for (auto* comp : obj->GetAllComponents())
+				{
+					if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
 					{
-						if (obj != GetGameObject()
-							&& (obj->layer & 1 << (id + 1)) != 0)
-						{
-							std::wcout << obj->name << std::endl;
-						}
+						attackable->TakeDamage(1);
 					}
-					onFire.Invoke(id);
 				}
-				
-				std::cout << "Crosshair Fire! : " << id << std::endl;
 			}
+
+			onFire.Invoke(id);
+			std::cout << "Crosshair Fire! : " << id << std::endl;
 		}
 	};
 }
