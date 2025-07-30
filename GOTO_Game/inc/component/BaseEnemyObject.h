@@ -3,11 +3,14 @@
 #include <TimeManager.h>
 #include "Transform.h"
 #include "Screen.h"
+
 #include <string.h>
 #include <iostream>
 #include <any>
 
 #include "BaseMovement.h"
+#include "MoveLeftRight.h"
+#include "MoveUpDown.h"
 
 namespace GOTOEngine
 {
@@ -29,10 +32,6 @@ namespace GOTOEngine
 
 		int m_moveFlag;
 		bool m_isMoveLoop = true;
-		int m_maxX;
-		int m_minX;
-		int m_maxY;
-		int m_minY;
 
 		float m_enemyhp = 10.0f;
 		float m_DieScore = 10.0f;			// 죽었을 때 점수
@@ -44,8 +43,6 @@ namespace GOTOEngine
 		bool m_frozen;
 
 		int m_layer = 1;
-
-
 	public:
     BaseEnemyObject()
     {
@@ -56,19 +53,23 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Start);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
+		
+
+	public:
+		
 		virtual ~BaseEnemyObject() = default;
 
 		virtual void Awake()
 		{
 			// 등록한 movement들 추가
 			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
+			MoveLeftRight* moveComp = GetComponent<MoveLeftRight>();
+			
+			if (moveComp != nullptr)
+			{
+				moveComp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
+			}
 
-			// player1
-			m_maxX = Screen::GetWidth() * 0.25f;
-			m_minX = Screen::GetWidth() * -0.25f;
-
-			m_maxY = Screen::GetHeight() * 0.5f;
-			m_minY = Screen::GetHeight() * 0.0f;
 		}
 		void Start() {}
 
@@ -89,21 +90,6 @@ namespace GOTOEngine
 			{
 				if (movement->GetRole() == E_Move_Role::PATH)
 				{
-					// 루프 로직
-					if (m_isMoveLoop)
-					{
-						if ((currentPos.x > m_maxX && movement->GetDirection() > 0) ||
-							(currentPos.x < m_minX && movement->GetDirection() < 0))
-						{
-							// sprite flip 필요
-							movement->FlipDirection();
-						}
-						if ((currentPos.y > m_maxY && movement->GetDirection() > 0) ||
-							(currentPos.y < m_minY && movement->GetDirection() < 0))
-						{
-							movement->FlipDirection();
-						}
-					}
 					pathDelta += movement->Move(deltaTime);
 				}
 				else // EMoveRole::OFFSET
@@ -117,7 +103,7 @@ namespace GOTOEngine
 
 		void OnEnable() {}
 		void OnDisable() {}
-		void OnDestroy() {}
+		virtual void OnDestroy() {}
 
 		virtual void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false)
 		{
@@ -128,6 +114,11 @@ namespace GOTOEngine
 		void AddMovementComponent(BaseMovement* movement)
 		{
 			m_movementComponents.push_back(movement);
+		}
+
+		void SetFlipXSprite()
+		{
+
 		}
 
 		void SetEnemyFrozen(bool _frozen)
