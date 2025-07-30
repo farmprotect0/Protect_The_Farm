@@ -5,6 +5,7 @@
 #include "Canvas.h"
 #include "Graphic.h"
 #include "RectTransform.h"
+#include "Behaviour.h"
 
 std::vector<GOTOEngine::GameObject*> GOTOEngine::GameObject::s_allGameObjects;
 

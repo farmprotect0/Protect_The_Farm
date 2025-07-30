@@ -20,7 +20,7 @@ namespace GOTOEngine
 
 
 		int id = 0;
-		Delegate<void,int,const std::vector<GameObject*>&> onFire;
+		Delegate<void,int> onFire;
 
 		void Awake()
 		{
@@ -40,7 +40,7 @@ namespace GOTOEngine
 						if (obj != GetGameObject())
 							std::wcout << obj->name << std::endl;
 					}
-					onFire.Invoke(id, objects);
+					onFire.Invoke(id);
 				}
 				
 				

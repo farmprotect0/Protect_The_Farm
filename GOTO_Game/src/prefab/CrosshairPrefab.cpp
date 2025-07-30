@@ -18,7 +18,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	spriteRenderer->SetSprite(id == 0 ? L"../Resources/Demo/Crosshair.png" : L"../Resources/Demo/Crosshair2.png");
 	spriteRenderer->SetRenderOrder(1000 - id); // 커서가 항상 위에 보이도록 설정
 
-    spriteRenderer->SetRenderLayer(static_cast<size_t>(1ULL << (id + 1)));
+    spriteRenderer->SetRenderLayer((1 << (id + 1)));
 
 	GO->AddComponent<Collider2D>()->SetSize({ 100.0f, 100.0f }); // Collider 크기 조정
 
