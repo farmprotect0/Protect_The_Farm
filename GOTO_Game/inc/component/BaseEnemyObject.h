@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <ScriptBehaviour.h>
 #include <TimeManager.h>
+#include <SpriteRenderer.h>
 #include "Transform.h"
 #include "Screen.h"
 
@@ -8,6 +9,7 @@
 #include <iostream>
 #include <any>
 
+#include "GameManager.h"
 #include "IAttackAble.h"
 #include "BaseMovement.h"
 #include "MoveLeftRight.h"
@@ -118,7 +120,8 @@ namespace GOTOEngine
 
 		void SetFlipXSprite()
 		{
-
+			auto spriterenderer = GetComponent<SpriteRenderer>();
+			if (spriterenderer) spriterenderer->SetFlipX(!spriterenderer->GetFlipX());
 		}
 
 		void SetEnemyFrozen(bool _frozen)
@@ -136,11 +139,24 @@ namespace GOTOEngine
 		virtual void TakeDamage(float damage)
 		{
 			m_enemyhp -= damage;
-			if (m_enemyhp <= 0) OnDie();
+			if (m_enemyhp <= 0) OnBulletDie();
+
 		}
 
-		// 죽는 애니메이션 후 disable or destroy
-		virtual void OnDie() = 0;
+		bool IsEnemyDie() { return m_enemyhp <= 0; }
+
+		virtual void OnBulletDie()
+		{
+			if (m_layer == 1)
+			{
+				GameManager::instance->P1Score += GameManager::instance->P1Bonus;
+			}
+			else if (m_layer == 2)
+			{
+				GameManager::instance->P2Score += GameManager::instance->P2Bonus;
+			}
+		}
+
 	};
 }
 

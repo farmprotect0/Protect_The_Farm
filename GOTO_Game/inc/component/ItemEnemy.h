@@ -39,5 +39,14 @@ namespace GOTOEngine
 			m_destroyTime = 8.0f;
 
 		}
+
+		void OnBulletDie() override
+		{
+			__super::OnBulletDie();
+
+			// 죽는 애니메이션 필요
+
+			Destroy(GetGameObject(), 5.0f);
+		}
 	};
 }
