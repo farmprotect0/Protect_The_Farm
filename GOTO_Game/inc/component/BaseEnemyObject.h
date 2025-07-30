@@ -8,6 +8,7 @@
 #include <iostream>
 #include <any>
 
+#include "IAttackAble.h"
 #include "BaseMovement.h"
 #include "MoveLeftRight.h"
 #include "MoveUpDown.h"
@@ -21,7 +22,8 @@ namespace GOTOEngine
 		itemspawn
 	};
 
-	class BaseEnemyObject : public ScriptBehaviour
+	class BaseEnemyObject : public ScriptBehaviour,
+							public IAttackAble
 	{
 	private:
 		std::vector<BaseMovement*> m_movementComponents;
@@ -33,9 +35,9 @@ namespace GOTOEngine
 		int m_moveFlag;
 		bool m_isMoveLoop = true;
 
-		float m_enemyhp = 10.0f;
-		float m_DieScore = 10.0f;			// 죽었을 때 점수
-		float m_oneTargetScore = 1.0f;		// 한발 쐈을 때 점수
+		float m_enemyhp = 1.0f;
+		float m_DieScore = 1.0f;			// 죽었을 때 점수
+		//float m_oneTargetScore = 1.0f;	// 한발 쐈을 때 점수
 
 		// 스폰확률
 		float m_destroyTime = 8.0f;
@@ -54,9 +56,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		
-
 	public:
-		
 		virtual ~BaseEnemyObject() = default;
 
 		virtual void Awake()
@@ -104,7 +104,7 @@ namespace GOTOEngine
 		void OnEnable() {}
 		void OnDisable() {}
 		virtual void OnDestroy() {}
-
+		
 		virtual void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false)
 		{
 			m_moveFlag = _moveflag;
@@ -132,6 +132,15 @@ namespace GOTOEngine
 		}
 
 		virtual void OnEnemyPlay() {}
+
+		virtual void TakeDamage(float damage)
+		{
+			m_enemyhp -= damage;
+			if (m_enemyhp <= 0) OnDie();
+		}
+
+		// 죽는 애니메이션 후 disable or destroy
+		virtual void OnDie() = 0;
 	};
 }
 

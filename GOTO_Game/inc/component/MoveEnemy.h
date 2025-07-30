@@ -34,10 +34,6 @@ namespace GOTOEngine
 
 			m_isMoveLoop = true;
 
-			m_enemyhp = 10.0f;
-			m_DieScore = 10.0f;
-			m_oneTargetScore = 1.0f;
-
 			m_destroyTime = 8.0f;
 
 		}
