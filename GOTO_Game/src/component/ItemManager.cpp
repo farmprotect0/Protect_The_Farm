@@ -44,6 +44,11 @@ void ItemManager::Awake() {
 	}
 }
 
+void ItemManager::OnDestroy() {
+	if (instance == this)
+		instance = nullptr;
+}
+
 void ItemManager::Update(){
 
 	auto sss = p1Items;

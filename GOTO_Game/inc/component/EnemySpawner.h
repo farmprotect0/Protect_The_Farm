@@ -6,14 +6,6 @@
 #include <InputManager.h>
 #include <GameObject.h>
 
-#include "BaseEnemyObject.h"
-#include "MoveEnemy.h"
-#include "GimmickEnemy.h"
-#include "ItemEnemy.h"
-
-#include "MoveLeftRight.h"
-#include "MoveUpDown.h"
-#include "MoveCircle.h"
 
 namespace GOTOEngine
 {
@@ -42,6 +34,8 @@ namespace GOTOEngine
 
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }
+
+		bool SetDeleteEnemy(int _layer, GameObject* enemy);
 
 		void Setp1EnemyAllDestroy();
 		void Setp2EnemyAllDestroy();

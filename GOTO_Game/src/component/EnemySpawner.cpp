@@ -1,5 +1,14 @@
 ﻿#include "EnemySpawner.h"
 
+#include "BaseEnemyObject.h"
+#include "MoveEnemy.h"
+#include "GimmickEnemy.h"
+#include "ItemEnemy.h"
+
+#include "MoveLeftRight.h"
+#include "MoveUpDown.h"
+#include "MoveCircle.h"
+
 using namespace GOTOEngine;
 
 EnemySpawner* EnemySpawner::instance = nullptr;
@@ -18,7 +27,7 @@ void GOTOEngine::EnemySpawner::Awake()
 
 void GOTOEngine::EnemySpawner::Update()
 {
-	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 토끼 생성
+	if (INPUT_GET_KEYDOWN(KeyCode::Z)) // p1 enemy 토끼 생성
 	{
 		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.
 
@@ -29,13 +38,12 @@ void GOTOEngine::EnemySpawner::Update()
 		m_p1Enemy.push_back(baseObject);
 		std::cout << "current p1 objects size : " << m_p1Enemy.size() << std::endl;
 	}
-	//if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 까마귀 생성
-	//{
-	//	//GameObject* baseObject = m_objects[0];
-	//	//m_objects[0]->SetActive(false);
+	if (INPUT_GET_KEYUP(KeyCode::X)) // p1 enemy 까마귀 생성
+	{
 
-	//}
-	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 생성
+
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 토끼 생성
 	{
 		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.
 
@@ -45,6 +53,11 @@ void GOTOEngine::EnemySpawner::Update()
 		m_p2Enemy.push_back(baseObject);
 		std::cout << "current p2 objects size : " << m_p2Enemy.size() << std::endl;
 	}
+	if (INPUT_GET_KEYDOWN(KeyCode::P)) // p2 enemy 까마귀 생성
+	{
+
+	}
+
 }
 
 GameObject* GOTOEngine::EnemySpawner::CreateEnemy(Vector2 position, int moveFlag)
@@ -70,6 +83,30 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(Vector2 position, int moveFlag
 	}
 
 	return newEnemyObject;
+}
+
+bool GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy)  
+{  
+   if (_layer == 1)  
+   {  
+       auto it = std::find(m_p1Enemy.begin(), m_p1Enemy.end(), enemy);  
+       if (it != m_p1Enemy.end())  
+       {  
+           m_p1Enemy.erase(it);  
+           return true;  
+       }  
+   }  
+   else if (_layer == 2)  
+   {  
+       auto it = std::find(m_p2Enemy.begin(), m_p2Enemy.end(), enemy);  
+       if (it != m_p2Enemy.end())  
+       {  
+           m_p2Enemy.erase(it);  
+           return true;  
+       }  
+   }  
+
+   return false;  
 }
 
 void GOTOEngine::EnemySpawner::Setp1EnemyAllDestroy()

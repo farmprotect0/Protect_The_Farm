@@ -1,11 +1,10 @@
 ﻿#pragma once
+#include "BaseEnemyObject.h"
+
 #include <SpriteRenderer.h>
-#include <ResourceManager.h>
+//#include <ResourceManager.h>
 #include <Collider2D.h>
 
-#include <any>
-
-#include "BaseEnemyObject.h"
 
 namespace GOTOEngine
 {
@@ -21,7 +20,20 @@ namespace GOTOEngine
 
 
 	public:
-		virtual ~GimmickEnemy() = default;
+		virtual ~GimmickEnemy()
+		{
+			if(m_isDelayByDispone)
+			{
+				if (m_layer == 1)
+				{
+					GameManager::instance->P1Score -= 1;
+				}
+				else if (m_layer == 2)
+				{
+					GameManager::instance->P2Score -= 1;
+				}
+			}
+		}
 
 		void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false) override
 		{

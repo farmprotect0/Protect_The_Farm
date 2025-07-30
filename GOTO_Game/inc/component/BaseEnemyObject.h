@@ -10,6 +10,7 @@
 #include <any>
 
 #include "GameManager.h"
+#include "EnemySpawner.h"
 #include "IAttackAble.h"
 #include "BaseMovement.h"
 #include "MoveLeftRight.h"
@@ -32,21 +33,25 @@ namespace GOTOEngine
 
 	protected:
 		E_EnemyType m_enemyType = E_EnemyType::move;
-		//std::string m_enemyName;
 
+		// move
 		int m_moveFlag;
 		bool m_isMoveLoop = true;
 
-		float m_enemyhp = 1.0f;
-		float m_DieScore = 1.0f;			// 죽었을 때 점수
-		//float m_oneTargetScore = 1.0f;	// 한발 쐈을 때 점수
+		// hp, score
+		float m_enemyHp = 1.0f;
+		float m_DieScore = 1.0f;
 
 		// 스폰확률
 		float m_destroyTime = 8.0f;
 
-		bool m_frozen;
+		bool m_isDie = false;
+		bool m_isDelayByDispone = false;
+		bool m_isFrozen = false;
 
+		// player layer
 		int m_layer = 1;
+
 	public:
     BaseEnemyObject()
     {
@@ -77,7 +82,7 @@ namespace GOTOEngine
 
 		void Update()
 		{
-			if (m_frozen == true || m_movementComponents.empty())
+			if (m_isDie || m_isFrozen || m_movementComponents.empty())
 			{
 				return;
 			}
@@ -126,7 +131,7 @@ namespace GOTOEngine
 
 		void SetEnemyFrozen(bool _frozen)
 		{
-			m_frozen = _frozen;
+			m_isFrozen = _frozen;
 		}
 
 		void SetEnemyLayer(int _layer = 1)
@@ -138,15 +143,18 @@ namespace GOTOEngine
 
 		virtual void TakeDamage(float damage)
 		{
-			m_enemyhp -= damage;
-			if (m_enemyhp <= 0) OnBulletDie();
-
+			if (m_isDie) return;
+			m_enemyHp -= damage;
+			if (m_enemyHp <= 0) OnBulletDie();
 		}
 
-		bool IsEnemyDie() { return m_enemyhp <= 0; }
+		bool IsEnemyDie() { return m_isDie; }
 
 		virtual void OnBulletDie()
 		{
+			m_isDie = true;
+			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+
 			if (m_layer == 1)
 			{
 				GameManager::instance->P1Score += GameManager::instance->P1Bonus;
