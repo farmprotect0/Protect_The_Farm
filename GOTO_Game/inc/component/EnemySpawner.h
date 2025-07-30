@@ -1,10 +1,9 @@
 ﻿#pragma once
-#include <vector>
-
 #include <ScriptBehaviour.h>
-#include <TimeManager.h>
 #include <InputManager.h>
 #include <GameObject.h>
+
+#include <vector>
 
 
 namespace GOTOEngine

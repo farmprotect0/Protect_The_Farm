@@ -1,12 +1,18 @@
 ﻿#include "EnemySpawner.h"
+#include "Screen.h"
+
+// enemy
 #include "BaseEnemyObject.h"
 #include "MoveEnemy.h"
 #include "GimmickEnemy.h"
 #include "ItemEnemy.h"
 
+// move
 #include "MoveLeftRight.h"
 #include "MoveUpDown.h"
 #include "MoveCircle.h"
+
+#include <random>
 
 using namespace GOTOEngine;
 
@@ -33,6 +39,14 @@ void GOTOEngine::EnemySpawner::Update()
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
 		baseObject->layer = 1 << 1;
 
+		// 랜덤
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
+		std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
+
+		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
+
 		m_p1Enemy.push_back(baseObject);
 	}
 	if (INPUT_GET_KEYUP(KeyCode::X)) // p1 enemy 토끼 생성 (GimmickEnemy)
@@ -41,6 +55,14 @@ void GOTOEngine::EnemySpawner::Update()
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
 		baseObject->layer = 1 << 1;
+
+		// 랜덤
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
+		std::uniform_real_distribution<float> distHeight(-0.3f, 0.3f);
+
+		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
 
 		m_p1Enemy.push_back(baseObject);
 	}
@@ -51,6 +73,14 @@ void GOTOEngine::EnemySpawner::Update()
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
 		baseObject->layer = 1 << 1;
 
+		// 랜덤
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
+		std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
+
+		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
+
 		m_p1Enemy.push_back(baseObject);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::I)) // p2 enemy 까마귀 생성 (MoveEnemy)
@@ -59,6 +89,14 @@ void GOTOEngine::EnemySpawner::Update()
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
 		baseObject->layer = 1 << 2;
+
+		// 랜덤
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
+		std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
+
+		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
 
 		m_p2Enemy.push_back(baseObject);
 	}
@@ -69,6 +107,14 @@ void GOTOEngine::EnemySpawner::Update()
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
 		baseObject->layer = 1 << 2;
 
+		// 랜덤
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
+		std::uniform_real_distribution<float> distHeight(-0.3f, 0.3f);
+
+		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
+
 		m_p2Enemy.push_back(baseObject);
 	}
 	if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 얼음새 생성 (ItemEnemy)
@@ -77,6 +123,14 @@ void GOTOEngine::EnemySpawner::Update()
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
 		baseObject->layer = 1 << 2;
+
+		// 랜덤
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
+		std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
+
+		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
 
 		m_p2Enemy.push_back(baseObject);
 	}
@@ -98,7 +152,7 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int mov
 		break;
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
-		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(iceCrow, moveFlag, isLoop);
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(goldCrow, moveFlag, isLoop);
 		break;
 	default:
 		break;
