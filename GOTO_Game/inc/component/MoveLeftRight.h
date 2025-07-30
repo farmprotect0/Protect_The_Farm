@@ -1,10 +1,13 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseMovement.h"
 #include <TimeManager.h>
+#include "Screen.h"
+#include "Transform.h"
+#include "Delegate.h"
 
 #include <math.h>
 
-// enemy¿¡ ¾²ÀÌ´Â movement ÀÔ´Ï´Ù.
+// enemyì˜ ì¢Œìš° movement ì…ë‹ˆë‹¤.
 
 namespace GOTOEngine
 {
@@ -13,6 +16,11 @@ namespace GOTOEngine
     private:
         Vector2 m_initialPosition;
         float m_distance = 5.0f;
+		float m_maxX;
+		float m_minX;
+
+    public:
+        Delegate<void> OnFlipDirection;
 
     public:
         void Awake() override
@@ -24,11 +32,29 @@ namespace GOTOEngine
             m_moveSpeed = 80.0f;
 
             m_role = E_Move_Role::PATH;
+
+			m_maxX = Screen::GetWidth() * 0.25f;
+			m_minX = Screen::GetWidth() * -0.25f;
         }
+
+        void OnDestroy() override
+        {
+            __super::OnDestroy();
+            OnFlipDirection.Clear();
+        }
+
+
         Vector2 Move(float deltaTime) override
         {
             if (m_isLoop)
             {
+				Vector2 currentPos = GetGameObject()->GetTransform()->GetPosition();
+				if ((currentPos.x > m_maxX && GetDirection() > 0) ||
+					(currentPos.x < m_minX && GetDirection() < 0))
+				{
+					FlipDirection();
+                    OnFlipDirection.Invoke();
+				}
                 return Vector2(m_moveSpeed * m_flipDirection * deltaTime, 0);
             }
             else

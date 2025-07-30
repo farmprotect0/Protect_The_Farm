@@ -34,13 +34,11 @@ namespace GOTOEngine
     BaseMovement()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
     }
    
         virtual void Awake() {}
-        virtual void Destory()
-        {
-            std::cout << "BaseMovement destroy" << std::endl;
-        }
+        virtual void OnDestroy() {}
 
         virtual void Initialize() {}
 
