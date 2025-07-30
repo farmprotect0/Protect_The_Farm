@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <ScriptBehaviour.h>
 #include <TimeManager.h>
+#include "Transform.h"
+#include "Screen.h"
 #include <string.h>
 #include <iostream>
 #include <any>
