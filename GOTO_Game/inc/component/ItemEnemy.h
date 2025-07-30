@@ -20,7 +20,24 @@ namespace GOTOEngine
 		ItemType m_itemType;
 
 	public:
-		virtual ~ItemEnemy() = default;
+		virtual ~ItemEnemy()
+		{
+			if (m_isDelayByDispone)
+			{
+				if (m_layer == 1)
+				{
+					GameManager::instance->P1Score -= 1;
+				}
+				else if (m_layer == 2)
+				{
+					GameManager::instance->P2Score -= 1;
+				}
+			}
+			else
+			{
+				ItemManager::instance->AddItem(m_layer, m_itemType);
+			}
+		}
 
 		void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false) override
 		{
@@ -74,8 +91,6 @@ namespace GOTOEngine
 			__super::OnBulletDie();
 
 			// 죽는 애니메이션 필요
-
-			ItemManager::instance->AddItem(m_layer, m_itemType);
 
 			Destroy(GetGameObject(), 2.0f);
 		}
