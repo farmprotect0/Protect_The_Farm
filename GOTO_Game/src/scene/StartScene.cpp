@@ -26,5 +26,7 @@ void StartScene::Initialize()
 		Object::DontDestroyOnLoad(CrossHair2GO);
 	}
 
-	SCENE_CHANGE_SCENE(L"PlayScene");
+	StartMenuPrefab::CreateStartMenu();
+
+	//SCENE_CHANGE_SCENE(L"PlayScene");
 }
