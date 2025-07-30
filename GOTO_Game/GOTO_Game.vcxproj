@@ -187,6 +187,7 @@
     <ClInclude Include="inc\component\TestComponent.h" />
     <ClInclude Include="inc\component\PlayerGUI.h" />
     <ClInclude Include="inc\component\PlayerFSMController.h" />
+    <ClInclude Include="inc\IAttackAble.h" />
     <ClInclude Include="inc\scene\testEnemyScene.h" />
     <ClInclude Include="inc\scene\PlayScene.h" />
     <ClInclude Include="inc\scene\TestItemScene.h" />
