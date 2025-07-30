@@ -10,6 +10,7 @@
 #include <any>
 
 #include "GameManager.h"
+#include "EnemySpawner.h"
 #include "IAttackAble.h"
 #include "BaseMovement.h"
 #include "MoveLeftRight.h"
@@ -36,6 +37,8 @@ namespace GOTOEngine
 
 		int m_moveFlag;
 		bool m_isMoveLoop = true;
+
+		bool m_isDelayByDispone = false;
 
 		float m_enemyhp = 1.0f;
 		float m_DieScore = 1.0f;			// 죽었을 때 점수
@@ -138,15 +141,17 @@ namespace GOTOEngine
 
 		virtual void TakeDamage(float damage)
 		{
+			if (IsEnemyDie()) return;
 			m_enemyhp -= damage;
 			if (m_enemyhp <= 0) OnBulletDie();
-
 		}
 
 		bool IsEnemyDie() { return m_enemyhp <= 0; }
 
 		virtual void OnBulletDie()
 		{
+			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+
 			if (m_layer == 1)
 			{
 				GameManager::instance->P1Score += GameManager::instance->P1Bonus;
