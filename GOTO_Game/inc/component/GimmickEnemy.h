@@ -3,6 +3,7 @@
 #include <ScriptBehaviour.h>
 #include <SpriteRenderer.h>
 #include <ResourceManager.h>
+#include <Collider2D.h>
 
 #include "BaseEnemyObject.h"
 
@@ -50,6 +51,11 @@ namespace GOTOEngine
 
 			AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Animal/Gimmick/Rabbit_idle.gif");
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
+
+			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
+			auto collider = AddComponent<Collider2D>();
+			
+			collider->SetSize({ spriteRect.width, spriteRect.height });
 		}
 	};
 }
