@@ -23,6 +23,8 @@ void GOTOEngine::EnemySpawner::Update()
 		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
+		baseObject->layer = 1;
+
 
 		m_p1Enemy.push_back(baseObject);
 		std::cout << "current p1 objects size : " << m_p1Enemy.size() << std::endl;
@@ -30,8 +32,6 @@ void GOTOEngine::EnemySpawner::Update()
 	if (INPUT_GET_KEYUP(KeyCode::R)) // disable
 	{
 		//GameObject* baseObject = m_objects[0];
-
-
 		//m_objects[0]->SetActive(false);
 
 	}
@@ -40,6 +40,7 @@ void GOTOEngine::EnemySpawner::Update()
 		GameObject* baseObject = CreateEnemy({ 0,0 }, 0b0111); // flag만 변경 하면 됩니다.
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
+		baseObject->layer = 1 << 2;
 
 		m_p2Enemy.push_back(baseObject);
 		std::cout << "current p2 objects size : " << m_p2Enemy.size() << std::endl;
