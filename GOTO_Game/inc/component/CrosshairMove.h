@@ -26,7 +26,8 @@ namespace GOTOEngine
 
 		float timeSpeed = 1.0f;
 
-		bool reverseInput = false;
+		static bool reverseInput1;
+		static bool reverseInput2;
 
 		void Awake()
 		{
@@ -57,7 +58,13 @@ namespace GOTOEngine
 				vInput += INPUT_GET_GAMEPAD_AXIS(id, GamepadAxis::LeftStickY);
 			}
 
-			if (reverseInput)
+			if (id == 0 && reverseInput1)
+			{
+				hInput = -hInput;
+				vInput = -vInput;
+			}
+
+			if (id == 1 && reverseInput2)
 			{
 				hInput = -hInput;
 				vInput = -vInput;
