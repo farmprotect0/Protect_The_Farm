@@ -30,6 +30,7 @@ namespace GOTOEngine
     ItemManager()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		static ItemManager* instance;
@@ -38,6 +39,7 @@ namespace GOTOEngine
 		int p1count = 0;
 		int p2count = 0;
 		void Update();
+		void OnDestroy();
 		void UseItem(int player, ItemType item);
 		void AddItem(int player, ItemType item);
 	};

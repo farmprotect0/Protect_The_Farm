@@ -16,6 +16,7 @@ namespace GOTOEngine
     GameManager()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		int P1Score = 0;
@@ -30,5 +31,6 @@ namespace GOTOEngine
 		Text* Timetext;
 		void Awake();
 		void Update();
+		void OnDestroy();
 	};
 }
