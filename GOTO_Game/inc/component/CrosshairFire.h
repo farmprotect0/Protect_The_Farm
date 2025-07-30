@@ -37,12 +37,14 @@ namespace GOTOEngine
 
 					for (auto obj : objects)
 					{
-						if (obj != GetGameObject())
+						if (obj != GetGameObject()
+							&& (obj->layer & 1 << (id + 1)) != 0)
+						{
 							std::wcout << obj->name << std::endl;
+						}
 					}
 					onFire.Invoke(id);
 				}
-				
 				
 				std::cout << "Crosshair Fire! : " << id << std::endl;
 			}
