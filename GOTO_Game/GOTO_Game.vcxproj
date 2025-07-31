@@ -162,6 +162,7 @@
     <ClCompile Include="src\scene\testEnemyScene.cpp" />
     <ClCompile Include="src\scene\TestItemScene.cpp" />
     <ClCompile Include="src\scene\StartScene.cpp" />
+    <ClCompile Include="TutorialImage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\GimmickManager.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="inc\prefab\StartMenuPrefab.h" />
     <ClInclude Include="inc\component\StartMenu.h" />
     <ClInclude Include="inc\component\SoundManager.h" />
+    <ClInclude Include="TutorialImage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
