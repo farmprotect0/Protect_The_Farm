@@ -146,6 +146,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\component\SoundManager.cpp" />
     <ClCompile Include="src\component\GimmickManager.cpp" />
     <ClCompile Include="src\component\CrosshairMove.cpp" />
     <ClCompile Include="src\component\EnemySpawner.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="inc\component\CrosshairMove.h" />
     <ClInclude Include="inc\prefab\StartMenuPrefab.h" />
     <ClInclude Include="inc\component\StartMenu.h" />
+    <ClInclude Include="inc\component\SoundManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
