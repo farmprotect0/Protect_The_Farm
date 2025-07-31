@@ -3,29 +3,30 @@
 
 #include <SpriteRenderer.h>
 #include <Collider2D.h>
-
+#include <Animator.h>
 
 namespace GOTOEngine
 {
-	enum E_MoveEnemyType
+	enum E_Move_Enemy_Type
 	{
 		mole,	// 두더지
-		crow	// 까마귀
+		crow,	// 까마귀
+		move_type_count
 	};
 
 	class MoveEnemy : public BaseEnemyObject
 	{
-		E_MoveEnemyType m_moveEnemyType;
+		E_Move_Enemy_Type m_moveEnemyType;
 
 
 	public:
 		virtual ~MoveEnemy() = default;
 
-		void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false) override
+		void Initialize(std::any param, bool _moveLoop = false) override
 		{
-			__super::Initialize(param, _moveflag, _moveLoop);
+			__super::Initialize(param, _moveLoop);
 
-			if (param.type() == typeid(E_MoveEnemyType)) m_moveEnemyType = std::any_cast<E_MoveEnemyType>(param);
+			if (param.type() == typeid(E_Move_Enemy_Type)) m_moveEnemyType = std::any_cast<E_Move_Enemy_Type>(param);
 
 		}
 		void Awake()
@@ -38,15 +39,31 @@ namespace GOTOEngine
 
 			m_destroyTime = 8.0f;
 
+			switch (m_moveEnemyType)
+			{
+			case mole:
+				m_moveFlag = 0b0000;
+				GetGameObject()->name = L"두더지";
+				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Mole.png");
+				break;
 
-			AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
+			case crow:
+				m_moveFlag = 0b0011;
+				GetGameObject()->name = L"까마귀";
+				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
+				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/CrowAnimator_AnimController.json"));
+				break;
+			}
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
 			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 
 			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
+			auto localScale = GetTransform()->GetLossyScale();
 			auto collider = AddComponent<Collider2D>();
 
-			collider->SetSize({ spriteRect.width * GetTransform()->GetLossyScale().x , spriteRect.height * GetTransform()->GetLossyScale().y });
+			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
+
+			SetMovementComponents();
 		}
 
 		void OnBulletDie() override

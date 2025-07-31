@@ -12,9 +12,12 @@
 #include "GameManager.h"
 #include "EnemySpawner.h"
 #include "IAttackAble.h"
+
+// move
 #include "BaseMovement.h"
 #include "MoveLeftRight.h"
 #include "MoveUpDown.h"
+#include "MoveCircle.h"
 #include "MoveParabolic.h"
 
 namespace GOTOEngine
@@ -75,14 +78,6 @@ namespace GOTOEngine
 			// OFFSET 경로의 기준선
 			m_pathBaseLine = GetGameObject()->GetTransform()->GetPosition();
 
-			// 등록한 movement들 추가
-			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
-			MoveLeftRight* moveComp = GetComponent<MoveLeftRight>();
-			
-			if (moveComp != nullptr)
-			{
-				moveComp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
-			}
 		}
 		void Start() {}
 
@@ -113,6 +108,7 @@ namespace GOTOEngine
 			Vector2 currentPos = GetGameObject()->GetTransform()->GetPosition();
 			Vector2 newPos;
 
+			// m_moveFlag로 가능함
 			MoveParabolic* moveComp = GetComponent<MoveParabolic>();
 			if (moveComp != nullptr)
 			{
@@ -132,15 +128,70 @@ namespace GOTOEngine
 		void OnDisable() {}
 		virtual void OnDestroy() {}
 		
-		virtual void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false)
+		virtual void Initialize(std::any param, bool _moveLoop = false)
 		{
-			m_moveFlag = _moveflag;
 			m_isMoveLoop = _moveLoop;
 		}
 
-		void AddMovementComponent(BaseMovement* movement)
+		// Get
+		bool IsEnemyDie() { return m_isDie; }
+
+		// Set
+		void SetMovementComponents()
 		{
-			m_movementComponents.push_back(movement);
+			// flag 스크립트	부착
+
+			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
+			{
+				auto move = AddComponent<MoveParabolic>();
+
+				if (m_moveFlag & MOVE_LEFT_RIGHT || m_moveFlag & MOVE_UP_DOWN)
+				{
+					if (m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN) //0b1011
+					{
+						move->Initialize(E_Move_Role::OFFSET, false);
+					}
+					else if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b1001
+					{
+						move->Initialize(E_Move_Role::OFFSET, false);
+						AddComponent<MoveLeftRight>();
+					}
+					else // 0b1010
+					{
+						AddComponent<MoveUpDown>();
+						move->Initialize(E_Move_Role::OFFSET, true);
+					}
+				}
+				else // 0b1011
+				{
+					move->Initialize(E_Move_Role::PATH, false);
+				}
+			}
+			else
+			{
+				if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
+				{
+					AddComponent<MoveLeftRight>();
+				}
+				if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
+				{
+					AddComponent<MoveUpDown>();
+				}
+			}
+			if (m_moveFlag & MOVE_CIRCULAR) // 0b0100
+			{
+				AddComponent<MoveCircle>();
+			}
+
+			// 등록한 movement들 추가
+			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
+			MoveLeftRight* moveComp = GetComponent<MoveLeftRight>();
+
+			if (moveComp != nullptr)
+			{
+				moveComp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
+			}
+
 		}
 
 		void SetFlipXSprite()
@@ -148,17 +199,16 @@ namespace GOTOEngine
 			auto spriterenderer = GetComponent<SpriteRenderer>();
 			if (spriterenderer) spriterenderer->SetFlipX(!spriterenderer->GetFlipX());
 		}
-
 		void SetEnemyFrozen(bool _frozen)
 		{
 			m_isFrozen = _frozen;
 		}
-
 		void SetEnemyLayer(int _layer = 1)
 		{
 			m_layer = _layer;
 		}
 
+		// 이벤트
 		virtual void OnEnemyPlay() {}
 
 		virtual void TakeDamage(float damage)
@@ -167,9 +217,6 @@ namespace GOTOEngine
 			m_enemyHp -= damage;
 			if (m_enemyHp <= 0) OnBulletDie();
 		}
-
-		bool IsEnemyDie() { return m_isDie; }
-
 		virtual void OnBulletDie()
 		{
 			m_isDie = true;
@@ -187,7 +234,6 @@ namespace GOTOEngine
 
 	};
 }
-
 
 // enemy move size
 //Screen::GetWidth() * 0.5f, Screen::GetHeight()});

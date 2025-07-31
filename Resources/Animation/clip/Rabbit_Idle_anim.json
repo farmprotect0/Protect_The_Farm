@@ -1,6 +1,6 @@
 {
     "clipName": "Rabbit_Idle",
-    "loop": false,
+    "loop": true,
     "texturePath": "../Resources/artResource/SpriteSheet/Rabbit/Rabbit_Idle.png",
     "duration": 3.3333332538604738,
     "frames": [

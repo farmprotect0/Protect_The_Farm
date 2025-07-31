@@ -1,0 +1,16 @@
+{
+    "controllerName": "BomCrowAnimator",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "BomCrow_Move",
+    "states": [
+        {
+            "name": "BomCrow_Move",
+            "motionName": "BomCrow_Move",
+            "clipLength": 1.6666667461395264,
+            "loop": true,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}

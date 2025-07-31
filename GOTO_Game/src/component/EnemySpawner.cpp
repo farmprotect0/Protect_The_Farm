@@ -14,6 +14,8 @@
 #include "MoveParabolic.h"
 
 #include <random>
+#include <cstdlib>
+#include <ctime>
 
 using namespace GOTOEngine;
 
@@ -29,11 +31,12 @@ void GOTOEngine::EnemySpawner::Awake()
 	{
 		Destroy(GetGameObject());
 	}
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
 void GOTOEngine::EnemySpawner::Update()
 {
-	if (INPUT_GET_KEYDOWN(KeyCode::Z)) // p1 enemy 까마귀 생성 (MoveEnemy)
+	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 까마귀 생성 (MoveEnemy)
 	{
 		GameObject* baseObject = CreateEnemy(E_EnemyType::move, 0b0001, true);
 
@@ -50,7 +53,7 @@ void GOTOEngine::EnemySpawner::Update()
 
 		m_p1Enemy.push_back(baseObject);
 	}
-	if (INPUT_GET_KEYUP(KeyCode::X)) // p1 enemy 토끼 생성 (GimmickEnemy)
+	if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 토끼 생성 (GimmickEnemy)
 	{
 		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick, 0b1001, true);
 
@@ -68,7 +71,7 @@ void GOTOEngine::EnemySpawner::Update()
 		baseObject->GetTransform()->SetPosition({ 0.0f, 0.0f });
 		m_p1Enemy.push_back(baseObject);
 	}
-	if (INPUT_GET_KEYUP(KeyCode::C)) // p1 enemy 얼음새 생성 (ItemEnemy)
+	if (INPUT_GET_KEYUP(KeyCode::E)) // p1 enemy 얼음새 생성 (ItemEnemy)
 	{
 		GameObject* baseObject = CreateEnemy(E_EnemyType::itemspawn, 0b0001, true);
 
@@ -138,61 +141,57 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 }
 
+// moveflag 정리해야함
 GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int moveFlag, bool isLoop)
 {
-	GameObject* newEnemyObject = new GameObject(L"토끼");
-	
+	GameObject* newEnemyObject = new GameObject(L"Enemy");
+	/*// 설정대로 스폰
 	switch(enemyType)
 	{
 	case move:
 		newEnemyObject->AddComponent<MoveEnemy>();
-		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(crow, moveFlag, isLoop);
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(crow, isLoop);
 		break;
 	case gimmick:
 		newEnemyObject->AddComponent<GimmickEnemy>();
-		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(thiefmole, moveFlag, isLoop);
+		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(rabbit, isLoop);
 		break;
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
-		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(goldCrow, moveFlag, isLoop);
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(bomCrow, isLoop);
 		break; 
 	default:
 		break;
 	}
+	//*/
 
-	// flag 스크립트	부착
-	
-	if (moveFlag & MOVE_PARABOLIC) // 0b1000
+	//*// 랜덤 스폰
+	switch (enemyType)
 	{
-		auto move = newEnemyObject->AddComponent<MoveParabolic>();
+		case move:
+		{
+			auto randomType = static_cast<E_Move_Enemy_Type>(std::rand() % E_Move_Enemy_Type::move_type_count);
+			newEnemyObject->AddComponent<MoveEnemy>();
+			newEnemyObject->GetComponent<MoveEnemy>()->Initialize(randomType, isLoop);
+		}
+		break;
+		case gimmick:
+		{
+			auto randomType = static_cast<E_Gimmick_Enemy_Type>(std::rand() % E_Gimmick_Enemy_Type::gimmick_type_count);
+			newEnemyObject->AddComponent<GimmickEnemy>();
+			newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(randomType, isLoop);
+		}
+		break;
+		case itemspawn:
+		{
+			auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % E_Item_Enemy_Type::item_type_count);
+			newEnemyObject->AddComponent<ItemEnemy>();
+			newEnemyObject->GetComponent<ItemEnemy>()->Initialize(randomType, isLoop);
+		}
+		break;
+	}
+	//*/
 
-		if (moveFlag & MOVE_LEFT_RIGHT || moveFlag & MOVE_UP_DOWN)
-		{
-			if (moveFlag & MOVE_LEFT_RIGHT && moveFlag & MOVE_UP_DOWN) //0b1011
-			{
-				move->Initialize(E_Move_Role::OFFSET, false);
-			}
-			else if (moveFlag & MOVE_LEFT_RIGHT) // 0b1001
-			{
-				move->Initialize(E_Move_Role::OFFSET, false);
-				newEnemyObject->AddComponent<MoveLeftRight>();
-			}
-			else // 0b1010
-			{
-				newEnemyObject->AddComponent<MoveUpDown>();
-				move->Initialize(E_Move_Role::OFFSET, true);
-			}
-		}
-		else // 0b1011
-		{
-			move->Initialize(E_Move_Role::PATH, false);
-		}
-	}
-	if (moveFlag & MOVE_CIRCULAR) // 0b0100
-	{
-		newEnemyObject->AddComponent<MoveCircle>();
-	}
-	
 	return newEnemyObject;
 }
 

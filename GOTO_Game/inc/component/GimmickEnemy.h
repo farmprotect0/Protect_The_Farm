@@ -3,21 +3,23 @@
 
 #include <SpriteRenderer.h>
 #include <Collider2D.h>
+#include <Animator.h>
 
 #include "GimmickManager.h"
 
 namespace GOTOEngine
 {
-	enum E_GimmickEnemyType
+	enum E_Gimmick_Enemy_Type
 	{
 		rabbit,		// 토끼
 		squirrel,	// 다람쥐
-		thiefmole	// 도둑두더지
+		thiefmole,	// 도둑두더지
+		gimmick_type_count
 	};
 
 	class GimmickEnemy : public BaseEnemyObject
 	{
-		E_GimmickEnemyType m_gimmickEnemyType;
+		E_Gimmick_Enemy_Type m_gimmickEnemyType;
 
 
 	public:
@@ -39,11 +41,11 @@ namespace GOTOEngine
 			GimmickManager::instance->GimmickOn(m_layer, m_gimmickEnemyType + 1);
 		}
 
-		void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false) override
+		void Initialize(std::any param, bool _moveLoop = false) override
 		{
-			__super::Initialize(param, _moveflag, _moveLoop);
+			__super::Initialize(param, _moveLoop);
 
-			if (param.type() == typeid(E_GimmickEnemyType)) m_gimmickEnemyType = std::any_cast<E_GimmickEnemyType>(param);
+			if (param.type() == typeid(E_Gimmick_Enemy_Type)) m_gimmickEnemyType = std::any_cast<E_Gimmick_Enemy_Type>(param);
 		}
 		void Awake()
 		{
@@ -58,25 +60,33 @@ namespace GOTOEngine
 			switch (m_gimmickEnemyType)
 			{
 			case rabbit:
+				m_moveFlag = 0b1001;
 				GetGameObject()->name = L"토끼";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Rabit.png");
+				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/RabbitAnimator_AnimController.json"));
 				break;
 			case squirrel:
+				m_moveFlag = 0b1001;
 				GetGameObject()->name = L"다람쥐";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Squirrel.png");
 				break;
 			case thiefmole:
+				m_moveFlag = 0b0001;
 				GetGameObject()->name = L"도둑두더지";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Mole.png");
 				break;
 			}
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
 			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+			//GetTransform()->SetLocalScale({0.2f, 0.2f});
 
 			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
+			auto localScale = GetTransform()->GetLossyScale();
 			auto collider = AddComponent<Collider2D>();
-			
-			collider->SetSize({ spriteRect.width * GetTransform()->GetLossyScale().x, spriteRect.height * GetTransform()->GetLossyScale().y });
+
+			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
+
+			SetMovementComponents();
 		}
 
 		void OnBulletDie() override
