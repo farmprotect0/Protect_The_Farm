@@ -273,7 +273,7 @@ class CurveEditor:
                         break
                 
                 self.redraw()
-                self.parent.master.update_preview()
+                self.app.update_preview()  
                 
             except Exception as e:
                 print(f"Error in fallback edit: {e}")
@@ -329,7 +329,7 @@ class CurveEditor:
                             self.selected_keyframe = i
                             break
                     self.redraw()
-                    self.parent.master.update_preview()
+                    self.app.update_preview()  
 
             except Exception as e:
                 print(f"Error opening edit dialog: {e}")
@@ -423,7 +423,7 @@ class CurveEditor:
                     break
         
         self.redraw()
-        self.parent.master.update_preview()
+        self.app.update_preview()  
     
     def on_middle_drag(self, event):
         if self.dragging_view:
@@ -470,7 +470,7 @@ class CurveEditor:
                 self.curve.remove_keyframe(self.selected_keyframe)
                 self.selected_keyframe = -1
                 self.redraw()
-                self.parent.master.update_preview()
+                self.app.update_preview()  
                 print("Keyframe deleted")  # Debug print
         elif event.keysym in ['t', 'T'] and self.selected_keyframe >= 0:
             # Toggle tangent mode with 't' key
