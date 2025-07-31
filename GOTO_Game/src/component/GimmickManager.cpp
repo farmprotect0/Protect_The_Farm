@@ -1,4 +1,6 @@
-#include "GimmickManager.h"
+ï»¿#include "GimmickManager.h"
+#include <CrosshairMove.h>
+#include "EnemySpawner.h"
 
 using namespace GOTOEngine;
 
@@ -25,29 +27,35 @@ void GimmickManager::Update() {
 		p1gimmick1Timer -= TIME_GET_DELTATIME();
 		if (p1gimmick1Timer <= 0.0f) {
 			p1gimmick1Timer = 0.0f;
-			//ÇÃ·¹ÀÌ¾î2ÀÇ Á¶ÀÛ¹ÝÀü ÇØÁ¦
+			CrosshairMove::reverseInput2 = false;
 		}
 	}
 	if (p2gimmick1Timer > 0.0f) {
 		p2gimmick1Timer -= TIME_GET_DELTATIME();
 		if (p2gimmick1Timer <= 0.0f) {
 			p2gimmick1Timer = 0.0f;
-			//ÇÃ·¹ÀÌ¾î1ÀÇ Á¶ÀÛ¹ÝÀü ÇØÁ¦
+			CrosshairMove::reverseInput1 = false;
 		}
 	}
 	if (p1gimmick2Timer > 0.0f) {
 		p1gimmick2Timer -= TIME_GET_DELTATIME();
 		if (p1gimmick2Timer <= 0.0f) {
 			p1gimmick2Timer = 0.0f;
-			//ÇÃ·¹ÀÌ¾î2ÀÇ ½Ã¾ß °¡¸®±â ÇØÁ¦
+			//í”Œë ˆì´ì–´2ì˜ ì‹œì•¼ ê°€ë¦¬ê¸° í•´ì œ
 		}
 	}
 	if (p2gimmick2Timer > 0.0f) {
 		p2gimmick2Timer -= TIME_GET_DELTATIME();
 		if (p2gimmick2Timer <= 0.0f) {
 			p2gimmick2Timer = 0.0f;
-			//ÇÃ·¹ÀÌ¾î1ÀÇ ½Ã¾ß °¡¸®±â ÇØÁ¦
+			//í”Œë ˆì´ì–´1ì˜ ì‹œì•¼ ê°€ë¦¬ê¸° í•´ì œ
 		}
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha9)) {
+		GimmickOn(1, 1);
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0)) {
+		GimmickOn(2, 1);
 	}
 };
 
@@ -56,30 +64,28 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 	{
 	case 1:
 		if (player == 1) {
-			//ÇÃ·¹ÀÌ¾î2ÀÇ Á¶ÀÛ ¹ÝÀü
+			CrosshairMove::reverseInput2 = true;
 			p1gimmick1Timer = timelimit;
 		}
 		else {
-			//ÇÃ·¹ÀÌ¾î1ÀÇ Á¶ÀÛ ¹ÝÀü
+			CrosshairMove::reverseInput1 = true;
 			p2gimmick1Timer = timelimit;
 		}
 		break;
 	case 2:
 		if (player == 1) {
-			//ÇÃ·¹ÀÌ¾î2ÀÇ ½Ã¾ß °¡¸®±â
+			//í”Œë ˆì´ì–´2ì˜ ì‹œì•¼ ê°€ë¦¬ê¸°
 			p1gimmick2Timer = timelimit;
 		}
 		else {
-			//ÇÃ·¹ÀÌ¾î1ÀÇ ½Ã¾ß °¡¸®±â
+			//í”Œë ˆì´ì–´1ì˜ ì‹œì•¼ ê°€ë¦¬ê¸°
 			p2gimmick2Timer = timelimit;
 		}
 		break;
 	case 3:
-		if (player == 1) {
-			//ÇÃ·¹ÀÌ¾î2¿¡ ¸ó½ºÅÍ 3¸¶¸® ½ºÆù
-		}
-		else {
-			//ÇÃ·¹ÀÌ¾î1¿¡ ¸ó½ºÅÍ 3¸¶¸® ½ºÆù
+		for (int i = 0; i < 3; i++)
+		{
+			EnemySpawner::instance->CreateEnemy(player, 0b0001, true);
 		}
 		break;
 	}

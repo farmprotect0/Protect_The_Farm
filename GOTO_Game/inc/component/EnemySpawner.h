@@ -1,10 +1,9 @@
 ﻿#pragma once
-#include <vector>
-
 #include <ScriptBehaviour.h>
-#include <TimeManager.h>
 #include <InputManager.h>
 #include <GameObject.h>
+
+#include <vector>
 
 
 namespace GOTOEngine
@@ -33,6 +32,7 @@ namespace GOTOEngine
 		void Update();
 
 		static GameObject* CreateEnemy(E_EnemyType enemyType, int moveFlag, bool isLoop);
+		void CreateEnemy(int player, int moveFlag, bool isLoop);
 
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }

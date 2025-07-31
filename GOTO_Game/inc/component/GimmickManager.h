@@ -3,6 +3,7 @@
 #include <TimeManager.h>
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
+#include <InputManager.h>
 #include "Canvas.h"
 #include "Image.h"
 #include "RectTransform.h"
@@ -19,11 +20,12 @@ namespace GOTOEngine
 		float p2gimmick2Timer = 0.0f;
 		const float timelimit = 5.0f;
 	public:
-		GimmickManager()
-		{
-			REGISTER_BEHAVIOUR_MESSAGE(Awake);
-			REGISTER_BEHAVIOUR_MESSAGE(Update);
-		}
+    GimmickManager()
+    {
+        REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
+        REGISTER_BEHAVIOUR_MESSAGE(Update);
+    }
 		static GimmickManager* instance;
 		void Awake();
 		void Update();

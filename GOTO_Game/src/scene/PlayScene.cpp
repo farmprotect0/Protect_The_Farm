@@ -8,6 +8,7 @@
 
 #include "ItemManager.h"
 #include "GameManager.h"
+#include "GimmickManager.h"
 #include "CameraShaker.h"
 #include "CrosshairFire.h"
 #include "EnemySpawner.h"
@@ -47,6 +48,8 @@ void PlayScene::Initialize()
 	itemManager->AddComponent<ItemManager>();
 	auto gameManager = new GameObject(L"스코어매니저");
 	gameManager->AddComponent<GameManager>();
+	auto gimmickManager = new GameObject(L"기믹매니저");
+	gimmickManager->AddComponent<GimmickManager>();
 	auto spawner = new GameObject(L"enemySpawner");
 	spawner->AddComponent<EnemySpawner>();
 }
