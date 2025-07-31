@@ -13,7 +13,6 @@ namespace GOTOEngine
     class MoveUpDown : public BaseMovement
     {
     private:
-        Vector2 m_initialPosition;
         float m_distance = 5.0f;
 		float m_maxY;
 		float m_minY;
@@ -22,8 +21,6 @@ namespace GOTOEngine
         void Awake() override
         {
             __super::Awake();
-
-            m_initialPosition = GetGameObject()->GetTransform()->GetPosition();
 
             m_moveSpeed = 140.0f;
 

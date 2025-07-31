@@ -15,6 +15,7 @@
 #include "BaseMovement.h"
 #include "MoveLeftRight.h"
 #include "MoveUpDown.h"
+#include "MoveParabolic.h"
 
 namespace GOTOEngine
 {
@@ -29,7 +30,9 @@ namespace GOTOEngine
 							public IAttackAble
 	{
 	private:
+		// move
 		std::vector<BaseMovement*> m_movementComponents;
+		Vector2 m_pathBaseLine;
 
 	protected:
 		E_EnemyType m_enemyType = E_EnemyType::move;
@@ -45,6 +48,7 @@ namespace GOTOEngine
 		// 스폰확률
 		float m_destroyTime = 8.0f;
 
+		// 상태 값
 		bool m_isDie = false;
 		bool m_isDelayByDispone = false;
 		bool m_isFrozen = false;
@@ -68,6 +72,9 @@ namespace GOTOEngine
 
 		virtual void Awake()
 		{
+			// OFFSET 경로의 기준선
+			m_pathBaseLine = GetGameObject()->GetTransform()->GetPosition();
+
 			// 등록한 movement들 추가
 			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
 			MoveLeftRight* moveComp = GetComponent<MoveLeftRight>();
@@ -76,7 +83,6 @@ namespace GOTOEngine
 			{
 				moveComp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
 			}
-
 		}
 		void Start() {}
 
@@ -88,7 +94,6 @@ namespace GOTOEngine
 			}
 
 			float deltaTime = TimeManager::Get()->GetDeltaTime();
-			Vector2 currentPos = GetTransform()->GetPosition();
 
 			Vector2 pathDelta = Vector2::Zero();
 			Vector2 offset = Vector2::Zero();
@@ -105,7 +110,23 @@ namespace GOTOEngine
 				}
 			}
 
-			GetTransform()->SetPosition(currentPos + pathDelta + offset);
+			Vector2 currentPos = GetGameObject()->GetTransform()->GetPosition();
+			Vector2 newPos;
+
+			MoveParabolic* moveComp = GetComponent<MoveParabolic>();
+
+			if (moveComp != nullptr)
+			{
+				newPos.x = currentPos.x + pathDelta.x + offset.x;
+				newPos.y = m_pathBaseLine.y + pathDelta.y + offset.y;
+			}
+			else
+			{
+				newPos = currentPos + offset + pathDelta;
+			}
+
+			GetGameObject()->GetTransform()->SetPosition(newPos);
+
 		}
 
 		void OnEnable() {}
