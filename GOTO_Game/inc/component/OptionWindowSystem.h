@@ -2,6 +2,7 @@
 #include <ScriptBehaviour.h>
 #include <AnimationCurve.h>
 #include <InputManager.h>
+#include <cstring>
 
 namespace GOTOEngine
 {
@@ -16,6 +17,12 @@ namespace GOTOEngine
 		GameObject* m_cachedPlayer2 = nullptr;
 
 		int m_focusIndex = 0;
+
+        bool m_YpressedUpTrigger[2];
+        bool m_YpressedDownTrigger[2];
+        bool m_YstickPressedUp[2];
+        bool m_YstickPressedDown[2];
+
 	public:
     OptionWindowSystem()
     {
@@ -93,10 +100,54 @@ namespace GOTOEngine
                 m_cachedPlayer1->SetActive(true);
             if (IsValidObject(m_cachedPlayer2))
                 m_cachedPlayer2->SetActive(true);
+
+            std::memset(m_YpressedUpTrigger, false, sizeof(m_YpressedUpTrigger));
+            std::memset(m_YpressedDownTrigger, false, sizeof(m_YpressedDownTrigger));
+            std::memset(m_YstickPressedUp, false, sizeof(m_YstickPressedUp));
+            std::memset(m_YstickPressedDown, false, sizeof(m_YstickPressedDown));
+        }
+
+        void StickPressedCheck()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                auto currentYstick = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::LeftStickY);
+                if (!m_YpressedUpTrigger[i] && !m_YpressedDownTrigger[i])
+                {
+                    if (currentYstick > 0.89f)
+                    {
+                        m_YpressedUpTrigger[i] = true;
+                        m_YstickPressedUp[i] = true;
+                        return;
+                    }
+
+                    if (currentYstick < -0.89f)
+                    {
+                        m_YpressedDownTrigger[i] = true;
+                        m_YstickPressedDown[i] = true;
+                        return;
+                    }
+                }
+                else if ((m_YpressedDownTrigger[i] && currentYstick > -0.2f)
+                    || (m_YpressedUpTrigger[i] && currentYstick < 0.2f))
+                {
+                    m_YpressedDownTrigger[i] = false;
+                    m_YpressedUpTrigger[i] = false;
+                }
+            }
+
+            
+        }
+
+        void StickPressedCheckReset()
+        {
+            std::memset(m_YstickPressedUp, false, sizeof(m_YstickPressedUp));
+            std::memset(m_YstickPressedDown, false, sizeof(m_YstickPressedDown));
         }
 
 		void Update()
 		{
+            StickPressedCheck();
             if (IsValidObject(baseWindow))
             {
 				// 애니메이션 시간 업데이트
@@ -128,14 +179,18 @@ namespace GOTOEngine
 			if (IsValidObject(focusUITransform) && m_isOpen)
 			{
                 // 포커스 인덱스 증가/감소
-                if (InputManager::Get()->GetKeyDown(KeyCode::DownArrow))
+                if (InputManager::Get()->GetKeyDown(KeyCode::DownArrow)
+                    || m_YstickPressedDown[0] 
+                    || m_YstickPressedDown[1])
                 {
                     m_focusIndex++;
                     if (m_focusIndex > 4) // 예시로 3개의 버튼이 있다고 가정
                         m_focusIndex = 4;
                 
                 }
-                if (InputManager::Get()->GetKeyDown(KeyCode::UpArrow))
+                if (InputManager::Get()->GetKeyDown(KeyCode::UpArrow)
+                    || m_YstickPressedUp[0]
+                    || m_YstickPressedUp[1])
                 {
                     m_focusIndex--;
                     if (m_focusIndex < 0)
@@ -158,6 +213,8 @@ namespace GOTOEngine
 			
 				focusUITransform->SetLocalPosition(pos);
 			}
+
+            StickPressedCheckReset();
 		}
 	};
 }
