@@ -196,7 +196,7 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int mov
 	return newEnemyObject;
 }
 
-void GOTOEngine::EnemySpawner::CreateEnemy(int player, int moveFlag, bool isLoop)
+void GOTOEngine::EnemySpawner::CreateEnemy(int player, bool isLoop, int moveFlag)
 {
 	GameObject* baseObject = CreateEnemy(E_EnemyType::move, moveFlag, isLoop);
 
