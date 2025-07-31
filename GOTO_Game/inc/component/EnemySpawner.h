@@ -32,7 +32,7 @@ namespace GOTOEngine
 		void Update();
 
 		static GameObject* CreateEnemy(E_EnemyType enemyType, int moveFlag, bool isLoop);
-		void CreateEnemy(int player, int moveFlag, bool isLoop);
+		void CreateEnemy(int player, bool isLoop, int moveFlag);
 
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }

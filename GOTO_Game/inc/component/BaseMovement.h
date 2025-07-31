@@ -5,13 +5,20 @@ namespace GOTOEngine
 {
     enum E_Enemy_Move_Type
     {
-        NONE = 0,					// 아무 움직임 없음 (0000)
-        MOVE_LEFT_RIGHT = 1 << 0,	// 좌우 이동 (0001)
-        MOVE_UP_DOWN = 1 << 1,		// 상하 이동 (0010)
-        MOVE_CIRCULAR = 1 << 2,		// 원형 이동 (0100)
-        //MOVE_PARABOLIC = 1 << 3,	// 포물선 이동 (1000)
+        NONE = 0,					// 아무 움직임 없음 (0000) 
+        MOVE_LEFT_RIGHT = 1 << 0,	// 좌우 이동 (0001)         PATH
+        MOVE_UP_DOWN = 1 << 1,		// 상하 이동 (0010)         PATH
+        MOVE_CIRCULAR = 1 << 2,		// 원형 이동 (0100)         OFFSET
+        MOVE_PARABOLIC = 1 << 3,	// 포물선 이동 (1000)       PATH, OFFSET
         // 이동 추가
     };
+
+    // 0011 지그재그
+    // 1000 곡선 (주기가 긴)
+    // 1001 포물선 (주기가 짧은)
+    // 1010 x
+    // 0100 원형은 자유자재로 붙이기 가능
+
     enum class E_Move_Role
     {
         PATH,                       // 중심축을 움직이는 역할
@@ -39,8 +46,6 @@ namespace GOTOEngine
    
         virtual void Awake() {}
         virtual void OnDestroy() {}
-
-        virtual void Initialize() {}
 
         virtual Vector2 Move(float deltaTime) = 0;
 
