@@ -34,6 +34,7 @@ void TutorialImage::Update() {
 		if (INPUT_GET_KEYDOWN(KeyCode::RightShift)) {
 			explainnum = 2;
 		}
+		break;
 	case 2:
 		explanation->SetSprite(nullptr);
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift)) {
@@ -42,6 +43,7 @@ void TutorialImage::Update() {
 		if (INPUT_GET_KEYDOWN(KeyCode::RightShift)) {
 			explainnum = 3;
 		}
+		break;
 	case 3:
 		explanation->SetSprite(nullptr);
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift)) {
@@ -50,10 +52,12 @@ void TutorialImage::Update() {
 		if (INPUT_GET_KEYDOWN(KeyCode::RightShift)) {
 			explainnum = 4;
 		}
+		break;
 	case 4:
 		explanation->SetSprite(nullptr);
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift)) {
 			explainnum = 3;
 		}
+		break;
 	}
 }

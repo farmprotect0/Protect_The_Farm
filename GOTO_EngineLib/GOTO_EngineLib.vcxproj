@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="inc\AnimationClip.h" />
+    <ClInclude Include="inc\AnimationCurve.h" />
     <ClInclude Include="inc\Animator.h" />
     <ClInclude Include="inc\AudioClip.h" />
     <ClInclude Include="inc\AudioListener.h" />

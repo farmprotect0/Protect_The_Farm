@@ -7,7 +7,7 @@
 #include <TimeManager.h>
 #include <Collider2D.h>
 #include <SpriteRenderer.h>
-#include "IAttackAble.h"
+#include "ICollideAble.h"
 
 namespace GOTOEngine
 {
@@ -81,6 +81,14 @@ namespace GOTOEngine
 					continue;
 
 				m_collideObjs.push_back(obj);
+
+				for (auto* comp : obj->GetAllComponents() )
+				{
+					if (auto* collideAble = dynamic_cast<ICollideAble*>(comp))
+					{
+						collideAble->OnCollide(self);
+					}
+				}
 			}
 
 			if (m_collideObjs.size() != 0)
