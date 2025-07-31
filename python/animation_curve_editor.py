@@ -1,23 +1,28 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import math
+import json
 
 class HermitCurve:
     def __init__(self):
-        self.keyframes = []  # List of (time, value, in_tangent, out_tangent, tangent_mode)
-        # tangent_mode: 0=broken, 1=unified, 2=auto
-        
-    def add_keyframe(self, time, value, in_tangent=0, out_tangent=0, tangent_mode=1):
-        # Insert keyframe in sorted order by time
-        keyframe = [time, value, in_tangent, out_tangent, tangent_mode]
-        inserted = False
-        for i, kf in enumerate(self.keyframes):
-            if kf[0] > time:
-                self.keyframes.insert(i, keyframe)
-                inserted = True
-                break
-        if not inserted:
-            self.keyframes.append(keyframe)
+        self.keyframes = [] # Each keyframe: [time, value, in_tangent, out_tangent, tangent_mode]
+
+    def add_keyframe(self, time, value, in_tan=0.0, out_tan=0.0, tangent_mode=1):
+        self.keyframes.append([time, value, in_tan, out_tan, tangent_mode])
+        self.keyframes.sort(key=lambda kf: kf[0])
+
+    def to_json(self):
+        # 키프레임 리스트를 딕셔너리 리스트로 변환
+        json_keyframes = []
+        for kf in self.keyframes:
+            json_keyframes.append({
+                "time": kf[0],
+                "value": kf[1],
+                "in_tangent": kf[2],
+                "out_tangent": kf[3],
+                "tangent_mode": kf[4]
+            })
+        return {"keyframes": json_keyframes}
     
     def remove_keyframe(self, index):
         if 0 <= index < len(self.keyframes):
@@ -69,16 +74,16 @@ class KeyframeEditDialog:
         self.result = None
         self.dialog = tk.Toplevel(parent)
         self.dialog.title('Edit Keyframe')
-        self.dialog.geometry('300x200')
+        self.dialog.geometry('300x250')
         self.dialog.configure(bg='#2b2b2b')
         self.dialog.transient(parent)
-        self.dialog.grab_set()
-        
+        # self.dialog.grab_set() # 이 부분을 제거합니다.
+
         # Center the dialog
         self.dialog.update_idletasks()
         x = (self.dialog.winfo_screenwidth() // 2) - (300 // 2)
-        y = (self.dialog.winfo_screenheight() // 2) - (200 // 2)
-        self.dialog.geometry(f'300x200+{x}+{y}')
+        y = (self.dialog.winfo_screenheight() // 2) - (250 // 2)
+        self.dialog.geometry(f'300x250+{x}+{y}')
         
         # Extract current values
         time, value, in_tan, out_tan, mode = keyframe_data
@@ -89,25 +94,25 @@ class KeyframeEditDialog:
         
         # Time
         tk.Label(frame, text='Time:', bg='#2b2b2b', fg='white').grid(row=0, column=0, sticky='w', pady=5)
-        self.time_var = tk.DoubleVar(value=time)
+        self.time_var = tk.StringVar(value=str(time))
         time_entry = tk.Entry(frame, textvariable=self.time_var, width=15)
         time_entry.grid(row=0, column=1, pady=5, padx=(10, 0))
         
         # Value
         tk.Label(frame, text='Value:', bg='#2b2b2b', fg='white').grid(row=1, column=0, sticky='w', pady=5)
-        self.value_var = tk.DoubleVar(value=value)
+        self.value_var = tk.StringVar(value=str(value))
         value_entry = tk.Entry(frame, textvariable=self.value_var, width=15)
         value_entry.grid(row=1, column=1, pady=5, padx=(10, 0))
         
         # In Tangent
         tk.Label(frame, text='In Tangent:', bg='#2b2b2b', fg='white').grid(row=2, column=0, sticky='w', pady=5)
-        self.in_tan_var = tk.DoubleVar(value=in_tan)
+        self.in_tan_var = tk.StringVar(value=str(in_tan))
         in_tan_entry = tk.Entry(frame, textvariable=self.in_tan_var, width=15)
         in_tan_entry.grid(row=2, column=1, pady=5, padx=(10, 0))
         
         # Out Tangent
         tk.Label(frame, text='Out Tangent:', bg='#2b2b2b', fg='white').grid(row=3, column=0, sticky='w', pady=5)
-        self.out_tan_var = tk.DoubleVar(value=out_tan)
+        self.out_tan_var = tk.StringVar(value=str(out_tan))
         out_tan_entry = tk.Entry(frame, textvariable=self.out_tan_var, width=15)
         out_tan_entry.grid(row=3, column=1, pady=5, padx=(10, 0))
         
@@ -128,18 +133,18 @@ class KeyframeEditDialog:
         # Bind Enter and Escape
         self.dialog.bind('<Return>', lambda e: self.ok_clicked())
         self.dialog.bind('<Escape>', lambda e: self.cancel_clicked())
-    
+
     def ok_clicked(self):
         try:
             self.result = [
-                self.time_var.get(),
-                self.value_var.get(),
-                self.in_tan_var.get(),
-                self.out_tan_var.get(),
+                float(self.time_var.get()),
+                float(self.value_var.get()),
+                float(self.in_tan_var.get()),
+                float(self.out_tan_var.get()),
                 1  # Keep current mode (will be preserved by caller)
             ]
             self.dialog.destroy()
-        except tk.TclError:
+        except ValueError:
             messagebox.showerror('Error', 'Please enter valid numbers')
     
     def cancel_clicked(self):
@@ -149,6 +154,7 @@ class KeyframeEditDialog:
 class CurveEditor:
     def __init__(self, parent):
         self.parent = parent
+        self.app = None  # Will be set by the main app
         self.canvas = tk.Canvas(parent, bg='#2b2b2b', width=400, height=300)
         self.canvas.pack(fill=tk.BOTH, expand=True)
         
@@ -174,8 +180,13 @@ class CurveEditor:
         self.canvas.bind('<ButtonRelease-2>', self.on_middle_release)
         self.canvas.bind('<Motion>', self.on_mouse_move)
         self.canvas.bind('<MouseWheel>', self.on_wheel)
-        self.canvas.bind('<Key>', self.on_key)
+        self.canvas.bind('<KeyPress>', self.on_key)
+        self.canvas.bind('<KeyRelease>', lambda e: None)  # Prevent key repeat issues
         self.canvas.focus_set()
+        
+        # Make canvas focusable and keep focus
+        self.canvas.bind('<FocusOut>', lambda e: self.canvas.focus_set())
+        self.canvas.bind('<Button>', lambda e: self.canvas.focus_set())
         
         # Add some default keyframes
         self.curve.add_keyframe(0, 0, 0, 1, 1)
@@ -220,6 +231,54 @@ class CurveEditor:
         
         return None
     
+    def edit_keyframe_fallback(self):
+        """Fallback method using simple input dialogs"""
+        if self.selected_keyframe >= 0:
+            kf = self.curve.keyframes[self.selected_keyframe]
+            
+            try:
+                from tkinter import simpledialog
+                
+                # Get new values using simple dialogs
+                new_time = simpledialog.askfloat("Edit Keyframe", f"Time (current: {kf[0]:.3f}):", 
+                                                initialvalue=kf[0])
+                if new_time is None:
+                    return
+                
+                new_value = simpledialog.askfloat("Edit Keyframe", f"Value (current: {kf[1]:.3f}):", 
+                                                 initialvalue=kf[1])
+                if new_value is None:
+                    return
+                
+                new_in_tan = simpledialog.askfloat("Edit Keyframe", f"In Tangent (current: {kf[2]:.3f}):", 
+                                                  initialvalue=kf[2])
+                if new_in_tan is None:
+                    return
+                
+                new_out_tan = simpledialog.askfloat("Edit Keyframe", f"Out Tangent (current: {kf[3]:.3f}):", 
+                                                   initialvalue=kf[3])
+                if new_out_tan is None:
+                    return
+                
+                # Update keyframe
+                self.curve.keyframes[self.selected_keyframe] = [new_time, new_value, new_in_tan, new_out_tan, kf[4]]
+                
+                # Re-sort keyframes by time
+                self.curve.keyframes.sort(key=lambda kf: kf[0])
+                
+                # Find new index of edited keyframe
+                for i, (t, _, _, _, _) in enumerate(self.curve.keyframes):
+                    if abs(t - new_time) < 0.001:
+                        self.selected_keyframe = i
+                        break
+                
+                self.redraw()
+                self.parent.master.update_preview()
+                
+            except Exception as e:
+                print(f"Error in fallback edit: {e}")
+                messagebox.showerror("Error", "Failed to edit keyframe")
+    
     def update_unified_tangent(self, keyframe_index, tangent_type, new_value):
         """Update tangent with Unity-style unified behavior (parallel, not mirrored)"""
         if 0 <= keyframe_index < len(self.curve.keyframes):
@@ -251,24 +310,40 @@ class CurveEditor:
         """Open edit dialog for selected keyframe"""
         if self.selected_keyframe >= 0:
             kf = self.curve.keyframes[self.selected_keyframe]
-            dialog = KeyframeEditDialog(self.canvas, kf)
-            self.canvas.wait_window(dialog.dialog)
-            
-            if dialog.result:
-                # Preserve tangent mode
-                dialog.result[4] = kf[4]
-                self.curve.keyframes[self.selected_keyframe] = dialog.result
-                # Re-sort keyframes by time
-                self.curve.keyframes.sort(key=lambda kf: kf[0])
-                # Find new index of edited keyframe
-                for i, (t, _, _, _, _) in enumerate(self.curve.keyframes):
-                    if abs(t - dialog.result[0]) < 0.001:
-                        self.selected_keyframe = i
-                        break
-                self.redraw()
-                self.parent.master.update_preview()
+            try:
+                # Use root window as parent
+                root_window = self.canvas.winfo_toplevel()
+                dialog = KeyframeEditDialog(root_window, kf)
+                
+                # dialog.dialog.grab_set() 대신 wait_window를 사용합니다.
+                root_window.wait_window(dialog.dialog) # 다이얼로그가 닫힐 때까지 기다립니다.
+
+                if dialog.result:
+                    dialog.result[4] = kf[4]  # preserve tangent mode
+                    self.curve.keyframes[self.selected_keyframe] = dialog.result
+                    self.curve.keyframes.sort(key=lambda kf: kf[0])
+                    # Re-find index after sort, as the time might have changed
+                    new_time_val = dialog.result[0]
+                    for i, (t, _, _, _, _) in enumerate(self.curve.keyframes):
+                        if abs(t - new_time_val) < 0.001:
+                            self.selected_keyframe = i
+                            break
+                    self.redraw()
+                    self.parent.master.update_preview()
+
+            except Exception as e:
+                print(f"Error opening edit dialog: {e}")
+                self.edit_keyframe_fallback()
+    
+    def update_preview(self):
+        """Safe method to update preview"""
+        if hasattr(self, 'app') and self.app:
+            self.app.update_preview()
     
     def on_click(self, event):
+        # Ensure canvas has focus for keyboard events
+        self.canvas.focus_set()
+        
         self.last_mouse_x = event.x
         self.last_mouse_y = event.y
         
@@ -294,7 +369,7 @@ class CurveEditor:
                     break
         
         self.redraw()
-        self.parent.master.update_preview()
+        self.update_preview()
     
     def on_double_click(self, event):
         # Double-click to edit keyframe
@@ -320,7 +395,7 @@ class CurveEditor:
             if self.selected_keyframe >= kf_index:
                 self.selected_keyframe = max(-1, self.selected_keyframe - 1)
             self.redraw()
-            self.parent.master.update_preview()
+            self.update_preview()
     
     def on_drag(self, event):
         if self.dragging_tangent and self.selected_keyframe >= 0:
@@ -388,18 +463,23 @@ class CurveEditor:
         self.redraw()
     
     def on_key(self, event):
+        print(f"Key pressed: {event.keysym}")  # Debug print
+        
         if event.keysym == 'Delete' and self.selected_keyframe >= 0:
             if len(self.curve.keyframes) > 1:
                 self.curve.remove_keyframe(self.selected_keyframe)
                 self.selected_keyframe = -1
                 self.redraw()
                 self.parent.master.update_preview()
-        elif event.keysym == 't' and self.selected_keyframe >= 0:
+                print("Keyframe deleted")  # Debug print
+        elif event.keysym in ['t', 'T'] and self.selected_keyframe >= 0:
             # Toggle tangent mode with 't' key
             self.toggle_tangent_mode()
-        elif event.keysym == 'e' and self.selected_keyframe >= 0:
+            print("Tangent mode toggled")  # Debug print
+        elif event.keysym in ['e', 'E'] and self.selected_keyframe >= 0:
             # Edit keyframe with 'e' key
             self.edit_selected_keyframe()
+            print("Edit keyframe")  # Debug print
     
     def redraw(self):
         self.canvas.delete('all')
@@ -434,9 +514,11 @@ class CurveEditor:
                 t = min_time + (max_time - min_time) * i / 199
                 value = self.curve.evaluate(t)
                 x, y = self.curve_to_screen(t, value)
-                if 0 <= x <= width and 0 <= y <= height:
-                    points.extend([x, y])
+                # 필터링하여 유효한 좌표만 추가
+                if 0 <= x <= width and 0 <= y <= height: # 이 조건 제거
+                     points.extend([x, y])
             
+            # 모든 점을 그릴 수 있도록 필터링 조건 변경
             if len(points) >= 4:
                 self.canvas.create_line(points, fill='#4CAF50', width=2, smooth=True)
         
@@ -490,31 +572,9 @@ class PreviewPanel:
         self.parent = parent
         self.curve_editor = curve_editor
         
-        # Create notebook for tabs
-        self.notebook = ttk.Notebook(parent)
-        self.notebook.pack(fill=tk.BOTH, expand=True)
-        
-        # Combined view tab
-        self.combined_frame = tk.Frame(self.notebook, bg='#1e1e1e')
-        self.notebook.add(self.combined_frame, text='Combined')
-        
-        # X-axis view tab
-        self.x_frame = tk.Frame(self.notebook, bg='#1e1e1e')
-        self.notebook.add(self.x_frame, text='X-Axis')
-        
-        # Y-axis view tab
-        self.y_frame = tk.Frame(self.notebook, bg='#1e1e1e')
-        self.notebook.add(self.y_frame, text='Y-Axis')
-        
-        # Create canvases for each tab
-        self.combined_canvas = tk.Canvas(self.combined_frame, bg='#1e1e1e', width=300, height=250)
-        self.combined_canvas.pack(fill=tk.BOTH, expand=True)
-        
-        self.x_canvas = tk.Canvas(self.x_frame, bg='#1e1e1e', width=300, height=250)
-        self.x_canvas.pack(fill=tk.BOTH, expand=True)
-        
-        self.y_canvas = tk.Canvas(self.y_frame, bg='#1e1e1e', width=300, height=250)
-        self.y_canvas.pack(fill=tk.BOTH, expand=True)
+        # Create single canvas (no tabs)
+        self.canvas = tk.Canvas(parent, bg='#1e1e1e', width=400, height=300)
+        self.canvas.pack(fill=tk.BOTH, expand=True)
         
         self.time = 0.0
         self.animation_speed = 1.0
@@ -610,6 +670,11 @@ class PreviewPanel:
     def on_time_range_change(self):
         self.start_time = self.start_time_var.get()
         self.end_time = self.end_time_var.get()
+        
+        # Ensure end time is greater than start time
+        if self.end_time <= self.start_time:
+            self.end_time = self.start_time + 0.1
+            self.end_time_var.set(self.end_time)
         
         # Update slider range
         self.time_slider.config(from_=self.start_time, to=self.end_time)
@@ -763,86 +828,11 @@ class PreviewPanel:
         # Get curve value
         curve_value = self.curve_editor.curve.evaluate(self.time)
         
-        # Update combined view
-        self.combined_canvas.delete('all')
-        center_x, center_y, width, height = self.draw_coordinate_system(self.combined_canvas)
-        trans_x, trans_y, rotation, scale_x, scale_y = self.draw_transform_info(self.combined_canvas, curve_value, width, height)
-        self.draw_object(self.combined_canvas, center_x, center_y, trans_x, trans_y, rotation, scale_x, scale_y)
-        
-        # Update X-axis view
-        self.x_canvas.delete('all')
-        center_x, center_y, width, height = self.draw_coordinate_system(self.x_canvas)
-        
-        # X-axis only transformation
-        x_trans, _, x_rotation, x_scale_x, x_scale_y = self.calculate_transforms(curve_value)
-        # For X-axis view, we only show X transformations
-        if self.transform_mode.get() == 'translation':
-            x_trans_y = 0
-        elif self.transform_mode.get() == 'rotation':
-            x_trans = 0
-            x_trans_y = 0
-        elif self.transform_mode.get() == 'scale':
-            x_trans = 0
-            x_trans_y = 0
-        
-        self.draw_object(self.x_canvas, center_x, center_y, x_trans, 0, x_rotation, x_scale_x, x_scale_y)
-        
-        # X-axis info
-        info_y = 10
-        self.x_canvas.create_text(10, info_y, anchor='nw', 
-                                 text=f'Time: {self.time:.2f} | Curve: {curve_value:.3f}', 
-                                 fill='white', font=('Arial', 9))
-        info_y += 15
-        
-        transform_mode = self.transform_mode.get()
-        if transform_mode == 'translation' and (self.axis_mode.get() == 'x' or self.axis_mode.get() == 'both'):
-            self.x_canvas.create_text(10, info_y, anchor='nw', 
-                                     text=f'Translation X: {x_trans:.1f}px', 
-                                     fill='#2196F3', font=('Arial', 9))
-        elif transform_mode == 'rotation':
-            self.x_canvas.create_text(10, info_y, anchor='nw', 
-                                     text=f'Rotation: {x_rotation:.1f}°', 
-                                     fill='#FF9800', font=('Arial', 9))
-        elif transform_mode == 'scale' and (self.axis_mode.get() == 'x' or self.axis_mode.get() == 'both'):
-            self.x_canvas.create_text(10, info_y, anchor='nw', 
-                                     text=f'Scale X: {x_scale_x:.3f}x', 
-                                     fill='#9C27B0', font=('Arial', 9))
-        
-        # Update Y-axis view
-        self.y_canvas.delete('all')
-        center_x, center_y, width, height = self.draw_coordinate_system(self.y_canvas)
-        
-        # Y-axis only transformation
-        _, y_trans, y_rotation, y_scale_x, y_scale_y = self.calculate_transforms(curve_value)
-        # For Y-axis view, we only show Y transformations
-        if self.transform_mode.get() == 'translation':
-            pass  # y_trans is already correct
-        elif self.transform_mode.get() == 'rotation':
-            y_trans = 0
-        elif self.transform_mode.get() == 'scale':
-            y_trans = 0
-        
-        self.draw_object(self.y_canvas, center_x, center_y, 0, y_trans, y_rotation, y_scale_x, y_scale_y)
-        
-        # Y-axis info
-        info_y = 10
-        self.y_canvas.create_text(10, info_y, anchor='nw', 
-                                 text=f'Time: {self.time:.2f} | Curve: {curve_value:.3f}', 
-                                 fill='white', font=('Arial', 9))
-        info_y += 15
-        
-        if transform_mode == 'translation' and (self.axis_mode.get() == 'y' or self.axis_mode.get() == 'both'):
-            self.y_canvas.create_text(10, info_y, anchor='nw', 
-                                     text=f'Translation Y: {y_trans:.1f}px', 
-                                     fill='#03A9F4', font=('Arial', 9))
-        elif transform_mode == 'rotation':
-            self.y_canvas.create_text(10, info_y, anchor='nw', 
-                                     text=f'Rotation: {y_rotation:.1f}°', 
-                                     fill='#FF9800', font=('Arial', 9))
-        elif transform_mode == 'scale' and (self.axis_mode.get() == 'y' or self.axis_mode.get() == 'both'):
-            self.y_canvas.create_text(10, info_y, anchor='nw', 
-                                     text=f'Scale Y: {y_scale_y:.3f}x', 
-                                     fill='#E91E63', font=('Arial', 9))
+        # Update single canvas
+        self.canvas.delete('all')
+        center_x, center_y, width, height = self.draw_coordinate_system(self.canvas)
+        trans_x, trans_y, rotation, scale_x, scale_y = self.draw_transform_info(self.canvas, curve_value, width, height)
+        self.draw_object(self.canvas, center_x, center_y, trans_x, trans_y, rotation, scale_x, scale_y)
 
 class HermitCurveApp:
     def __init__(self):
@@ -863,6 +853,7 @@ class HermitCurveApp:
                 font=('Arial', 12, 'bold')).pack(pady=5)
         
         self.curve_editor = CurveEditor(left_frame)
+        self.curve_editor.app = self # CurveEditor가 app 인스턴스를 참조할 수 있도록 설정
         
         # Right panel - Preview
         right_frame = tk.Frame(paned_window, bg='#2b2b2b')
@@ -898,7 +889,7 @@ Enhanced Controls:
 • Right Click: Delete keyframe OR toggle tangent mode (on selected)
 • Middle Mouse + Drag: Pan view
 • Mouse Wheel: Zoom
-• Drag keyframes to move them
+• Drag keyframes to move them  
 • Drag red/gray tangent handles to adjust curve shape
 • Delete key: Remove selected keyframe
 • T key: Toggle tangent mode (Unified/Broken)
@@ -908,20 +899,10 @@ Tangent Modes:
 • Orange keyframe: Unified tangents (parallel movement)
 • Red keyframe: Broken tangents (independent movement)
 
-Transform Types:
-• Translation: Object position movement
-• Rotation: Object rotation in degrees
-• Scale: Object size scaling
-
-Axis Selection:
-• X Only: Apply transform only to X axis
-• Y Only: Apply transform only to Y axis
-• Both X+Y: Apply transform to both axes
-
-Preview Tabs:
-• Combined: Shows combined transformation
-• X-Axis: Shows X-axis transformation only
-• Y-Axis: Shows Y-axis transformation only
+Transform Types & Axis Selection:
+• Choose one transform type (Translation/Rotation/Scale)
+• Choose axis application (X Only/Y Only/Both X+Y)
+• Preview shows the selected combination
         """
         
         info_frame = tk.Frame(left_frame, bg='#2b2b2b')
@@ -945,23 +926,22 @@ Preview Tabs:
     def update_preview(self):
         self.preview_panel.update_display()
     
-    def save_curve(self):
+# HermitCurveApp 클래스 내에서
+    def save_curve(self): # 'self' 추가, file_path와 curve 인자 제거
         try:
             filename = filedialog.asksaveasfilename(
-                defaultextension='.txt',
-                filetypes=[('Text files', '*.txt'), ('All files', '*.*')]
+                defaultextension=".json",
+                filetypes=[('JSON files', '*.json'), ('All files', '*.*')]
             )
             if filename:
-                # Format: time,value,in_tangent,out_tangent,tangent_mode per line
-                lines = []
-                for t, v, in_tan, out_tan, mode in self.curve_editor.curve.keyframes:
-                    lines.append(f"{t},{v},{in_tan},{out_tan},{mode}")
-                
+                # self.curve_editor.curve는 HermitCurve 객체입니다.
                 with open(filename, 'w') as f:
-                    f.write('\n'.join(lines))
-                messagebox.showinfo('Success', 'Curve saved successfully!')
+                    json.dump(self.curve_editor.curve.to_json(), f, indent=4)
+                messagebox.showinfo('Success', f"Curve saved to {filename}")
+                print(f"Curve saved to {filename}")
         except Exception as e:
             messagebox.showerror('Error', f'Failed to save curve: {str(e)}')
+            print(f"Error saving curve: {e}")
     
     def load_curve(self):
         try:

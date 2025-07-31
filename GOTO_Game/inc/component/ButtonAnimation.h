@@ -3,6 +3,7 @@
 #include <TimeManager.h>
 #include <Delegate.h>
 #include <Transform.h>
+#include <random>
 
 namespace GOTOEngine
 {
@@ -34,7 +35,16 @@ namespace GOTOEngine
 
 		void PlayRotateAnimation()
 		{
-			ApplyTorque(20.0f);
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			std::uniform_real_distribution<float> dist(20.0f, 35.0f);
+
+			std::mt19937 gen2(std::random_device{}());
+			std::bernoulli_distribution dist2(0.5); // 50% È®·ü·Î true
+
+			bool isMinus = dist2(gen); // true ¶Ç´Â false
+
+			ApplyTorque(dist(gen) * (isMinus ? -1 : 1));
 		}
 
 		void PlayScaleAnimaiton()
