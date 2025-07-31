@@ -1,23 +1,23 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseMovement.h"
 #include <TimeManager.h>
 
 #include <math.h>
 
-// enemy¿¡ ¾²ÀÌ´Â movement ÀÔ´Ï´Ù.
+// enemyì— ì“°ì´ëŠ” movement ì…ë‹ˆë‹¤.
 
 namespace GOTOEngine
 {
     class MoveCircle : public BaseMovement
     {
     private:
-        float m_radius = 1.0f;
+        float m_radius = 5.0f;
 
     public:
         void Awake() override
         {
             __super::Awake();
-            m_moveSpeed = 30.0f;            // ¿øÀ» µµ´Â ¼Óµµ
+            m_moveSpeed = 30.0f;            // ì›ì„ ë„ëŠ” ì†ë„
             m_role = E_Move_Role::OFFSET;
         }
 

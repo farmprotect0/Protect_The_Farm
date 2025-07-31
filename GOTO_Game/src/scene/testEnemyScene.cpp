@@ -41,7 +41,7 @@ void testEnemyScene::Initialize()
 		Object::DontDestroyOnLoad(CrossHair2GO);
 	}
 
-	StartMenuPrefab::CreateStartMenu();
+	//StartMenuPrefab::CreateStartMenu();
 	//*/
 
 	//*/ Play Scene
