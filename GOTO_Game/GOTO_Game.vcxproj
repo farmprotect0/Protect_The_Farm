@@ -146,6 +146,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\prefab\OptionWindowPrefab.cpp" />
     <ClCompile Include="src\component\GimmickManager.cpp" />
     <ClCompile Include="src\component\CrosshairMove.cpp" />
     <ClCompile Include="src\component\EnemySpawner.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="inc\component\MoveLeftRight.h" />
     <ClInclude Include="inc\component\MoveUpDown.h" />
     <ClInclude Include="inc\component\MushroomCreator.h" />
+    <ClInclude Include="inc\component\OptionWindowSystem.h" />
     <ClInclude Include="inc\component\PlayerController.h" />
     <ClInclude Include="inc\component\PlayerHealth.h" />
     <ClInclude Include="inc\component\PlayerMove.h" />
@@ -195,6 +197,7 @@
     <ClInclude Include="inc\component\PlayerFSMController.h" />
     <ClInclude Include="inc\IAttackAble.h" />
     <ClInclude Include="inc\ICollideAble.h" />
+    <ClInclude Include="inc\prefab\OptionWindowPrefab.h" />
     <ClInclude Include="inc\scene\testEnemyScene.h" />
     <ClInclude Include="inc\scene\PlayScene.h" />
     <ClInclude Include="inc\scene\TestItemScene.h" />

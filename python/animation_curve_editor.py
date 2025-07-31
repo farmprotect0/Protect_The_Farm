@@ -732,16 +732,16 @@ class PreviewPanel:
         
         if transform_mode == 'translation':
             if axis_mode == 'x' or axis_mode == 'both':
-                trans_x = curve_value * 60
+                trans_x = curve_value * 100
             if axis_mode == 'y' or axis_mode == 'both':
-                trans_y = curve_value * 40
+                trans_y = curve_value * 100
         elif transform_mode == 'rotation':
-            rotation = curve_value * 90
+            rotation = curve_value * 360
         elif transform_mode == 'scale':
             if axis_mode == 'x' or axis_mode == 'both':
-                scale_x = 1.0 + curve_value * 0.5
+                scale_x = curve_value
             if axis_mode == 'y' or axis_mode == 'both':
-                scale_y = 1.0 + curve_value * 0.5
+                scale_y = curve_value
         
         return trans_x, trans_y, rotation, scale_x, scale_y
     
@@ -946,31 +946,50 @@ Transform Types & Axis Selection:
     def load_curve(self):
         try:
             filename = filedialog.askopenfilename(
-                filetypes=[('Text files', '*.txt'), ('All files', '*.*')]
+                defaultextension=".json",
+                filetypes=[('JSON files', '*.json'), ('All files', '*.*')]
             )
             if filename:
                 with open(filename, 'r') as f:
-                    content = f.read().strip()
-                
-                keyframes = []
-                for line in content.split('\n'):
-                    if line.strip():  # Skip empty lines
-                        parts = line.split(',')
-                        if len(parts) >= 4:
-                            t = float(parts[0])
-                            v = float(parts[1])
-                            in_tan = float(parts[2])
-                            out_tan = float(parts[3])
-                            mode = int(parts[4]) if len(parts) > 4 else 1  # Default to unified
-                            keyframes.append([t, v, in_tan, out_tan, mode])
-                
-                self.curve_editor.curve.keyframes = keyframes
-                self.curve_editor.selected_keyframe = -1
-                self.curve_editor.redraw()
-                self.update_preview()
-                messagebox.showinfo('Success', 'Curve loaded successfully!')
+                    json_data = json.load(f) # JSON 파일 로드
+
+                # JSON 데이터를 파싱하여 HermitCurve 객체를 다시 구성
+                new_curve = HermitCurve()
+                if "keyframes" in json_data and isinstance(json_data["keyframes"], list):
+                    for kf_data in json_data["keyframes"]:
+                        if isinstance(kf_data, dict):
+                            # 각 키프레임 데이터 유효성 검사 및 추가
+                            time = kf_data.get("time")
+                            value = kf_data.get("value")
+                            in_tangent = kf_data.get("in_tangent")
+                            out_tangent = kf_data.get("out_tangent")
+                            tangent_mode = kf_data.get("tangent_mode", 1) # 기본값 1
+
+                            if all(v is not None for v in [time, value, in_tangent, out_tangent]):
+                                new_curve.add_keyframe(time, value, in_tangent, out_tangent, tangent_mode)
+                            else:
+                                raise ValueError(f"Invalid keyframe data in JSON: {kf_data}")
+                        else:
+                            raise ValueError(f"Invalid keyframe format: {kf_data}. Expected dictionary.")
+                else:
+                    raise ValueError("JSON data must contain a 'keyframes' list.")
+
+                self.curve_editor.curve = new_curve # 새로 로드된 커브로 교체
+                self.curve_editor.selected_keyframe = -1 # 선택된 키프레임 초기화
+                self.curve_editor.redraw() # 커브 에디터 다시 그리기
+                self.update_preview() # 프리뷰 업데이트
+                messagebox.showinfo('Success', f"Curve loaded from {filename}")
+                print(f"Curve loaded from {filename}")
+
+        except json.JSONDecodeError as e:
+            messagebox.showerror('Error', f'Failed to load curve: Invalid JSON file. {str(e)}')
+            print(f"Error loading curve: Invalid JSON file. {e}")
+        except ValueError as e:
+            messagebox.showerror('Error', f'Failed to load curve: Data format error. {str(e)}')
+            print(f"Error loading curve: Data format error. {e}")
         except Exception as e:
             messagebox.showerror('Error', f'Failed to load curve: {str(e)}')
+            print(f"Error loading curve: {e}")
     
     def get_curve_data_string(self):
         """Returns curve data as a simple string format for easy parsing"""

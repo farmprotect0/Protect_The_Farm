@@ -18,6 +18,8 @@ namespace GOTOEngine
 		Transform* optionsButton;
 		Transform* exitButton;
 
+		GameObject* optionWindow = nullptr; // 옵션 윈도우 오브젝트
+
 		std::vector<CrosshairInteractButton*> p1InteractButtons;
 		std::vector<CrosshairInteractButton*> p2InteractButtons;
 
@@ -120,6 +122,7 @@ namespace GOTOEngine
 				else if (currentP1InteractButtons->parentButton == optionsButton)
 				{
 					// 옵션 메뉴 로직
+					optionWindow->SetActive(true);
 				}
 				else if (currentP1InteractButtons->parentButton == exitButton)
 				{
@@ -136,6 +139,7 @@ namespace GOTOEngine
 			{
 				//옵션 선택
 				menuIsValidInteract = true;
+				optionWindow->SetActive(true);
 			}
 
 

@@ -2,6 +2,7 @@
 #include "StartMenu.h"
 #include "CrosshairInteractButton.h"
 #include "ButtonAnimation.h"
+#include "OptionWindowPrefab.h"
 
 #include <GameObject.h>
 #include <Canvas.h>
@@ -13,6 +14,10 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 {
 	auto GO = new GameObject(L"StartMenu");
 	auto startMenu = GO->AddComponent<StartMenu>();
+
+	// optionWindow 오브젝트 생성
+	startMenu->optionWindow = OptionWindowPrefab::CreateOptionWindow();
+	startMenu->optionWindow->SetActive(false); // 초기에는 비활성화
 
 	//===== Start 버튼 =====
 
