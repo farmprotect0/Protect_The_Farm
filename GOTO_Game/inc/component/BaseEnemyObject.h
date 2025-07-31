@@ -109,17 +109,27 @@ namespace GOTOEngine
 			Vector2 newPos;
 
 			// m_moveFlag로 가능함
-			MoveParabolic* moveComp = GetComponent<MoveParabolic>();
-			if (moveComp != nullptr)
+			if (m_moveFlag & MOVE_PARABOLIC)
 			{
-				newPos.x = currentPos.x + pathDelta.x + offset.x;
-				newPos.y = m_pathBaseLine.y + pathDelta.y + offset.y;
+				MoveParabolic* moveComp = GetComponent<MoveParabolic>();
+
+				if (moveComp != nullptr)
+				{
+					if(moveComp->GetRole() == E_Move_Role::PATH)
+					{
+						newPos = currentPos + offset + pathDelta;
+					}
+					else
+					{
+						newPos.x = currentPos.x + pathDelta.x + offset.x;
+						newPos.y = m_pathBaseLine.y + pathDelta.y + offset.y;
+					}
+				}
 			}
 			else
 			{
 				newPos = currentPos + offset + pathDelta;
 			}
-
 			GetGameObject()->GetTransform()->SetPosition(newPos);
 
 		}
@@ -162,7 +172,7 @@ namespace GOTOEngine
 						move->Initialize(E_Move_Role::OFFSET, true);
 					}
 				}
-				else // 0b1011
+				else // 0b1000
 				{
 					move->Initialize(E_Move_Role::PATH, false);
 				}

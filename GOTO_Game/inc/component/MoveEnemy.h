@@ -45,6 +45,7 @@ namespace GOTOEngine
 				m_moveFlag = 0b0000;
 				GetGameObject()->name = L"두더지";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Mole.png");
+				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
 
 			case crow:
@@ -52,10 +53,11 @@ namespace GOTOEngine
 				GetGameObject()->name = L"까마귀";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
 				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/CrowAnimator_AnimController.json"));
+				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
 			}
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
-			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+			
 
 			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
