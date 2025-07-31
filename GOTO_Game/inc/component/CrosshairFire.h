@@ -20,7 +20,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 
-		float fireRate = 0.5f; // 발사 간격
+		float fireRate = 0.35f; // 발사 간격
 		int id = 0;
 		Delegate<void,int> onFire;
 
@@ -47,7 +47,7 @@ namespace GOTOEngine
 
 			m_fireCooldown = fireRate;
 
-			//INPUT_PLAY_SIMPLE_GAMEPAD_VIBRATION(id, 0.32f, 0.67f);
+			INPUT_PLAY_SIMPLE_GAMEPAD_VIBRATION(id, 0.32f, 0.67f);
 
 			for (auto* obj : m_collider->GetCollideObjects())
 			{

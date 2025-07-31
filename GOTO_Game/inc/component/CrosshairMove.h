@@ -12,7 +12,8 @@ namespace GOTOEngine
 	{
 	private:
 		CrosshairCollide* m_collider = nullptr; // Collider2D 컴포넌트
-		const float slowSpeedFactor = 0.68f; // 슬로우 모드 속도 감소 비율
+		const float slowSpeedFactor = 0.6f; // 슬로우 모드 속도 감소 비율
+		Vector2 m_vel = { 0,0 };
 	public:
     CrosshairMove()
     {
@@ -20,7 +21,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
-		float moveSpeed = 540.0f;
+		float moveSpeed = 650.0f;
 		int id = 0;
 		Rect clampRect = { 0, 0, 1.0f, 1.0f }; // 화면의 크기에 맞춰 조정
 
@@ -76,8 +77,11 @@ namespace GOTOEngine
 				currentSpeedFactor = slowSpeedFactor; // 슬로우 모드 적용
 			}
 
+	
 			auto moveInput = Vector2::ClampMagnitude(Vector2{ hInput, vInput }, 1.0f);
-			GetTransform()->SetPosition(GetTransform()->GetPosition() + (moveInput.Normalized() * moveInput.Magnitude() * moveSpeed * currentSpeedFactor * TIME_GET_DELTATIME()));
+			m_vel = Vector2::Lerp(m_vel, moveInput.Normalized() * moveInput.Magnitude() * moveSpeed * currentSpeedFactor, 12.0f * TIME_GET_DELTATIME());
+
+			GetTransform()->SetPosition(GetTransform()->GetPosition() + (m_vel * TIME_GET_DELTATIME()));
 
 			auto posMin = Camera::GetMainCamera()->ViewportToWorldPoint({ 0,0 });
 			auto posMax = Camera::GetMainCamera()->ViewportToWorldPoint({ 1.0f, 1.0f });
