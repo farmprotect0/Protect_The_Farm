@@ -114,7 +114,6 @@ namespace GOTOEngine
 			Vector2 newPos;
 
 			MoveParabolic* moveComp = GetComponent<MoveParabolic>();
-
 			if (moveComp != nullptr)
 			{
 				newPos.x = currentPos.x + pathDelta.x + offset.x;

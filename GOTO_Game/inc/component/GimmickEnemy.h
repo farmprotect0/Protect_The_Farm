@@ -21,6 +21,9 @@ namespace GOTOEngine
 	public:
 		virtual ~GimmickEnemy()
 		{
+			// 기믹 호출
+			// GimmickManager::GimmickOn()
+
 			if(m_isDelayByDispone)
 			{
 				if (m_layer == 1)

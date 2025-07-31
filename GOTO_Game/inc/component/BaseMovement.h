@@ -12,6 +12,13 @@ namespace GOTOEngine
         MOVE_PARABOLIC = 1 << 3,	// 포물선 이동 (1000)       PATH, OFFSET
         // 이동 추가
     };
+
+    // 0011 지그재그
+    // 1000 곡선 (주기가 긴)
+    // 1001 포물선 (주기가 짧은)
+    // 1010 x
+    // 0100 원형은 자유자재로 붙이기 가능
+
     enum class E_Move_Role
     {
         PATH,                       // 중심축을 움직이는 역할

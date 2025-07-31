@@ -106,6 +106,8 @@ namespace GOTOEngine
                     // Y축 오프셋만 계산
                     float offsetY = 4 * m_height * (progress - progress * progress);
 
+                    std::cout << "move offset" << std::endl;
+
                     // Y축 오프셋 벡터 반환
                     return Vector2(0, offsetY);
                 }

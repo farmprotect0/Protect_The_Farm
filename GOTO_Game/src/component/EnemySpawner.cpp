@@ -52,12 +52,12 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 	if (INPUT_GET_KEYUP(KeyCode::X)) // p1 enemy 토끼 생성 (GimmickEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick, 0b1010, true);
+		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick, 0b1001, true);
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
 		baseObject->layer = 1 << 1;
 
-		/*/ 랜덤
+		//*/ 랜덤
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
@@ -168,27 +168,24 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int mov
 
 		if (moveFlag & MOVE_LEFT_RIGHT || moveFlag & MOVE_UP_DOWN)
 		{
-			
-			std::cout << "move offset" << std::endl;
-			if (moveFlag & MOVE_LEFT_RIGHT) // 0b0001
+			if (moveFlag & MOVE_LEFT_RIGHT && moveFlag & MOVE_UP_DOWN) //0b1011
 			{
-				move->Initialize(E_Move_Role::OFFSET, true);
-				newEnemyObject->AddComponent<MoveLeftRight>();
-			}
-			else if (moveFlag & MOVE_UP_DOWN) // 0b0010
-			{
-				newEnemyObject->AddComponent<MoveUpDown>();
 				move->Initialize(E_Move_Role::OFFSET, false);
 			}
-			else
+			else if (moveFlag & MOVE_LEFT_RIGHT) // 0b1001
 			{
+				move->Initialize(E_Move_Role::OFFSET, false);
+				newEnemyObject->AddComponent<MoveLeftRight>();
+			}
+			else // 0b1010
+			{
+				newEnemyObject->AddComponent<MoveUpDown>();
 				move->Initialize(E_Move_Role::OFFSET, true);
 			}
 		}
-		else
+		else // 0b1011
 		{
 			move->Initialize(E_Move_Role::PATH, false);
-			std::cout << "move path" << std::endl;
 		}
 	}
 	if (moveFlag & MOVE_CIRCULAR) // 0b0100
