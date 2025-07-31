@@ -1,0 +1,23 @@
+{
+    "controllerName": "RabbitAnimator",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "Rabbit_Idle",
+    "states": [
+        {
+            "name": "Rabbit_Idle",
+            "motionName": "Rabbit_Idle",
+            "clipLength": 3.3333332538604738,
+            "loop": false,
+            "transitions": []
+        },
+        {
+            "name": "Rabbit_Jump",
+            "motionName": "Rabbit_Jump",
+            "clipLength": 1.6666667461395264,
+            "loop": false,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}
