@@ -1,6 +1,7 @@
 #include "StartMenuPrefab.h"
 #include "StartMenu.h"
 #include "CrosshairInteractButton.h"
+#include "ButtonAnimation.h"
 
 #include <GameObject.h>
 #include <Canvas.h>
@@ -19,6 +20,7 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	startMenu->startButton = startButtonGO->GetTransform();
 	startMenu->startButton->SetPosition({ 0.0f, -150.0f });
 	startButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/MenuButton.png");
+	auto startButtonAnimation = startButtonGO->AddComponent<ButtonAnimation>();
 	
 	//버튼 콜라이더 추가
 	auto startButtonP1ColGO = new GameObject(L"StartButtonP1Col");
@@ -28,10 +30,14 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 
 	auto startInteractButtonP1 = startButtonP1ColGO->AddComponent<CrosshairInteractButton>();
 	startInteractButtonP1->parentButton = startButtonGO->GetTransform();
+	startInteractButtonP1->onEnter.Add(startButtonAnimation, &ButtonAnimation::PlayRotateAnimation);
+	startInteractButtonP1->onInteract.Add(startButtonAnimation, &ButtonAnimation::PlayScaleAnimaiton);
 	startMenu->p1InteractButtons.push_back(startInteractButtonP1);
 
 	auto startInteractButtonP2 = startButtonP2ColGO->AddComponent<CrosshairInteractButton>();
 	startInteractButtonP2->parentButton = startButtonGO->GetTransform();
+	startInteractButtonP2->onEnter.Add(startButtonAnimation, &ButtonAnimation::PlayRotateAnimation);
+	startInteractButtonP2->onInteract.Add(startButtonAnimation, &ButtonAnimation::PlayScaleAnimaiton);
 	startMenu->p2InteractButtons.push_back(startInteractButtonP2);
 
 	auto spriteSize = startButtonGO->GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
@@ -51,6 +57,7 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	startMenu->optionsButton = optionsButtonGO->GetTransform();
 	startMenu->optionsButton->SetPosition({ 0.0f, -300.0f });
 	optionsButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/MenuButton.png");
+	auto optionsButtonAnimation = optionsButtonGO->AddComponent<ButtonAnimation>();
 
 	//버튼 콜라이더 추가
 	auto optionButtonP1ColGO = new GameObject(L"OptionButtonP1Col");
@@ -60,10 +67,14 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 
 	auto optionInteractButtonP1 = optionButtonP1ColGO->AddComponent<CrosshairInteractButton>();
 	optionInteractButtonP1->parentButton = optionsButtonGO->GetTransform();
+	optionInteractButtonP1->onEnter.Add(optionsButtonAnimation, &ButtonAnimation::PlayRotateAnimation);
+	optionInteractButtonP1->onInteract.Add(optionsButtonAnimation, &ButtonAnimation::PlayScaleAnimaiton);
 	startMenu->p1InteractButtons.push_back(optionInteractButtonP1);
 
 	auto optionInteractButtonP2 = optionButtonP2ColGO->AddComponent<CrosshairInteractButton>();
 	optionInteractButtonP2->parentButton = optionsButtonGO->GetTransform();
+	optionInteractButtonP2->onEnter.Add(optionsButtonAnimation, &ButtonAnimation::PlayRotateAnimation);
+	optionInteractButtonP2->onInteract.Add(optionsButtonAnimation, &ButtonAnimation::PlayScaleAnimaiton);
 	startMenu->p2InteractButtons.push_back(optionInteractButtonP2);
 
 	optionButtonP1Col->SetSize({ spriteSize.width, spriteSize.height });
@@ -81,6 +92,7 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	startMenu->exitButton = exitButtonGO->GetTransform();
 	startMenu->exitButton->SetPosition({ 0.0f, -450.0f });
 	exitButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/MenuButton.png");
+	auto exitButtonAnimation = exitButtonGO->AddComponent<ButtonAnimation>();
 
 	//버튼 콜라이더 추가
 	auto exitButtonP1ColGO = new GameObject(L"ExitButtonP1Col");
@@ -96,10 +108,14 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 
 	auto exitInteractButtonP1 = exitButtonP1ColGO->AddComponent<CrosshairInteractButton>();
 	exitInteractButtonP1->parentButton = exitButtonGO->GetTransform();
+	exitInteractButtonP1->onEnter.Add(exitButtonAnimation, &ButtonAnimation::PlayRotateAnimation);
+	exitInteractButtonP1->onInteract.Add(exitButtonAnimation, &ButtonAnimation::PlayScaleAnimaiton);
 	startMenu->p1InteractButtons.push_back(exitInteractButtonP1);
 
 	auto exitInteractButtonP2 = exitButtonP2ColGO->AddComponent<CrosshairInteractButton>();
 	exitInteractButtonP2->parentButton = exitButtonGO->GetTransform();
+	exitInteractButtonP2->onEnter.Add(exitButtonAnimation, &ButtonAnimation::PlayRotateAnimation);
+	exitInteractButtonP2->onInteract.Add(exitButtonAnimation, &ButtonAnimation::PlayScaleAnimaiton);
 	startMenu->p2InteractButtons.push_back(exitInteractButtonP2);
 
 	exitButtonP1ColGO->GetTransform()->SetParent(exitButtonGO->GetTransform(), false);

@@ -27,6 +27,4 @@ void StartScene::Initialize()
 	}
 
 	StartMenuPrefab::CreateStartMenu();
-
-	SCENE_CHANGE_SCENE(L"PlayScene");
 }

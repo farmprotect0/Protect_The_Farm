@@ -163,6 +163,7 @@
     <ClCompile Include="src\scene\StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\component\ButtonAnimation.h" />
     <ClInclude Include="inc\component\GimmickManager.h" />
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
     <ClInclude Include="inc\component\BaseMovement.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="inc\component\PlayerGUI.h" />
     <ClInclude Include="inc\component\PlayerFSMController.h" />
     <ClInclude Include="inc\IAttackAble.h" />
+    <ClInclude Include="inc\ICollideAble.h" />
     <ClInclude Include="inc\scene\testEnemyScene.h" />
     <ClInclude Include="inc\scene\PlayScene.h" />
     <ClInclude Include="inc\scene\TestItemScene.h" />
