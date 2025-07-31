@@ -4,13 +4,15 @@
 #include <SpriteRenderer.h>
 #include <Collider2D.h>
 
+#include "GimmickManager.h"
 
 namespace GOTOEngine
 {
 	enum E_GimmickEnemyType
 	{
 		rabbit,		// 토끼
-		squirrel	// 다람쥐
+		squirrel,	// 다람쥐
+		thiefmole	// 도둑두더지
 	};
 
 	class GimmickEnemy : public BaseEnemyObject
@@ -21,9 +23,6 @@ namespace GOTOEngine
 	public:
 		virtual ~GimmickEnemy()
 		{
-			// 기믹 호출
-			// GimmickManager::GimmickOn()
-
 			if(m_isDelayByDispone)
 			{
 				if (m_layer == 1)
@@ -35,6 +34,9 @@ namespace GOTOEngine
 					GameManager::instance->P2Score -= 1;
 				}
 			}
+
+			// 기믹 호출 GimmickManager::GimmickOn()
+			GimmickManager::instance->GimmickOn(m_layer, m_gimmickEnemyType + 1);
 		}
 
 		void Initialize(std::any param, int _moveflag = 0b0000, bool _moveLoop = false) override
@@ -62,6 +64,10 @@ namespace GOTOEngine
 			case squirrel:
 				GetGameObject()->name = L"다람쥐";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Squirrel.png");
+				break;
+			case thiefmole:
+				GetGameObject()->name = L"도둑두더지";
+				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Mole.png");
 				break;
 			}
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));

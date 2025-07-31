@@ -126,6 +126,7 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 		}
 		break;
 	case 3:
+		player = player == 1 ? 2 : 1;
 		for (int i = 0; i < 3; i++)
 		{
 			EnemySpawner::instance->CreateEnemy(player, 0b0001, true);

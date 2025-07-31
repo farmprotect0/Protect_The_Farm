@@ -150,7 +150,7 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int mov
 		break;
 	case gimmick:
 		newEnemyObject->AddComponent<GimmickEnemy>();
-		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(squirrel, moveFlag, isLoop);
+		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(thiefmole, moveFlag, isLoop);
 		break;
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
