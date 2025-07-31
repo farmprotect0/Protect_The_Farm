@@ -21,6 +21,7 @@ namespace GOTOEngine
 		{
 			isInteracted = true;
 			interactedTime = TIME_GET_TOTALTIME();
+			std::wcout << GetGameObject()->name << std::endl;
 		}
 	};
 }

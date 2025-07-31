@@ -3,6 +3,7 @@
 #include <Transform.h>
 #include "CrosshairInteractButton.h"
 #include <SpriteRenderer.h>
+#include <Engine.h>
 
 namespace GOTOEngine
 {
@@ -102,6 +103,70 @@ namespace GOTOEngine
 					{
 						currentButtonP2Sprite->SetSprite(L"../Resources/Demo/MenuButton_Select_P2.png");
 					}
+				}
+			}
+
+			bool menuIsValidInteract = false;
+			if (IsValidObject(currentP1InteractButtons)
+				&& IsValidObject(currentP2InteractButtons) 
+				&& currentP1InteractButtons->parentButton == currentP2InteractButtons->parentButton)
+			{
+				// 싱글 플레이어 모드 선택
+				if (currentP1InteractButtons->parentButton == startButton)
+				{
+					// 게임 시작 로직
+					SCENE_CHANGE_SCENE(L"PlayScene");
+				}
+				else if (currentP1InteractButtons->parentButton == optionsButton)
+				{
+					// 옵션 메뉴 로직
+				}
+				else if (currentP1InteractButtons->parentButton == exitButton)
+				{
+					// 게임 종료 로직
+					ENGINE_QUIT();
+				}
+
+				menuIsValidInteract = true;
+			}
+			else if ((IsValidObject(currentP1InteractButtons) 
+				&& currentP1InteractButtons->parentButton == optionsButton)
+				|| (IsValidObject(currentP2InteractButtons)
+				&& currentP2InteractButtons->parentButton == optionsButton))
+			{
+				//옵션 선택
+				menuIsValidInteract = true;
+			}
+
+
+			// 두 플레이어가 같은 버튼을 누른 경우
+			if (menuIsValidInteract)
+			{
+				for (auto* button : p1InteractButtons)
+				{
+					button->interactedTime = 0.0f; // 모든 버튼의 상호작용 시간 초기화
+					button->isInteracted = false; // 모든 버튼의 상호작용 상태 초기화
+				}
+				for (auto* button : p2InteractButtons)
+				{
+					button->interactedTime = 0.0f; // 모든 버튼의 상호작용 시간 초기화
+					button->isInteracted = false; // 모든 버튼의 상호작용 상태 초기화
+				}
+
+				auto buttonSprite = startButton->GetComponent<SpriteRenderer>();
+				if (IsValidObject(buttonSprite))
+				{
+					buttonSprite->SetSprite(L"../Resources/Demo/MenuButton.png"); // 모든 버튼의 스프라이트 초기화
+				}
+				buttonSprite = optionsButton->GetComponent<SpriteRenderer>();
+				if (IsValidObject(buttonSprite))
+				{
+					buttonSprite->SetSprite(L"../Resources/Demo/MenuButton.png"); // 모든 버튼의 스프라이트 초기화
+				}
+				buttonSprite = exitButton->GetComponent<SpriteRenderer>();
+				if (IsValidObject(buttonSprite))
+				{
+					buttonSprite->SetSprite(L"../Resources/Demo/MenuButton.png"); // 모든 버튼의 스프라이트 초기화
 				}
 			}
 		}

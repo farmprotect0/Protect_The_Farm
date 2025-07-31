@@ -21,7 +21,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
-		float moveSpeed = 540.0f;
+		float moveSpeed = 650.0f;
 		int id = 0;
 		Rect clampRect = { 0, 0, 1.0f, 1.0f }; // 화면의 크기에 맞춰 조정
 
