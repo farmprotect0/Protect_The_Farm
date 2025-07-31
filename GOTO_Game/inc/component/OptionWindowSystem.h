@@ -12,15 +12,20 @@ namespace GOTOEngine
 		float m_animationTime = 0.0f; // 0.0f ~ 1.0f
 		bool m_isOpen = true;
 
+		GameObject* m_cachedPlayer1 = nullptr;
+		GameObject* m_cachedPlayer2 = nullptr;
+
 		int m_focusIndex = 0;
 	public:
     OptionWindowSystem()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnDisable);
         REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		Transform* baseWindow = nullptr;
+        Transform* focusUITransform = nullptr;
         float openAnimScale = 1.0f;
 
 		void Awake()
@@ -65,11 +70,29 @@ namespace GOTOEngine
     ]
 })";
             m_openAnimation = AnimationCurve(anim);
+
+			m_cachedPlayer1 = GameObject::Find(L"Player1");
+			m_cachedPlayer2 = GameObject::Find(L"Player2");
 		}
 
         void OnEnable()
         {
             m_isOpen = true;
+
+			if(IsValidObject(m_cachedPlayer1))
+				m_cachedPlayer1->SetActive(false);
+			if (IsValidObject(m_cachedPlayer2))
+				m_cachedPlayer2->SetActive(false);
+        }
+
+        void OnDisable()
+        {
+            m_focusIndex = 0;
+
+            if (IsValidObject(m_cachedPlayer1))
+                m_cachedPlayer1->SetActive(true);
+            if (IsValidObject(m_cachedPlayer2))
+                m_cachedPlayer2->SetActive(true);
         }
 
 		void Update()
@@ -101,6 +124,40 @@ namespace GOTOEngine
                     baseWindow->SetLocalScale({ 0, 0 });
 				}
             }
+
+			if (IsValidObject(focusUITransform) && m_isOpen)
+			{
+                // 포커스 인덱스 증가/감소
+                if (InputManager::Get()->GetKeyDown(KeyCode::DownArrow))
+                {
+                    m_focusIndex++;
+                    if (m_focusIndex > 4) // 예시로 3개의 버튼이 있다고 가정
+                        m_focusIndex = 4;
+                
+                }
+                if (InputManager::Get()->GetKeyDown(KeyCode::UpArrow))
+                {
+                    m_focusIndex--;
+                    if (m_focusIndex < 0)
+                        m_focusIndex = 0;
+                }
+
+
+				// 포커스 UI 위치 업데이트
+                auto focusSpace = 80.0f;
+
+                auto startPosY = 150.0f;
+
+				auto targetPosY = startPosY + focusSpace * -m_focusIndex;
+
+				auto pos = Vector2::Lerp(
+					focusUITransform->GetLocalPosition(),
+					{ 0.0f, targetPosY },
+					TIME_GET_DELTATIME() * 10.0f);
+
+			
+				focusUITransform->SetLocalPosition(pos);
+			}
 		}
 	};
 }
