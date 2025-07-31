@@ -16,6 +16,35 @@ void GimmickManager::Awake()
 	{
 		Destroy(GetGameObject());
 	}
+	for (int i = 0; i < 5; ++i)
+	{
+		auto canvas = GameObject::Find(L"Canvas");
+		auto p1gimmick2 = new GameObject;
+		p1gimmick2->GetTransform()->SetParent(canvas->GetTransform());
+		p1gimmick2Image[i] = p1gimmick2->AddComponent<Image>();
+		p1gimmick2Image[i]->GetRectTransform()->SetSizeDelta({ 100.0f, 100.0f });
+
+		auto p2gimmick2 = new GameObject;
+		p2gimmick2->GetTransform()->SetParent(canvas->GetTransform());
+		p2gimmick2Image[i] = p2gimmick2->AddComponent<Image>();
+		p2gimmick2Image[i]->GetRectTransform()->SetSizeDelta({ 100.0f, 100.0f });
+	}
+	p1gimmick2Image[0]->GetRectTransform()->SetAnchoredPosition({
+		Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.2f });
+	p1gimmick2Image[1]->GetRectTransform()->SetAnchoredPosition({
+		Screen::GetWidth() * 0.4f, Screen::GetHeight() * 0.2f });
+	p1gimmick2Image[2]->GetRectTransform()->SetAnchoredPosition({
+		Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.4f });
+	p1gimmick2Image[3]->GetRectTransform()->SetAnchoredPosition({
+		Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.7f });
+	p1gimmick2Image[4]->GetRectTransform()->SetAnchoredPosition({
+		Screen::GetWidth() * 0.4f, Screen::GetHeight() * 0.7f });
+
+	for (int i = 0; i < 5; ++i) {
+		p2gimmick2Image[i]->GetRectTransform()->SetAnchoredPosition({
+			Screen::GetWidth() * 0.5f + p1gimmick2Image[i]->GetRectTransform()->GetAnchoredPosition().x,
+			p1gimmick2Image[i]->GetRectTransform()->GetAnchoredPosition().y });
+	}
 }
 void GimmickManager::OnDestroy() {
 	if (instance == this)
@@ -41,14 +70,18 @@ void GimmickManager::Update() {
 		p1gimmick2Timer -= TIME_GET_DELTATIME();
 		if (p1gimmick2Timer <= 0.0f) {
 			p1gimmick2Timer = 0.0f;
-			//플레이어2의 시야 가리기 해제
+			for (int i = 0; i < 5; ++i) {
+				p2gimmick2Image[i]->SetSprite(nullptr);
+			}
 		}
 	}
 	if (p2gimmick2Timer > 0.0f) {
 		p2gimmick2Timer -= TIME_GET_DELTATIME();
 		if (p2gimmick2Timer <= 0.0f) {
 			p2gimmick2Timer = 0.0f;
-			//플레이어1의 시야 가리기 해제
+			for (int i = 0; i < 5; ++i) {
+				p1gimmick2Image[i]->SetSprite(nullptr);
+			}
 		}
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha9)) {
@@ -56,6 +89,12 @@ void GimmickManager::Update() {
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0)) {
 		GimmickOn(2, 1);
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::A)) {
+		GimmickOn(1, 2);
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::L)) {
+		GimmickOn(2, 2);
 	}
 };
 
@@ -74,11 +113,15 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 		break;
 	case 2:
 		if (player == 1) {
-			//플레이어2의 시야 가리기
+			for (int i = 0; i < 5; ++i) {
+				p2gimmick2Image[i]->SetSprite(L"../Resources/Mushroom.png");
+			}
 			p1gimmick2Timer = timelimit;
 		}
 		else {
-			//플레이어1의 시야 가리기
+			for (int i = 0; i < 5; ++i) {
+				p1gimmick2Image[i]->SetSprite(L"../Resources/Mushroom.png");
+			}
 			p2gimmick2Timer = timelimit;
 		}
 		break;
