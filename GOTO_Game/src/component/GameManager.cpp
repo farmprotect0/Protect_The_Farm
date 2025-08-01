@@ -56,6 +56,18 @@ void GameManager::Update() {
 		}
 		if (GameTimer > 0.0f) {
 			GameTimer -= TIME_GET_DELTATIME();
+			if (NormalTiming - GameTimer >= 5.0f) {
+				//일반 몬스터 생성
+				NormalTiming -= 5.0f;
+			}
+			if (GimmickTiming - GameTimer >= 15.0f) {
+				//기믹 몬스터 생성
+				GimmickTiming -= 15.0f;
+			}
+			if (ItemTiming - GameTimer >= 20.0f) {
+				//아이템 몬스터 생성
+				ItemTiming -= 20.0f;
+			}
 			if (GameTimer <= 0.0f) {
 				GameTimer = 0.0f;
 				if (P1Score > P2Score) {
@@ -74,10 +86,12 @@ void GameManager::Update() {
 		Timetext->text = std::to_wstring(static_cast<int>(floor(GameTimer)));
 	}
 	else {
-		if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::Alpha1) ||
+			INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonWest)) {
 			p1active = true;
 		}
-		if (INPUT_GET_KEYDOWN(KeyCode::Alpha0)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::Alpha0) ||
+			INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonWest)) {
 			p2active = true;
 		}
 		if (p1active && p2active) {

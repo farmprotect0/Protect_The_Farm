@@ -18,6 +18,15 @@ namespace GOTOEngine
 		Image* p2button;
 		int explainnum = 1;
 		std::vector<GameObject*> Tutorialobject;
+		bool rightTriggerCheckTrigger[2];
+		bool rightTriggerPressed[2];
+		bool leftTriggerCheckTrigger[2];
+		bool leftTriggerPressed[2];
+
+		void TriggerPressedCheck();
+
+		void TriggerPressedCheckReset();
+
 	public:
     TutorialImage()
     {
