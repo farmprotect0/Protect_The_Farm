@@ -14,8 +14,14 @@ namespace GOTOEngine
     {
     private:
         float m_distance = 5.0f;
+        float m_amplitude = 25.0f;
+        float m_frequency = 5.0f;
+
 		float m_maxY;
 		float m_minY;
+
+
+        bool testbool;
 
     public:
         void Awake() override
@@ -28,6 +34,13 @@ namespace GOTOEngine
 
 			m_maxY = Screen::GetHeight() * 0.5f;
 			m_minY = Screen::GetHeight() * 0.0f;
+
+            if (m_flag & MOVE_LEFT_RIGHT && m_flag & MOVE_WAVE)
+            {
+                // wave도 켜져있고 leftright도 켜져있고 그러면 물결 y좌표 
+                testbool = true;
+            }
+
         }
         Vector2 Move(float deltaTime) override
         {
@@ -39,6 +52,12 @@ namespace GOTOEngine
 				{
 					FlipDirection();
 				}
+                if (testbool)
+                {
+                    float totalTime = TimeManager::Get()->GetTime();
+                    float offsetY = sin(totalTime * m_frequency) * m_amplitude;
+                    return Vector2(0, offsetY);
+                }
                 return Vector2(0, m_moveSpeed * m_flipDirection * deltaTime);
             }
             else

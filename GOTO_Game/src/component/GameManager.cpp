@@ -1,4 +1,4 @@
-#include "GameManager.h"
+﻿#include "GameManager.h"
 #include "TutorialImage.h"
 
 using namespace GOTOEngine;
@@ -49,7 +49,11 @@ void GameManager::OnDestroy() {
 
 void GameManager::Update() {
 	if (setactive) {
-		Destroy(Tutorial);
+		if(IsValidObject(Tutorial))
+		{
+			Destroy(Tutorial);
+			Tutorial = nullptr;
+		}
 		if (GameTimer > 0.0f) {
 			GameTimer -= TIME_GET_DELTATIME();
 			if (GameTimer <= 0.0f) {

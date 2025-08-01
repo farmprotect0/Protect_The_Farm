@@ -23,7 +23,7 @@ namespace GOTOEngine
 		ItemType m_itemType;
 
 	public:
-		virtual ~ItemEnemy()
+		void Dispose() override
 		{
 			if (m_isDelayByDispone)
 			{

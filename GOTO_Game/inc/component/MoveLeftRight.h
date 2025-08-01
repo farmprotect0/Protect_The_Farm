@@ -15,9 +15,11 @@ namespace GOTOEngine
     {
     private:
         Vector2 m_initialPosition;
-        float m_distance = 5.0f;
+        float m_distance = 1.0f;
 		float m_maxX;
 		float m_minX;
+
+        bool testbool;
 
     public:
         Delegate<void> OnFlipDirection;
@@ -35,6 +37,12 @@ namespace GOTOEngine
 
 			m_maxX = Screen::GetWidth() * 0.25f;
 			m_minX = Screen::GetWidth() * -0.25f;
+
+            // flag
+            if (m_flag & MOVE_UP_DOWN && m_flag & MOVE_WAVE)
+            {
+                testbool = true;
+            }
         }
 
         void OnDestroy() override
@@ -42,19 +50,18 @@ namespace GOTOEngine
             __super::OnDestroy();
             OnFlipDirection.Clear();
         }
-
-
         Vector2 Move(float deltaTime) override
         {
+
             if (m_isLoop)
             {
-				Vector2 currentPos = GetGameObject()->GetTransform()->GetPosition();
-				if ((currentPos.x > m_maxX && GetDirection() > 0) ||
-					(currentPos.x < m_minX && GetDirection() < 0))
-				{
-					FlipDirection();
+                Vector2 currentPos = GetGameObject()->GetTransform()->GetPosition();
+                if ((currentPos.x > m_maxX && GetDirection() > 0) ||
+                    (currentPos.x < m_minX && GetDirection() < 0))
+                {
+                    FlipDirection();
                     OnFlipDirection.Invoke();
-				}
+                }
                 return Vector2(m_moveSpeed * m_flipDirection * deltaTime, 0);
             }
             else
@@ -63,6 +70,7 @@ namespace GOTOEngine
                 float deltaX = sin(deltaTime * m_moveSpeed) * m_distance;
                 return Vector2(deltaX, 0);
             }
+            
         }
 
     };

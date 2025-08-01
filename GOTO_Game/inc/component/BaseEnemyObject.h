@@ -131,7 +131,11 @@ namespace GOTOEngine
 		void SetMovementComponents()
 		{
 			// flag 스크립트	부착
-
+			if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
+			{
+				auto moveLR = AddComponent<MoveLeftRight>();
+				moveLR->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
+			}
 			if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
 			{
 				AddComponent<MoveUpDown>();
@@ -140,19 +144,19 @@ namespace GOTOEngine
 			{
 				AddComponent<MoveCircle>();
 			}
-			if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
-			{
-				auto moveLR = AddComponent<MoveLeftRight>();
-				moveLR->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
-			}
+
 			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
 			{
 				auto move = AddComponent<MoveParabolic>();
-				move->Initialize(m_moveFlag);
 			}
 
 			// 등록한 movement들 추가
 			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
+
+			for (auto comp : m_movementComponents)
+			{
+				comp->Initialize(m_moveFlag);
+			}
 
 		}
 

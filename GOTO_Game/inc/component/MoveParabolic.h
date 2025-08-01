@@ -7,6 +7,8 @@
 #include <math.h>
 #include <utility>
 
+// enemy에 쓰이는 movement 입니다.
+
 namespace GOTOEngine
 {
     class MoveParabolic : public BaseMovement
@@ -28,28 +30,22 @@ namespace GOTOEngine
         Delegate<void> OnFlipDirection;
 
     public:
-        void Initialize(int moveFlag)
-        {
-            if (moveFlag & (MOVE_LEFT_RIGHT | MOVE_UP_DOWN))
-            {
-                m_role = E_Move_Role::OFFSET;
-                if ((moveFlag & MOVE_LEFT_RIGHT) && (moveFlag & MOVE_UP_DOWN))
-                {
-                    //m_arcDuration = 4.0f;
-                    //m_height = 30.0f;
-                }
-                else m_flipXY = moveFlag & MOVE_UP_DOWN;
-            }
-            else m_role = E_Move_Role::PATH;
-        }
         void Awake() override
         {
             __super::Awake();
 
-            // 좌우 방향
-            // m_flipDirection = -1.0f;
-            //m_role = E_Move_Role::PATH;
-            //m_role = E_Move_Role::OFFSET;
+            if (m_flag & (MOVE_LEFT_RIGHT | MOVE_UP_DOWN))
+            {
+                m_role = E_Move_Role::OFFSET;
+                if ((m_flag & MOVE_LEFT_RIGHT) && (m_flag & MOVE_UP_DOWN))
+                {
+                    //m_arcDuration = 4.0f;
+                    //m_height = 30.0f;
+                }
+                else m_flipXY = m_flag & MOVE_UP_DOWN;
+            }
+            else m_role = E_Move_Role::PATH;
+
 
             Vector2 curPos = GetGameObject()->GetTransform()->GetPosition();
             m_startPos = Vector2( curPos.x * m_flipDirection, curPos.y);
@@ -109,9 +105,7 @@ namespace GOTOEngine
 
                     // X축 오프셋만 계산
                     float offsetX = 4 * m_height * (progress - progress * progress);
-
-                    std::cout << "true" << std::endl;
-                    
+                 
                     // X축 오프셋 벡터 반환
                     return Vector2(offsetX, 0);
                 }
@@ -122,9 +116,6 @@ namespace GOTOEngine
 
                     // Y축 오프셋만 계산
                     float offsetY = 4 * m_height * (progress - progress * progress);
-
-                    std::cout << "false" << std::endl;
-
 
                     // Y축 오프셋 벡터 반환
                     return Vector2(0, offsetY);

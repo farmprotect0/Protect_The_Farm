@@ -20,8 +20,6 @@ namespace GOTOEngine
 
 
 	public:
-		virtual ~MoveEnemy() = default;
-
 		void Initialize(std::any param, bool _moveLoop = false) override
 		{
 			__super::Initialize(param, _moveLoop);
@@ -50,7 +48,7 @@ namespace GOTOEngine
 				break;
 
 			case crow:
-				m_moveFlag = 0b1010;
+				m_moveFlag = 0b00011;
 				GetGameObject()->name = L"까마귀";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
 				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/CrowAnimator_AnimController.json"));
