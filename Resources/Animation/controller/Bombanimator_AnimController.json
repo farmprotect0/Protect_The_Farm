@@ -1,0 +1,16 @@
+{
+    "controllerName": "Bombanimator",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "Bomb_effect",
+    "states": [
+        {
+            "name": "Bomb_effect",
+            "motionName": "Bomb_effect",
+            "clipLength": 0.5833333134651184,
+            "loop": false,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}

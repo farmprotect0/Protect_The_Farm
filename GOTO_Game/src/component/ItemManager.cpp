@@ -1,6 +1,6 @@
 ﻿#include "ItemManager.h"
 #include "GameManager.h"
-
+#include "CameraShaker.h"
 #include "BaseEnemyObject.h"
 #include "EnemySpawner.h"
 
@@ -20,9 +20,9 @@ void ItemManager::Awake() {
 	}
 	auto canvas = GameObject::Find(L"Canvas");
 	// 이미지 간격 및 기본 위치 설정
-	float spacing = 60.0f;
-	Vector2 p1StartPos = { Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.5f };
-	Vector2 p2StartPos = { Screen::GetWidth() * 0.6f, Screen::GetHeight() * 0.5f };
+	float spacing = 100.0f;
+	Vector2 p1StartPos = { Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.2f };
+	Vector2 p2StartPos = { Screen::GetWidth() * 0.55f, Screen::GetHeight() * 0.2f };
 
 	for (int i = 0; i < 7; ++i)
 	{
@@ -32,7 +32,7 @@ void ItemManager::Awake() {
 		p1itemImage[i] = p1item->AddComponent<Image>();
 		p1itemImage[i]->GetRectTransform()->SetAnchoredPosition({
 			p1StartPos.x + spacing * i, p1StartPos.y });
-		p1itemImage[i]->GetRectTransform()->SetSizeDelta({ 50.0f, 50.0f });
+		p1itemImage[i]->GetRectTransform()->SetSizeDelta({ 100.0f, 100.0f });
 
 		// 플레이어 2 아이템 오브젝트 생성 및 설정
 		auto p2item = new GameObject;
@@ -40,7 +40,7 @@ void ItemManager::Awake() {
 		p2itemImage[i] = p2item->AddComponent<Image>();
 		p2itemImage[i]->GetRectTransform()->SetAnchoredPosition({
 			p2StartPos.x + spacing * i, p2StartPos.y });
-		p2itemImage[i]->GetRectTransform()->SetSizeDelta({ 50.0f, 50.0f });
+		p2itemImage[i]->GetRectTransform()->SetSizeDelta({ 100.0f, 100.0f });
 	}
 }
 
@@ -127,13 +127,13 @@ void ItemManager::Update(){
 			ItemType item = p1Items[i];
 			switch (item) {
 			case ItemType::Bomb:
-				p1itemImage[i]->SetSprite(L"../Resources/ball2.png");
+				p1itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Bomb_item .png");
 				break;
 			case ItemType::Icebomb:
-				p1itemImage[i]->SetSprite(L"../Resources/ball3.png");
+				p1itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_item.png");
 				break;
 			case ItemType::Ticket:
-				p1itemImage[i]->SetSprite(L"../Resources/ball1.png");
+				p1itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Golden_ticket.png");
 				break;
 			}
 		}
@@ -146,13 +146,13 @@ void ItemManager::Update(){
 			ItemType item = p2Items[i];
 			switch (item) {
 			case ItemType::Bomb:
-				p2itemImage[i]->SetSprite(L"../Resources/ball2.png");
+				p2itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Bomb_item .png");
 				break;
 			case ItemType::Icebomb:
-				p2itemImage[i]->SetSprite(L"../Resources/ball3.png");
+				p2itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_item.png");
 				break;
 			case ItemType::Ticket:
-				p2itemImage[i]->SetSprite(L"../Resources/ball1.png");
+				p2itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Golden_ticket.png");
 				break;
 			}
 		}
@@ -172,6 +172,14 @@ void ItemManager::UseItem(int player, ItemType item)
 			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
 
 			p1count = enemies.size();
+			for (auto enemy : enemies) {
+				auto bombeffect = new GameObject;
+				bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
+				bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
+				bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1<<1);
+				bombeffect->AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombAnimator_AnimController.json"));
+				Destroy(bombeffect, 0.583f);
+			}
 			EnemySpawner::instance->Setp1EnemyAllDestroy();
 
 			if (p1count >= 1 && p1count <= 3) {
@@ -190,6 +198,14 @@ void ItemManager::UseItem(int player, ItemType item)
 			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
 
 			p2count = enemies.size();
+			for (auto enemy : enemies) {
+				auto bombeffect = new GameObject;
+				bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
+				bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
+				bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
+				bombeffect->AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombAnimator_AnimController.json"));
+				Destroy(bombeffect, 0.583f);
+			}
 			EnemySpawner::instance->Setp2EnemyAllDestroy();
 
 			if (p2count >= 1 && p2count <= 3) {
