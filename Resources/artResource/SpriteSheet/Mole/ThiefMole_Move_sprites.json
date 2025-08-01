@@ -1,0 +1,188 @@
+{
+    "texture": "ThiefMole_Move.png",
+    "textureWidth": 5400,
+    "textureHeight": 6152,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "ThiefMole_Move_0",
+            "x": 32.0,
+            "y": 4660.0,
+            "width": 981.0,
+            "height": 1482.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_1",
+            "x": 1111.0,
+            "y": 4651.0,
+            "width": 946.0,
+            "height": 1494.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_2",
+            "x": 2189.0,
+            "y": 4646.0,
+            "width": 947.0,
+            "height": 1502.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_3",
+            "x": 3268.0,
+            "y": 4648.0,
+            "width": 952.0,
+            "height": 1503.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_4",
+            "x": 4348.0,
+            "y": 4654.0,
+            "width": 972.0,
+            "height": 1498.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_5",
+            "x": 29.0,
+            "y": 3116.0,
+            "width": 990.0,
+            "height": 1497.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_6",
+            "x": 1111.0,
+            "y": 3104.0,
+            "width": 1006.0,
+            "height": 1496.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_7",
+            "x": 2192.0,
+            "y": 3092.0,
+            "width": 1020.0,
+            "height": 1494.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_8",
+            "x": 3275.0,
+            "y": 3084.0,
+            "width": 1029.0,
+            "height": 1489.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_9",
+            "x": 4358.0,
+            "y": 3080.0,
+            "width": 1035.0,
+            "height": 1479.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_10",
+            "x": 43.0,
+            "y": 1539.0,
+            "width": 1038.0,
+            "height": 1469.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_11",
+            "x": 1126.0,
+            "y": 1545.0,
+            "width": 1030.0,
+            "height": 1475.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_12",
+            "x": 2204.0,
+            "y": 1551.0,
+            "width": 1023.0,
+            "height": 1485.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_13",
+            "x": 3280.0,
+            "y": 1561.0,
+            "width": 1015.0,
+            "height": 1493.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_14",
+            "x": 4357.0,
+            "y": 1575.0,
+            "width": 1003.0,
+            "height": 1493.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_15",
+            "x": 34.0,
+            "y": 43.0,
+            "width": 988.0,
+            "height": 1494.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_16",
+            "x": 1111.0,
+            "y": 38.0,
+            "width": 972.0,
+            "height": 1498.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_17",
+            "x": 2189.0,
+            "y": 35.0,
+            "width": 956.0,
+            "height": 1499.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_18",
+            "x": 3269.0,
+            "y": 37.0,
+            "width": 953.0,
+            "height": 1496.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Move_19",
+            "x": 4351.0,
+            "y": 0.0,
+            "width": 949.0,
+            "height": 1531.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

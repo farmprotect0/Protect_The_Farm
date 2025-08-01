@@ -1,0 +1,16 @@
+{
+    "controllerName": "ThiefMoleAnimator",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "ThiefMole_Move",
+    "states": [
+        {
+            "name": "ThiefMole_Move",
+            "motionName": "ThiefMole_Move",
+            "clipLength": 1.6666667461395264,
+            "loop": true,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}

@@ -1,0 +1,16 @@
+{
+    "controllerName": "MoleAnimator",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "Mole_Idle",
+    "states": [
+        {
+            "name": "Mole_Idle",
+            "motionName": "Mole_Idle",
+            "clipLength": 1.6666667461395264,
+            "loop": true,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}

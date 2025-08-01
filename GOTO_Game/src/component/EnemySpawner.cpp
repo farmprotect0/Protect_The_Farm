@@ -145,27 +145,27 @@ void GOTOEngine::EnemySpawner::Update()
 GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int moveFlag, bool isLoop)
 {
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
-	/*// 설정대로 스폰
+	//*// 설정대로 스폰
 	switch(enemyType)
 	{
 	case move:
 		newEnemyObject->AddComponent<MoveEnemy>();
-		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(crow, isLoop);
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(mole, isLoop);
 		break;
 	case gimmick:
 		newEnemyObject->AddComponent<GimmickEnemy>();
-		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(rabbit, isLoop);
+		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(squirrel, isLoop);
 		break;
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
-		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(bomCrow, isLoop);
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(iceCrow, isLoop);
 		break; 
 	default:
 		break;
 	}
 	//*/
 
-	//*// 랜덤 스폰
+	/*// 랜덤 스폰
 	switch (enemyType)
 	{
 		case move:

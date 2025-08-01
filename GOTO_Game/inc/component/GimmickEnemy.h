@@ -70,12 +70,14 @@ namespace GOTOEngine
 				m_moveFlag = 0b1001;
 				GetGameObject()->name = L"다람쥐";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Squirrel.png");
+				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/SquirrelAnimator_AnimController.json"));
 				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
 			case thiefmole:
 				m_moveFlag = 0b0001;
 				GetGameObject()->name = L"도둑두더지";
-				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Mole.png");
+				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/ThiefMole.png");
+				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/ThiefMoleAnimator_AnimController.json"));
 				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
 			}

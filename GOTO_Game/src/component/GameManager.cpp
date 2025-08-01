@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "TutorialImage.h"
 
 using namespace GOTOEngine;
 GameManager* GameManager::instance = nullptr;
@@ -37,7 +38,8 @@ void GameManager::Awake(){
 	P1sctext->SetColor({ 255,0,0,255 });
 	P2sctext->SetColor({ 255,0,0,255 });
 	Timetext->SetColor({ 255,0,0,255 });
-
+	Tutorial = new GameObject;
+	Tutorial->AddComponent<TutorialImage>();
 }
 
 void GameManager::OnDestroy() {
@@ -46,31 +48,38 @@ void GameManager::OnDestroy() {
 }
 
 void GameManager::Update() {
-	if (GameTimer > 0.0f) {
-		GameTimer -= TIME_GET_DELTATIME();
-		if (GameTimer <= 0.0f) {
-			GameTimer = 0.0f;
-			if (P1Score > P2Score) {
-				winner = 1;
-			}
-			else if (P1Score < P2Score) {
-				winner = 2;
-			}
-			else {
-				winner = 0;
+	if (setactive) {
+		Destroy(Tutorial);
+		if (GameTimer > 0.0f) {
+			GameTimer -= TIME_GET_DELTATIME();
+			if (GameTimer <= 0.0f) {
+				GameTimer = 0.0f;
+				if (P1Score > P2Score) {
+					winner = 1;
+				}
+				else if (P1Score < P2Score) {
+					winner = 2;
+				}
+				else {
+					winner = 0;
+				}
 			}
 		}
+		P1sctext->text = std::to_wstring(P1Score);
+		P2sctext->text = std::to_wstring(P2Score);
+		Timetext->text = std::to_wstring(static_cast<int>(floor(GameTimer)));
 	}
-	if (P1Score < 0) {
-		winner = 2;
+	else {
+		if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)) {
+			p1active = true;
+		}
+		if (INPUT_GET_KEYDOWN(KeyCode::Alpha0)) {
+			p2active = true;
+		}
+		if (p1active && p2active) {
+			setactive = true;
+		}
 	}
-	if (P2Score < 0) {
-		winner = 1;
-	}
-
-	P1sctext->text = std::to_wstring(P1Score);
-	P2sctext->text = std::to_wstring(P2Score);
-	Timetext->text = std::to_wstring(static_cast<int>(floor(GameTimer)));
 }
 
 int GOTOEngine::GameManager::winner = 0;

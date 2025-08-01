@@ -1,0 +1,16 @@
+{
+    "controllerName": "GoldCrowAnimator",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "GoldCrow_Move",
+    "states": [
+        {
+            "name": "GoldCrow_Move",
+            "motionName": "GoldCrow_Move",
+            "clipLength": 1.6666667461395264,
+            "loop": true,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}
