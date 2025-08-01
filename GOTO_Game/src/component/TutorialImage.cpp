@@ -1,4 +1,4 @@
-#include "TutorialImage.h"
+﻿#include "TutorialImage.h"
 
 using namespace GOTOEngine;
 TutorialImage* TutorialImage::instance = nullptr;
@@ -45,7 +45,8 @@ void TutorialImage::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
 	for (auto obj : Tutorialobject) {
-		obj->SetActive(false);
+		Destroy(obj);
+		obj = nullptr;
 	}
 }
 
