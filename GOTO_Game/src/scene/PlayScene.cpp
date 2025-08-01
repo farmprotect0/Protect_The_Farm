@@ -17,7 +17,7 @@ void PlayScene::Initialize()
 {
 	auto player1CamGO = Camera::CreateMainCamera();
 	auto player1Cam = player1CamGO->GetComponent<Camera>();
-	player1Cam->name = L"플레이어1 카메라";
+	player1Cam->GetGameObject()->name = L"p1Cam";
 	player1Cam->SetRect({ 0.0f, 0.0f, 0.5f, 1.0f });
 	player1Cam->SetRenderLayer(1 << 1);
 	auto player1CamShaker = player1Cam->AddComponent<CameraShaker>();
@@ -29,7 +29,7 @@ void PlayScene::Initialize()
 
 	auto player2CamGO = Camera::CreateSubCamera();
 	auto player2Cam = player2CamGO->GetComponent<Camera>();
-	player2Cam->name = L"플레이어2 카메라";
+	player2Cam->GetGameObject()->name = L"p2Cam";
 	player2Cam->SetRect({ 0.5f, 0.0f, 0.5f, 1.0f });
 	player2Cam->SetRenderLayer(1 << 2);
 	auto player2CamShaker = player2Cam->AddComponent<CameraShaker>();
