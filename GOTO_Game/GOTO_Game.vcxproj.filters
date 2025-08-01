@@ -245,7 +245,7 @@
     <ClInclude Include="inc\component\OptionWindowSystem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\GageSprite.h">
+    <ClInclude Include="inc\component\SliderSprite.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

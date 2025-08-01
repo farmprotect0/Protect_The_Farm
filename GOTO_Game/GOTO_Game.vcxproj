@@ -167,7 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\ButtonAnimation.h" />
-    <ClInclude Include="inc\component\GageSprite.h" />
+    <ClInclude Include="inc\component\SliderSprite.h" />
     <ClInclude Include="inc\component\GimmickManager.h" />
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
     <ClInclude Include="inc\component\BaseMovement.h" />

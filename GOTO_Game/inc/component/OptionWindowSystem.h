@@ -3,6 +3,7 @@
 #include <AnimationCurve.h>
 #include <InputManager.h>
 #include <cstring>
+#include <SliderSprite.h>
 
 namespace GOTOEngine
 {
@@ -25,8 +26,8 @@ namespace GOTOEngine
 
         bool m_YstickPressedUp[2];
         bool m_YstickPressedDown[2];
-        bool m_XstickPressedUp[2];
-        bool m_XstickPressedDown[2];
+        bool m_XstickPressedRight[2];
+        bool m_XstickPressedLeft[2];
 
 	public:
     OptionWindowSystem()
@@ -39,6 +40,9 @@ namespace GOTOEngine
 		Transform* baseWindow = nullptr;
         Transform* focusUITransform = nullptr;
         float openAnimScale = 1.0f;
+
+        std::array<SliderSprite*, 4> sliderSprites;
+        std::array<float, 4> sliderTargetValue;
 
 		void Awake()
 		{
@@ -85,6 +89,11 @@ namespace GOTOEngine
 
 			m_cachedPlayer1 = GameObject::Find(L"Player1");
 			m_cachedPlayer2 = GameObject::Find(L"Player2");
+
+            for (auto& v : sliderTargetValue)
+            {
+                v = 0.5f;
+            }
 		}
 
         void OnEnable()
@@ -144,25 +153,25 @@ namespace GOTOEngine
 
             for (int i = 0; i < 2; i++)
             {
-                auto currentXstick = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::LeftStickY);
+                auto currentXstick = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::LeftStickX);
                 if (!m_XpressedRightTrigger[i] && !m_XpressedLeftTrigger[i])
                 {
                     if (currentXstick > 0.89f)
                     {
                         m_XpressedRightTrigger[i] = true;
-                        m_XstickPressedUp[i] = true;
+                        m_XstickPressedRight[i] = true;
                         return;
                     }
 
                     if (currentXstick < -0.89f)
                     {
                         m_XpressedLeftTrigger[i] = true;
-                        m_XstickPressedUp[i] = true;
+                        m_XstickPressedLeft[i] = true;
                         return;
                     }
                 }
-                else if ((m_XpressedRightTrigger[i] && currentXstick > -0.2f)
-                    || (m_XpressedLeftTrigger[i] && currentXstick < 0.2f))
+                else if ((m_XpressedLeftTrigger[i] && currentXstick > -0.2f)
+                    || (m_XpressedRightTrigger[i] && currentXstick < 0.2f))
                 {
                     m_XpressedRightTrigger[i] = false;
                     m_XpressedLeftTrigger[i] = false;
@@ -175,8 +184,8 @@ namespace GOTOEngine
         {
             std::memset(m_YstickPressedUp, false, sizeof(m_YstickPressedUp));
             std::memset(m_YstickPressedDown, false, sizeof(m_YstickPressedDown));
-            std::memset(m_XstickPressedUp, false, sizeof(m_XstickPressedUp));
-            std::memset(m_XstickPressedDown, false, sizeof(m_XstickPressedDown));
+            std::memset(m_XstickPressedRight, false, sizeof(m_XstickPressedRight));
+            std::memset(m_XstickPressedLeft, false, sizeof(m_XstickPressedLeft));
         }
         
         void ApplyBaseWindowAnimation()
@@ -210,7 +219,7 @@ namespace GOTOEngine
             }
         }
 
-        void StickMovement()
+        void FocusMove()
         {
             if (IsValidObject(focusUITransform) && m_isOpen)
             {
@@ -221,8 +230,8 @@ namespace GOTOEngine
                     || m_YstickPressedDown[1])
                 {
                     m_focusIndex++;
-                    if (m_focusIndex > 4) // 예시로 3개의 버튼이 있다고 가정
-                        m_focusIndex = 4;
+                    if (m_focusIndex > 3) // 예시로 3개의 버튼이 있다고 가정
+                        m_focusIndex = 3;
 
                 }
                 if (InputManager::Get()->GetKeyDown(KeyCode::UpArrow)
@@ -237,9 +246,9 @@ namespace GOTOEngine
 
 
                 // 포커스 UI 위치 업데이트
-                auto focusSpace = 80.0f;
+                auto focusSpace = 100.0f;
 
-                auto startPosY = 150.0f;
+                auto startPosY = 180.0f;
 
                 auto targetPosY = startPosY + focusSpace * -m_focusIndex;
 
@@ -252,12 +261,36 @@ namespace GOTOEngine
             }
         }
 
+        void SliderApply()
+        {
+            if (IsValidObject(sliderSprites[m_focusIndex]))
+            {
+                if (INPUT_GET_KEYDOWN(KeyCode::LeftArrow)
+                    || m_XstickPressedLeft[0]
+                    || m_XstickPressedLeft[1])
+                    sliderTargetValue[m_focusIndex] -= 0.1f;
+
+                if (INPUT_GET_KEYDOWN(KeyCode::RightArrow)
+                    || m_XstickPressedRight[0]
+                    || m_XstickPressedRight[1])
+                    sliderTargetValue[m_focusIndex] += 0.1f;
+
+                sliderTargetValue[m_focusIndex] = Mathf::Clamp01(sliderTargetValue[m_focusIndex]);
+            }
+
+            for (size_t i = 0; i < sliderSprites.size(); i++)
+            {
+                sliderSprites[i]->SetValue(Mathf::Lerp(sliderSprites[i]->GetValue(), sliderTargetValue[i], TIME_GET_DELTATIME() * 15.0f));
+            }
+        }
+
 		void Update()
 		{
             StickPressedCheckReset();
             StickPressedCheck();
             ApplyBaseWindowAnimation();
-            StickMovement();
+            FocusMove();
+            SliderApply();
 		}
 	};
 }
