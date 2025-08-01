@@ -14,8 +14,7 @@ namespace GOTOEngine
     {
     private:
         float m_distance = 5.0f;
-        float m_amplitude = 25.0f;
-        float m_frequency = 5.0f;
+        float m_frequency = 1.0f; // 진동 수
 
 		float m_maxY;
 		float m_minY;
@@ -39,6 +38,7 @@ namespace GOTOEngine
             {
                 // wave도 켜져있고 leftright도 켜져있고 그러면 물결 y좌표 
                 testbool = true;
+                m_distance = 1.0f;
             }
 
         }
@@ -55,7 +55,7 @@ namespace GOTOEngine
                 if (testbool)
                 {
                     float totalTime = TimeManager::Get()->GetTime();
-                    float offsetY = sin(totalTime * m_frequency) * m_amplitude;
+                    float offsetY = sin(totalTime * m_frequency) * m_distance;
                     return Vector2(0, offsetY);
                 }
                 return Vector2(0, m_moveSpeed * m_flipDirection * deltaTime);
