@@ -10,23 +10,29 @@
 
 namespace GOTOEngine
 {
+	class EnemySpawner;
 	class GameManager : public ScriptBehaviour
 	{
 	private:
-		Text* P1sctext;
-		Text* P2sctext;
-		Text* Timetext;
-		GameObject* Tutorial;
 		bool p1active = false;
 		bool p2active = false;
 		float NormalTiming = 125.0f;
 		float GimmickTiming = 120.0f;
 		float ItemTiming = 120.0f;
+
+		Text* P1sctext;
+		Text* P2sctext;
+		Text* Timetext;
+
+		GameObject* Tutorial;
+		EnemySpawner* EnemySpawner;
+
 	public:
     GameManager()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
+        REGISTER_BEHAVIOUR_MESSAGE(Start);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		int P1Score = 0;
@@ -38,6 +44,7 @@ namespace GOTOEngine
 		static GameManager* instance;
 		bool setactive = false;
 		void Awake();
+		void Start();
 		void Update();
 		void OnDestroy();
 	};

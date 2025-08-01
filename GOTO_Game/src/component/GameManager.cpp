@@ -1,6 +1,9 @@
 ﻿#include "GameManager.h"
 #include "TutorialImage.h"
 
+#include "EnemySpawner.h"
+#include "BaseEnemyObject.h"
+
 using namespace GOTOEngine;
 GameManager* GameManager::instance = nullptr;
 
@@ -42,6 +45,11 @@ void GameManager::Awake(){
 	Tutorial->AddComponent<TutorialImage>();
 }
 
+void GOTOEngine::GameManager::Start()
+{
+	EnemySpawner = EnemySpawner::instance;
+}
+
 void GameManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
@@ -58,14 +66,19 @@ void GameManager::Update() {
 			GameTimer -= TIME_GET_DELTATIME();
 			if (NormalTiming - GameTimer >= 5.0f) {
 				//일반 몬스터 생성
+				EnemySpawner->CreateEnemy(E_EnemyType::move, 1);
+				EnemySpawner->CreateEnemy(E_EnemyType::move, 2);
 				NormalTiming -= 5.0f;
 			}
 			if (GimmickTiming - GameTimer >= 15.0f) {
 				//기믹 몬스터 생성
+				EnemySpawner->CreateEnemy(E_EnemyType::gimmick, 1);
+				EnemySpawner->CreateEnemy(E_EnemyType::gimmick, 2);
 				GimmickTiming -= 15.0f;
 			}
 			if (ItemTiming - GameTimer >= 20.0f) {
 				//아이템 몬스터 생성
+
 				ItemTiming -= 20.0f;
 			}
 			if (GameTimer <= 0.0f) {

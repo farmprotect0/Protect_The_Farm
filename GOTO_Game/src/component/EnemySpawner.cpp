@@ -32,6 +32,7 @@ void GOTOEngine::EnemySpawner::Awake()
 		Destroy(GetGameObject());
 	}
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
 }
 
 void GOTOEngine::EnemySpawner::Update()
@@ -145,7 +146,7 @@ void GOTOEngine::EnemySpawner::Update()
 GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType)
 {
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
-	//*// 설정대로 스폰
+	/*// 설정대로 스폰
 	switch(enemyType)
 	{
 	case move:
@@ -165,28 +166,28 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType)
 	}
 	//*/
 
-	/*// 랜덤 스폰
+	//*// 랜덤 스폰
 	switch (enemyType)
 	{
 		case move:
 		{
 			auto randomType = static_cast<E_Move_Enemy_Type>(std::rand() % E_Move_Enemy_Type::move_type_count);
 			newEnemyObject->AddComponent<MoveEnemy>();
-			newEnemyObject->GetComponent<MoveEnemy>()->Initialize(randomType, isLoop);
+			newEnemyObject->GetComponent<MoveEnemy>()->Initialize(randomType);
 		}
 		break;
 		case gimmick:
 		{
 			auto randomType = static_cast<E_Gimmick_Enemy_Type>(std::rand() % E_Gimmick_Enemy_Type::gimmick_type_count);
 			newEnemyObject->AddComponent<GimmickEnemy>();
-			newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(randomType, isLoop);
+			newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(randomType);
 		}
 		break;
 		case itemspawn:
 		{
 			auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % E_Item_Enemy_Type::item_type_count);
 			newEnemyObject->AddComponent<ItemEnemy>();
-			newEnemyObject->GetComponent<ItemEnemy>()->Initialize(randomType, isLoop);
+			newEnemyObject->GetComponent<ItemEnemy>()->Initialize(randomType);
 		}
 		break;
 	}
