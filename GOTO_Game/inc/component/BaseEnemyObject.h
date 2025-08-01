@@ -35,7 +35,7 @@ namespace GOTOEngine
 	private:
 		// move
 		std::vector<BaseMovement*> m_movementComponents;
-		Vector2 m_pathBaseLine;
+		Vector2 m_currentPathPosition;	// 중심축 위치 변수
 
 	protected:
 		E_EnemyType m_enemyType = E_EnemyType::move;
@@ -76,60 +76,41 @@ namespace GOTOEngine
 		virtual void Awake()
 		{
 			// OFFSET 경로의 기준선
-			m_pathBaseLine = GetGameObject()->GetTransform()->GetPosition();
+			m_currentPathPosition = GetGameObject()->GetTransform()->GetPosition();
 
 		}
 		void Start() {}
 
 		void Update()
 		{
-			if (m_isDie || m_isFrozen || m_movementComponents.empty())
+			if (m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
 			{
 				return;
 			}
 
 			float deltaTime = TimeManager::Get()->GetDeltaTime();
 
-			Vector2 pathDelta = Vector2::Zero();
-			Vector2 offset = Vector2::Zero();
+			// 이번 프레임의 '중심축' 이동량
+			Vector2 pathDisplacement = Vector2::Zero();
+			// 이번 프레임의 '총 오프셋'
+			Vector2 totalOffset = Vector2::Zero();
 
 			for (BaseMovement* movement : m_movementComponents)
 			{
+				Vector2 moveVec = movement->Move(deltaTime);
 				if (movement->GetRole() == E_Move_Role::PATH)
 				{
-					pathDelta += movement->Move(deltaTime);
+					pathDisplacement += moveVec;
 				}
 				else // EMoveRole::OFFSET
 				{
-					offset += movement->Move(deltaTime);
+					totalOffset += moveVec;
 				}
 			}
 
-			Vector2 currentPos = GetGameObject()->GetTransform()->GetPosition();
-			Vector2 newPos;
+			m_currentPathPosition += pathDisplacement;
+			Vector2 newPos = m_currentPathPosition + totalOffset;
 
-			// m_moveFlag로 가능함
-			if (m_moveFlag & MOVE_PARABOLIC)
-			{
-				MoveParabolic* moveComp = GetComponent<MoveParabolic>();
-
-				if (moveComp != nullptr)
-				{
-					if(moveComp->GetRole() == E_Move_Role::PATH)
-					{
-						newPos = currentPos + offset + pathDelta;
-					}
-					else
-					{
-						newPos.x = currentPos.x + pathDelta.x + offset.x;
-						newPos.y = m_pathBaseLine.y + pathDelta.y + offset.y;
-					}
-				}
-			}
-			else
-			{
-				newPos = currentPos + offset + pathDelta;
-			}
 			GetGameObject()->GetTransform()->SetPosition(newPos);
 
 		}
@@ -151,56 +132,27 @@ namespace GOTOEngine
 		{
 			// flag 스크립트	부착
 
-			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
+			if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
 			{
-				auto move = AddComponent<MoveParabolic>();
-
-				if (m_moveFlag & MOVE_LEFT_RIGHT || m_moveFlag & MOVE_UP_DOWN)
-				{
-					if (m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN) //0b1011
-					{
-						move->Initialize(E_Move_Role::OFFSET, false);
-					}
-					else if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b1001
-					{
-						move->Initialize(E_Move_Role::OFFSET, false);
-						AddComponent<MoveLeftRight>();
-					}
-					else // 0b1010
-					{
-						AddComponent<MoveUpDown>();
-						move->Initialize(E_Move_Role::OFFSET, true);
-					}
-				}
-				else // 0b1000
-				{
-					move->Initialize(E_Move_Role::PATH, false);
-				}
-			}
-			else
-			{
-				if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
-				{
-					AddComponent<MoveLeftRight>();
-				}
-				if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
-				{
-					AddComponent<MoveUpDown>();
-				}
+				AddComponent<MoveUpDown>();
 			}
 			if (m_moveFlag & MOVE_CIRCULAR) // 0b0100
 			{
 				AddComponent<MoveCircle>();
 			}
+			if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
+			{
+				auto moveLR = AddComponent<MoveLeftRight>();
+				moveLR->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
+			}
+			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
+			{
+				auto move = AddComponent<MoveParabolic>();
+				move->Initialize(m_moveFlag);
+			}
 
 			// 등록한 movement들 추가
 			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
-			MoveLeftRight* moveComp = GetComponent<MoveLeftRight>();
-
-			if (moveComp != nullptr)
-			{
-				moveComp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
-			}
 
 		}
 
