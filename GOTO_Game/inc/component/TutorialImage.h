@@ -14,14 +14,17 @@ namespace GOTOEngine
 	{
 	private:
 		Image* explanation;
+		Image* p1button;
+		Image* p2button;
 		int explainnum = 1;
+		std::vector<GameObject*> Tutorialobject;
 	public:
-		TutorialImage()
-		{
-			REGISTER_BEHAVIOUR_MESSAGE(Awake);
-			REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
-			REGISTER_BEHAVIOUR_MESSAGE(Update);
-		}
+    TutorialImage()
+    {
+        REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
+        REGISTER_BEHAVIOUR_MESSAGE(Update);
+    }
 		static TutorialImage* instance;
 		void Awake();
 		void Update();

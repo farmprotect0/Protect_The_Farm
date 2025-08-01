@@ -101,11 +101,11 @@
     </ClCompile>
     <ClCompile Include="src\prefab\OptionWindowPrefab.cpp">
       <Filter>소스 파일</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\component\SoundManager.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
-    <ClCompile Include="TutorialImage.cpp">
+    <ClCompile Include="src\component\TutorialImage.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
   </ItemGroup>
@@ -230,9 +230,9 @@
     <ClInclude Include="inc\component\SoundManager.h">
       <Filter>헤더 파일\컴포넌트\매니저</Filter>
     </ClInclude>
-    <ClInclude Include="TutorialImage.h">
+    <ClInclude Include="inc\component\TutorialImage.h">
       <Filter>헤더 파일\컴포넌트\UI</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="inc\ICollideAble.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
