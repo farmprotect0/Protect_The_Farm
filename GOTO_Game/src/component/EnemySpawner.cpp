@@ -38,7 +38,7 @@ void GOTOEngine::EnemySpawner::Update()
 {
 	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 까마귀 생성 (MoveEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::move, 0b0001, true);
+		GameObject* baseObject = CreateEnemy(E_EnemyType::move);
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
 		baseObject->layer = 1 << 1;
@@ -55,7 +55,7 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 	if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 토끼 생성 (GimmickEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick, 0b1001, true);
+		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick);
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
 		baseObject->layer = 1 << 1;
@@ -73,7 +73,7 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 	if (INPUT_GET_KEYUP(KeyCode::E)) // p1 enemy 얼음새 생성 (ItemEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::itemspawn, 0b0001, true);
+		GameObject* baseObject = CreateEnemy(E_EnemyType::itemspawn);
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
 		baseObject->layer = 1 << 1;
@@ -90,7 +90,7 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::I)) // p2 enemy 까마귀 생성 (MoveEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::move, 0b0001, true);
+		GameObject* baseObject = CreateEnemy(E_EnemyType::move);
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
 		baseObject->layer = 1 << 2;
@@ -107,7 +107,7 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 토끼 생성 (GimmickEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick, 0b0111, true);
+		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick);
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
 		baseObject->layer = 1 << 2;
@@ -124,7 +124,7 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 	if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 얼음새 생성 (ItemEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::itemspawn, 0b0001, true);
+		GameObject* baseObject = CreateEnemy(E_EnemyType::itemspawn);
 
 		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
 		baseObject->layer = 1 << 2;
@@ -142,7 +142,7 @@ void GOTOEngine::EnemySpawner::Update()
 }
 
 // moveflag 정리해야함
-GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int moveFlag, bool isLoop)
+GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType)
 {
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
 	//*// 설정대로 스폰
@@ -150,15 +150,15 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int mov
 	{
 	case move:
 		newEnemyObject->AddComponent<MoveEnemy>();
-		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(mole, isLoop);
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(crow);
 		break;
 	case gimmick:
 		newEnemyObject->AddComponent<GimmickEnemy>();
-		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(squirrel, isLoop);
+		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(squirrel);
 		break;
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
-		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(iceCrow, isLoop);
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(iceCrow);
 		break; 
 	default:
 		break;
@@ -195,20 +195,12 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int mov
 	return newEnemyObject;
 }
 
-void GOTOEngine::EnemySpawner::CreateEnemy(int player, bool isLoop, int moveFlag)
+void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 {
-	GameObject* baseObject = CreateEnemy(E_EnemyType::move, moveFlag, isLoop);
+	GameObject* baseObject = CreateEnemy(enemyType);
 
 	baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);
 	baseObject->layer = 1 << player;
-
-	// 랜덤
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
-	std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
-
-	baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
 
 	if (player == 1)
 	{

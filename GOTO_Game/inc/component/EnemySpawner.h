@@ -5,7 +5,6 @@
 
 #include <vector>
 
-
 namespace GOTOEngine
 {	
 	enum E_EnemyType;
@@ -31,8 +30,8 @@ namespace GOTOEngine
 		void Awake();
 		void Update();
 
-		static GameObject* CreateEnemy(E_EnemyType enemyType, int moveFlag, bool isLoop);
-		void CreateEnemy(int player, bool isLoop, int moveFlag);
+		static GameObject* CreateEnemy(E_EnemyType enemyType);
+		void CreateEnemy(E_EnemyType enemyType, int player);
 
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }

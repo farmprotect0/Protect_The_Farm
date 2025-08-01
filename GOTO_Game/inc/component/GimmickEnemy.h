@@ -41,10 +41,8 @@ namespace GOTOEngine
 			GimmickManager::instance->GimmickOn(m_layer, m_gimmickEnemyType + 1);
 
 		}
-		void Initialize(std::any param, bool _moveLoop = false) override
+		void Initialize(std::any param) override
 		{
-			__super::Initialize(param, _moveLoop);
-
 			if (param.type() == typeid(E_Gimmick_Enemy_Type)) m_gimmickEnemyType = std::any_cast<E_Gimmick_Enemy_Type>(param);
 		}
 		void Awake()
@@ -104,3 +102,12 @@ namespace GOTOEngine
 		}
 	};
 }
+
+/*
+std::random_device rd;
+std::mt19937 gen(rd());
+std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
+std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
+baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
+
+*/

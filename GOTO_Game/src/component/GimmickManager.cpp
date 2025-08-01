@@ -129,7 +129,8 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 		player = player == 1 ? 2 : 1;
 		for (int i = 0; i < 3; i++)
 		{
-			EnemySpawner::instance->CreateEnemy(player, true, 0b1001);
+			// moveEnemy
+			EnemySpawner::instance->CreateEnemy(static_cast<E_EnemyType>(0), player);
 		}
 		break;
 	}

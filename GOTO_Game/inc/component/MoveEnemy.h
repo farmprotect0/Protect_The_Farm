@@ -20,12 +20,9 @@ namespace GOTOEngine
 
 
 	public:
-		void Initialize(std::any param, bool _moveLoop = false) override
+		void Initialize(std::any param) override
 		{
-			__super::Initialize(param, _moveLoop);
-
 			if (param.type() == typeid(E_Move_Enemy_Type)) m_moveEnemyType = std::any_cast<E_Move_Enemy_Type>(param);
-
 		}
 		void Awake()
 		{

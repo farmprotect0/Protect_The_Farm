@@ -119,10 +119,7 @@ namespace GOTOEngine
 		void OnDisable() {}
 		virtual void OnDestroy() {}
 		
-		virtual void Initialize(std::any param, bool _moveLoop = false)
-		{
-			m_isMoveLoop = _moveLoop;
-		}
+		virtual void Initialize(std::any param) = 0;
 
 		// Get
 		bool IsEnemyDie() { return m_isDie; }
