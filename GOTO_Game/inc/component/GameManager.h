@@ -19,6 +19,9 @@ namespace GOTOEngine
 		GameObject* Tutorial;
 		bool p1active = false;
 		bool p2active = false;
+		float NormalTiming = 125.0f;
+		float GimmickTiming = 120.0f;
+		float ItemTiming = 120.0f;
 	public:
     GameManager()
     {

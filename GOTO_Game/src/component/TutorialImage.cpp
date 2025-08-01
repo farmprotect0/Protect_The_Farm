@@ -51,51 +51,110 @@ void TutorialImage::OnDestroy() {
 }
 
 void TutorialImage::Update() {
+	TriggerPressedCheckReset();
+	TriggerPressedCheck();
+
 	switch (explainnum) {
 	case 1:
 		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_1.png");
-		if (INPUT_GET_KEYDOWN(KeyCode::RightShift)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) || 
+			rightTriggerPressed[0] || 
+			rightTriggerPressed[1]) {
 			explainnum = 2;
 		}
 		break;
 	case 2:
 		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_2.png");
-		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) || 
+			leftTriggerPressed[0] ||
+			leftTriggerPressed[1]) {
 			explainnum = 1;
 		}
-		if (INPUT_GET_KEYDOWN(KeyCode::RightShift)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) ||
+			rightTriggerPressed[0] ||
+			rightTriggerPressed[1]) {
 			explainnum = 3;
 		}
 		break;
 	case 3:
 		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_3.png");
-		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
+			leftTriggerPressed[0] ||
+			leftTriggerPressed[1]) {
 			explainnum = 2;
 		}
-		if (INPUT_GET_KEYDOWN(KeyCode::RightShift)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) ||
+			rightTriggerPressed[0] ||
+			rightTriggerPressed[1]) {
 			explainnum = 4;
 		}
 		break;
 	case 4:
 		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_4.png");
-		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
+			leftTriggerPressed[0] ||
+			leftTriggerPressed[1]) {
 			explainnum = 3;
 		}
-		if (INPUT_GET_KEYDOWN(KeyCode::RightShift)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) ||
+			rightTriggerPressed[0] ||
+			rightTriggerPressed[1]) {
 			explainnum = 5;
 		}
 		break;
 	case 5:
 		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_5.png");
-		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift)) {
+		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
+			leftTriggerPressed[0] ||
+			leftTriggerPressed[1]) {
 			explainnum = 4;
 		}
 		break;
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)) {
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1) ||
+		INPUT_GET_GAMEPAD_BUTTONDOWN(0,GamepadButton::ButtonWest)) {
 		p1button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_1.png");
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0)) {
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0) ||
+		INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonWest)) {
 		p2button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_2.png");
 	}
+}
+
+void TutorialImage::TriggerPressedCheck()  {
+	for (int i = 0; i < 2; i++) {
+		auto currentRightTrigger = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::RightTrigger);
+		if (!rightTriggerCheckTrigger[i]) {
+			if (currentRightTrigger > 0.89f) {
+				rightTriggerCheckTrigger[i] = true;
+				rightTriggerPressed[i] = true;
+				return;
+			}
+		}
+		else if ((rightTriggerCheckTrigger[i] && currentRightTrigger < 0.2f)) {
+			rightTriggerCheckTrigger[i] = false;
+		}
+	}
+
+	for (int i = 0; i < 2; i++) {
+		auto currentLeftTrigger = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::LeftTrigger);
+		if (!leftTriggerCheckTrigger[i]) {
+			if (currentLeftTrigger > 0.89f) {
+				leftTriggerCheckTrigger[i] = true;
+				leftTriggerPressed[i] = true;
+				return;
+			}
+		}
+		else if ((leftTriggerCheckTrigger[i] && currentLeftTrigger < 0.2f)) {
+			leftTriggerCheckTrigger[i] = false;
+		}
+	}
+}
+
+
+void TutorialImage::TriggerPressedCheckReset() {
+	rightTriggerPressed[0] = false;
+	rightTriggerPressed[1] = false;
+	leftTriggerPressed[0] = false;
+	leftTriggerPressed[1] = false;
 }
