@@ -133,8 +133,6 @@ namespace GOTOEngine
 
 		void Simulate(float deltaTime)
 		{
-			RefreshBodyFromPhysicsWorld2D();
-
 			if (m_physicsWorld2D)
 				m_physicsWorld2D->Step(deltaTime);
 		}
@@ -142,6 +140,11 @@ namespace GOTOEngine
 		void PreApplyTransform();
 		void ApplyTransform();
 
+		void PreSyncPhysicsWorld()
+		{
+			CheckAtiveBodyWrapper();
+			RefreshBodyFromPhysicsWorld2D();
+		}
 
 		void ShutDown()
 		{

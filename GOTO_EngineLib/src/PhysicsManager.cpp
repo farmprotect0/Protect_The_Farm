@@ -74,8 +74,6 @@ void GOTOEngine::PhysicsManager::CheckAtiveBodyWrapper()
 
 std::vector<GOTOEngine::GameObject*> GOTOEngine::PhysicsManager::OverlapBox2D(const Vector2& center, const Vector2& size)
 {
-	RefreshBodyFromPhysicsWorld2D();
-
 	std::vector<GameObject*> results;
 	auto bodies = OverlapBox2DFromPhysicsWorld2D({ center.x, center.y }, { size.x, size.y });
 	for (auto body : bodies)
