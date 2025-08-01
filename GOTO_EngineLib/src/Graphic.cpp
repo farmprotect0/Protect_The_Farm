@@ -35,7 +35,8 @@ GOTOEngine::Graphic::~Graphic()
 
 void GOTOEngine::Graphic::Dispose()
 {
-    OnCanvasHierarchyChanged();
+    if (IsValidObject(m_canvas))
+        m_canvas->UnregisterGraphic(this);
 }
 
 void GOTOEngine::Graphic::OnEnable()
