@@ -12,6 +12,13 @@ namespace GOTOEngine
 {
 	class GameManager : public ScriptBehaviour
 	{
+	private:
+		Text* P1sctext;
+		Text* P2sctext;
+		Text* Timetext;
+		GameObject* Tutorial;
+		bool p1active = false;
+		bool p2active = false;
 	public:
     GameManager()
     {
@@ -26,9 +33,7 @@ namespace GOTOEngine
 		static int winner;
 		float GameTimer = 120.0f;
 		static GameManager* instance;
-		Text* P1sctext;
-		Text* P2sctext;
-		Text* Timetext;
+		bool setactive = false;
 		void Awake();
 		void Update();
 		void OnDestroy();

@@ -163,7 +163,7 @@
     <ClCompile Include="src\scene\testEnemyScene.cpp" />
     <ClCompile Include="src\scene\TestItemScene.cpp" />
     <ClCompile Include="src\scene\StartScene.cpp" />
-    <ClCompile Include="TutorialImage.cpp" />
+    <ClCompile Include="src\component\TutorialImage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\ButtonAnimation.h" />
@@ -210,7 +210,7 @@
     <ClInclude Include="inc\prefab\StartMenuPrefab.h" />
     <ClInclude Include="inc\component\StartMenu.h" />
     <ClInclude Include="inc\component\SoundManager.h" />
-    <ClInclude Include="TutorialImage.h" />
+    <ClInclude Include="inc\component\TutorialImage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
