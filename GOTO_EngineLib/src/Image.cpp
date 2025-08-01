@@ -37,6 +37,17 @@ void GOTOEngine::Image::Render()
     }
 }
 
+void GOTOEngine::Image::Dispose()
+{
+    Graphic::Dispose();
+    if (IsValidObject(m_sprite)
+        && !m_sprite->IsDestroyed())
+    {
+        m_sprite->DecreaseRefCount();
+        m_sprite = nullptr;
+    }
+}
+
 void GOTOEngine::Image::SetSprite(Sprite* sprite)
 {
     if (m_sprite != sprite)

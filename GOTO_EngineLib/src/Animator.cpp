@@ -51,6 +51,11 @@ void GOTOEngine::Animator::SetAnimatorController(AnimatorController* controller)
 	}
 }
 
+void GOTOEngine::Animator::SetAnimatorController(const std::wstring& filePath)
+{
+	SetAnimatorController(Resource::Load<AnimatorController>(filePath));
+}
+
 void GOTOEngine::Animator::Play(std::wstring stateName)
 {
 	if (IsValidObject(m_runtimeController)
