@@ -17,6 +17,7 @@ namespace GOTOEngine
     {
         SetExecutionOrder(10);
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 
@@ -27,6 +28,11 @@ namespace GOTOEngine
 		void Awake()
 		{
 			m_collider = GetComponent<CrosshairCollide>();
+		}
+
+		void OnEnable()
+		{
+			m_fireCooldown = 0.0f;
 		}
 
 		void Update()
