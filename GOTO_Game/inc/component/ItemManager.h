@@ -4,6 +4,7 @@
 #include <InputManager.h>
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
+#include <Animator.h>
 #include "Canvas.h"
 #include "Image.h"
 #include "RectTransform.h"
