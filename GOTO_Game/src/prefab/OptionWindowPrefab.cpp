@@ -3,6 +3,7 @@
 #include "CrosshairInteractButton.h"
 #include "OptionWindowSystem.h"
 #include "ButtonAnimation.h"
+#include "GageSprite.h"
 
 #include <GameObject.h>
 #include <Canvas.h>
@@ -26,6 +27,21 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	baseWindow->GetTransform()->SetLocalScale({ 0.0f, 0.0f });
 
 	optionWindowSystem->baseWindow = baseWindow->GetTransform();
+
+	// 항목들
+	//---- 배경음
+	auto BGMGageSpriteGO = new GameObject(L"BG Gage");
+	auto BGMGageSprite = BGMGageSpriteGO->AddComponent<GageSprite>();
+	BGMGageSpriteGO->GetTransform()->SetParent(baseWindow->GetTransform());
+
+	auto BGMGageBackGO = new GameObject(L"BG Gage - BackGround");
+	BGMGageBackGO->AddComponent<SpriteRenderer>();
+	BGMGageSprite->backgroundRenderer = BGMGageBackGO->GetComponent<SpriteRenderer>();
+
+
+	//---- 효과음
+	//---- 1P 감도
+	//---- 2P 감도
 
 	// 포커스 UI
 	auto focusUI = new GameObject(L"FocusUI");

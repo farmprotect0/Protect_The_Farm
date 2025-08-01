@@ -20,8 +20,13 @@ namespace GOTOEngine
 
         bool m_YpressedUpTrigger[2];
         bool m_YpressedDownTrigger[2];
+        bool m_XpressedRightTrigger[2];
+        bool m_XpressedLeftTrigger[2];
+
         bool m_YstickPressedUp[2];
         bool m_YstickPressedDown[2];
+        bool m_XstickPressedUp[2];
+        bool m_XstickPressedDown[2];
 
 	public:
     OptionWindowSystem()
@@ -103,8 +108,9 @@ namespace GOTOEngine
 
             std::memset(m_YpressedUpTrigger, false, sizeof(m_YpressedUpTrigger));
             std::memset(m_YpressedDownTrigger, false, sizeof(m_YpressedDownTrigger));
-            std::memset(m_YstickPressedUp, false, sizeof(m_YstickPressedUp));
-            std::memset(m_YstickPressedDown, false, sizeof(m_YstickPressedDown));
+            std::memset(m_XpressedRightTrigger, false, sizeof(m_XpressedRightTrigger));
+            std::memset(m_XpressedLeftTrigger, false, sizeof(m_XpressedLeftTrigger));
+            StickPressedCheckReset();
         }
 
         void StickPressedCheck()
@@ -136,59 +142,91 @@ namespace GOTOEngine
                 }
             }
 
-            
+            for (int i = 0; i < 2; i++)
+            {
+                auto currentXstick = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::LeftStickY);
+                if (!m_XpressedRightTrigger[i] && !m_XpressedLeftTrigger[i])
+                {
+                    if (currentXstick > 0.89f)
+                    {
+                        m_XpressedRightTrigger[i] = true;
+                        m_XstickPressedUp[i] = true;
+                        return;
+                    }
+
+                    if (currentXstick < -0.89f)
+                    {
+                        m_XpressedLeftTrigger[i] = true;
+                        m_XstickPressedUp[i] = true;
+                        return;
+                    }
+                }
+                else if ((m_XpressedRightTrigger[i] && currentXstick > -0.2f)
+                    || (m_XpressedLeftTrigger[i] && currentXstick < 0.2f))
+                {
+                    m_XpressedRightTrigger[i] = false;
+                    m_XpressedLeftTrigger[i] = false;
+                }
+            }
+
         }
 
         void StickPressedCheckReset()
         {
             std::memset(m_YstickPressedUp, false, sizeof(m_YstickPressedUp));
             std::memset(m_YstickPressedDown, false, sizeof(m_YstickPressedDown));
+            std::memset(m_XstickPressedUp, false, sizeof(m_XstickPressedUp));
+            std::memset(m_XstickPressedDown, false, sizeof(m_XstickPressedDown));
         }
-
-		void Update()
-		{
-            StickPressedCheck();
+        
+        void ApplyBaseWindowAnimation()
+        {
             if (IsValidObject(baseWindow))
             {
-				// 애니메이션 시간 업데이트
-				m_animationTime += (m_isOpen ? TIME_GET_DELTATIME() : -TIME_GET_DELTATIME()) * 1.5f;
-				if (m_animationTime > 1.0f)
-					m_animationTime = 1.0f;
-				// 애니메이션 값 계산
-				float animValue = m_openAnimation.Evaluate(m_animationTime);
-				openAnimScale = animValue;
-				// 윈도우 크기 조정
+                // 애니메이션 시간 업데이트
+                m_animationTime += (m_isOpen ? TIME_GET_DELTATIME() : -TIME_GET_DELTATIME()) * 1.5f;
+                if (m_animationTime > 1.0f)
+                    m_animationTime = 1.0f;
+                // 애니메이션 값 계산
+                float animValue = m_openAnimation.Evaluate(m_animationTime);
+                openAnimScale = animValue;
+                // 윈도우 크기 조정
                 baseWindow->SetLocalScale({ animValue, animValue });
-				// ESC 키로 창 닫기
-				if (InputManager::Get()->GetKeyDown(KeyCode::Escape)
+                // ESC 키로 창 닫기
+                if (InputManager::Get()->GetKeyDown(KeyCode::Escape)
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonEast)
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonEast))
-				{
-					m_isOpen = false;
-				}
+                {
+                    m_isOpen = false;
+                }
 
-				if (!m_isOpen && m_animationTime <= 0.0f)
-				{
-					// 애니메이션이 끝나면 창을 비활성화
+                if (!m_isOpen && m_animationTime <= 0.0f)
+                {
+                    // 애니메이션이 끝나면 창을 비활성화
                     m_animationTime = 0.0f; // 애니메이션 초기화
                     GetGameObject()->SetActive(false);
                     baseWindow->SetLocalScale({ 0, 0 });
-				}
+                }
             }
+        }
 
-			if (IsValidObject(focusUITransform) && m_isOpen)
-			{
+        void StickMovement()
+        {
+            if (IsValidObject(focusUITransform) && m_isOpen)
+            {
                 // 포커스 인덱스 증가/감소
-                if (InputManager::Get()->GetKeyDown(KeyCode::DownArrow)
-                    || m_YstickPressedDown[0] 
+                if (INPUT_GET_KEYDOWN(KeyCode::DownArrow)
+                    || INPUT_GET_KEYDOWN(KeyCode::F)
+                    || m_YstickPressedDown[0]
                     || m_YstickPressedDown[1])
                 {
                     m_focusIndex++;
                     if (m_focusIndex > 4) // 예시로 3개의 버튼이 있다고 가정
                         m_focusIndex = 4;
-                
+
                 }
                 if (InputManager::Get()->GetKeyDown(KeyCode::UpArrow)
+                    || INPUT_GET_KEYDOWN(KeyCode::R)
                     || m_YstickPressedUp[0]
                     || m_YstickPressedUp[1])
                 {
@@ -198,23 +236,28 @@ namespace GOTOEngine
                 }
 
 
-				// 포커스 UI 위치 업데이트
+                // 포커스 UI 위치 업데이트
                 auto focusSpace = 80.0f;
 
                 auto startPosY = 150.0f;
 
-				auto targetPosY = startPosY + focusSpace * -m_focusIndex;
+                auto targetPosY = startPosY + focusSpace * -m_focusIndex;
 
-				auto pos = Vector2::Lerp(
-					focusUITransform->GetLocalPosition(),
-					{ 0.0f, targetPosY },
-					TIME_GET_DELTATIME() * 10.0f);
+                auto pos = Vector2::Lerp(
+                    focusUITransform->GetLocalPosition(),
+                    { 0.0f, targetPosY },
+                    TIME_GET_DELTATIME() * 10.0f);
 
-			
-				focusUITransform->SetLocalPosition(pos);
-			}
+                focusUITransform->SetLocalPosition(pos);
+            }
+        }
 
+		void Update()
+		{
             StickPressedCheckReset();
+            StickPressedCheck();
+            ApplyBaseWindowAnimation();
+            StickMovement();
 		}
 	};
 }

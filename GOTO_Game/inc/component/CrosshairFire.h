@@ -12,6 +12,9 @@ namespace GOTOEngine
 	private:
 		CrosshairCollide* m_collider = nullptr; // Collider2D 컴포넌트
 		float m_fireCooldown = 0.0f; // 발사 쿨타임
+
+		bool m_RightTriggerCheckTrigger;
+		bool m_RightTriggerPressed;
 	public:
     CrosshairFire()
     {
@@ -33,10 +36,38 @@ namespace GOTOEngine
 		void OnEnable()
 		{
 			m_fireCooldown = 0.0f;
+			m_RightTriggerCheckTrigger = false;
+			TriggerPressedCheckReset();
+		}
+
+		void TriggerPressedCheck()
+		{
+			auto currentRightTrigger = INPUT_GET_GAMEPAD_AXIS(id, GamepadAxis::RightTrigger);
+			if (!m_RightTriggerCheckTrigger)
+			{
+				if (currentRightTrigger > 0.89f)
+				{
+					m_RightTriggerCheckTrigger = true;
+					m_RightTriggerPressed = true;
+					return;
+				}
+			}
+			else if ((m_RightTriggerCheckTrigger && currentRightTrigger < 0.2f))
+			{
+				m_RightTriggerCheckTrigger = false;
+			}
+		}
+
+		void TriggerPressedCheckReset()
+		{
+			m_RightTriggerPressed = false;
 		}
 
 		void Update()
 		{
+			TriggerPressedCheckReset();
+			TriggerPressedCheck();
+
 			m_fireCooldown -= TIME_GET_DELTATIME();
 			m_fireCooldown = Mathf::Max(m_fireCooldown, 0.0f);
 
@@ -46,7 +77,8 @@ namespace GOTOEngine
 			//입력 감지: 플레이어 ID별 키 또는 버튼 입력
 			bool firePressed = (id == 0 && INPUT_GET_KEYDOWN(KeyCode::LeftShift)) ||
 				(id == 1 && INPUT_GET_KEYDOWN(KeyCode::RightShift)) ||
-				INPUT_GET_GAMEPAD_BUTTONDOWN(id, GamepadButton::ButtonSouth);
+				INPUT_GET_GAMEPAD_BUTTONDOWN(id, GamepadButton::ButtonSouth) || 
+				m_RightTriggerPressed;
 
 			if (!firePressed || !IsValidObject(m_collider))
 				return;

@@ -227,6 +227,13 @@ void ItemManager::UseItem(int player, ItemType item)
 
 			for (auto* enemy : enemies)
 			{
+				auto iceeffect = new GameObject;
+				iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
+				iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
+				iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
+				iceeffect->GetComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
+				iceeffect->GetTransform()->SetParent(enemy->GetTransform());
+				Destroy(iceeffect, 5.0f);
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 			}
 
@@ -240,6 +247,13 @@ void ItemManager::UseItem(int player, ItemType item)
 
 			for (auto* enemy : enemies)
 			{
+				auto iceeffect = new GameObject;
+				iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
+				iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
+				iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
+				iceeffect->GetComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
+				iceeffect->GetTransform()->SetParent(enemy->GetTransform());
+				Destroy(iceeffect, 5.0f);
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 			}
 

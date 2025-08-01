@@ -35,6 +35,7 @@ GOTOEngine::Graphic::~Graphic()
 
 void GOTOEngine::Graphic::Dispose()
 {
+    OnCanvasHierarchyChanged();
 }
 
 void GOTOEngine::Graphic::OnEnable()

@@ -26,17 +26,17 @@ void TutorialImage::Awake() {
 	p1bobject->GetTransform()->SetParent(canvas->GetTransform());
 	p1button = p1bobject->AddComponent<Image>();
 	p1button->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.1f });
+		Screen::GetWidth() * 0.25f, Screen::GetHeight() * 0.23f });
 	p1button->GetRectTransform()->SetSizeDelta({
-		Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.05f });
+		Screen::GetWidth() * 0.021f, Screen::GetHeight() * 0.035f });
 	auto p2bobject = new GameObject;
 	Tutorialobject.push_back(p2bobject);
 	p2bobject->GetTransform()->SetParent(canvas->GetTransform());
 	p2button = p2bobject->AddComponent<Image>();
 	p2button->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.85f, Screen::GetHeight() * 0.1f });
+		Screen::GetWidth() * 0.72f, Screen::GetHeight() * 0.23f });
 	p2button->GetRectTransform()->SetSizeDelta({
-		Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.05f });
+		Screen::GetWidth() * 0.021f, Screen::GetHeight() * 0.035f });
 	p1button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_basic.png");
 	p2button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_basic.png");
 }

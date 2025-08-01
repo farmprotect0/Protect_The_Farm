@@ -10,6 +10,7 @@ namespace GOTOEngine
 		Sprite* m_sprite = nullptr;
 	public:
 		Image() : Graphic() {}
+		void Dispose() override;
 		void SetSprite(Sprite* sprite);
 		void SetSprite(Sprite* sprite, Rect srcRect);
 
