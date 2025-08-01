@@ -19,6 +19,7 @@ namespace GOTOEngine
     {
         SetExecutionOrder(5);
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		float moveSpeed = 650.0f;
@@ -33,6 +34,11 @@ namespace GOTOEngine
 		void Awake()
 		{
 			m_collider = GetComponent<CrosshairCollide>();
+		}
+
+		void OnEnable()
+		{
+			m_vel = { 0,0 };
 		}
 
 		void Update()

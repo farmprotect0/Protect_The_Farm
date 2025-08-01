@@ -19,6 +19,7 @@ void GOTOEngine::PhysicsManager::RefreshBodyFromPhysicsWorld2D()
 		}
 		m_removePendingBody.clear();
 	}
+	m_needRefreshBodyInPhysicsWorld = false;
 }
 
 std::vector<Body*> GOTOEngine::PhysicsManager::OverlapBox2DFromPhysicsWorld2D(const Vec2& center, const Vec2& size)

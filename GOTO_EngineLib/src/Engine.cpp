@@ -121,6 +121,8 @@ void Engine::ProcessFrame()
 		//실제 고정틱 실행
 		accumulator -= fixedDelta;
 		TimeManager::Get()->FixedUpdate();
+
+		PhysicsManager::Get()->PreSyncPhysicsWorld();
 		PhysicsManager::Get()->PreApplyTransform();
 		BehaviourManager::Get()->BroadCastBehaviourMessage("FixedUpdate");
 		PhysicsManager::Get()->Simulate(fixedDelta);
