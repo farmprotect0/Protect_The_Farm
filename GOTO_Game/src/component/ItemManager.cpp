@@ -127,7 +127,7 @@ void ItemManager::Update(){
 			ItemType item = p1Items[i];
 			switch (item) {
 			case ItemType::Bomb:
-				p1itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Bomb_item .png");
+				p1itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Bomb_item.png");
 				break;
 			case ItemType::Icebomb:
 				p1itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_item.png");
@@ -146,7 +146,7 @@ void ItemManager::Update(){
 			ItemType item = p2Items[i];
 			switch (item) {
 			case ItemType::Bomb:
-				p2itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Bomb_item .png");
+				p2itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Bomb_item.png");
 				break;
 			case ItemType::Icebomb:
 				p2itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_item.png");
