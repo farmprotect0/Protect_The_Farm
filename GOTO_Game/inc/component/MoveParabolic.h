@@ -98,27 +98,21 @@ namespace GOTOEngine
             break;
             case  E_Move_Role::OFFSET:
             {
+                m_progress += deltaTime / m_arcDuration;
+                if (m_progress > 1.0f)
+                {
+                    m_progress = 0.0f;
+                }
+                float offset = 4 * m_height * (m_progress - m_progress * m_progress);
                 if (m_flipXY)
                 {
-                    float time = fmod(TimeManager::Get()->GetTime(), m_arcDuration);
-                    float progress = time / m_arcDuration;
-
-                    // X축 오프셋만 계산
-                    float offsetX = 4 * m_height * (progress - progress * progress);
-                 
                     // X축 오프셋 벡터 반환
-                    return Vector2(offsetX, 0);
+                    return Vector2(offset, 0);
                 }
                 else
                 {
-                    float time = fmod(TimeManager::Get()->GetTime(), m_arcDuration);
-                    float progress = time / m_arcDuration;
-
-                    // Y축 오프셋만 계산
-                    float offsetY = 4 * m_height * (progress - progress * progress);
-
                     // Y축 오프셋 벡터 반환
-                    return Vector2(0, offsetY);
+                    return Vector2(0, offset);
                 }
             }
                 break;

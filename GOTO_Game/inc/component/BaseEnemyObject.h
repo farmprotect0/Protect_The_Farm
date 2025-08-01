@@ -144,7 +144,6 @@ namespace GOTOEngine
 			{
 				AddComponent<MoveCircle>();
 			}
-
 			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
 			{
 				auto move = AddComponent<MoveParabolic>();

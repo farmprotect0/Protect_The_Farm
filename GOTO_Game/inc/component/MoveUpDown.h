@@ -19,8 +19,7 @@ namespace GOTOEngine
 		float m_maxY;
 		float m_minY;
 
-
-        bool testbool;
+        bool isWave;
 
     public:
         void Awake() override
@@ -36,11 +35,10 @@ namespace GOTOEngine
 
             if (m_flag & MOVE_LEFT_RIGHT && m_flag & MOVE_WAVE)
             {
-                // wave도 켜져있고 leftright도 켜져있고 그러면 물결 y좌표 
-                testbool = true;
+                // 0b0011 지그재그에서 flag wave가 켜져있으면 물결 무늬
+                isWave = true;
                 m_distance = 1.0f;
             }
-
         }
         Vector2 Move(float deltaTime) override
         {
@@ -52,7 +50,8 @@ namespace GOTOEngine
 				{
 					FlipDirection();
 				}
-                if (testbool)
+
+                if (isWave)
                 {
                     float totalTime = TimeManager::Get()->GetTime();
                     float offsetY = sin(totalTime * m_frequency) * m_distance;
