@@ -35,9 +35,23 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	BGMGageSpriteGO->GetTransform()->SetParent(baseWindow->GetTransform());
 
 	auto BGMGageBackGO = new GameObject(L"BG Gage - BackGround");
-	BGMGageBackGO->AddComponent<SpriteRenderer>();
-	BGMGageSprite->backgroundRenderer = BGMGageBackGO->GetComponent<SpriteRenderer>();
+	BGMGageBackGO->GetTransform()->SetParent(BGMGageSpriteGO->GetTransform());
+	auto BGMGageBackGORenderer = BGMGageBackGO->AddComponent<SpriteRenderer>();
+	BGMGageSprite->backgroundRenderer = BGMGageBackGORenderer;
 
+
+	BGMGageSpriteGO->GetTransform()->SetLocalPosition({ -580.0f * 0.5f,0.0f });
+
+	auto BGMGageBarGO = new GameObject(L"BG Gage - GageBar");
+	BGMGageBarGO->GetTransform()->SetParent(BGMGageSpriteGO->GetTransform());
+	auto BGMGageBarGORenderer = BGMGageBarGO->AddComponent<SpriteRenderer>();
+	BGMGageSprite->gagebarRenderer = BGMGageBarGORenderer;
+
+	auto BGMGageHandleGO = new GameObject(L"BG Gage - GageHandle");
+	BGMGageHandleGO->GetTransform()->SetParent(BGMGageSpriteGO->GetTransform());
+	auto BGMGageHandleGORenderer = BGMGageHandleGO->AddComponent<SpriteRenderer>();
+	BGMGageSprite->gagehandleRenderer = BGMGageHandleGORenderer;
+	
 
 	//---- 효과음
 	//---- 1P 감도

@@ -40,6 +40,7 @@ void GOTOEngine::AnimationClip::LoadFromFilePath(const std::wstring& filePath)
 					Rect{ spriteInfo["x"],spriteInfo["y"],spriteInfo["width"],spriteInfo["height"] });
 				createdSprite->SetPivotX(spriteInfo["pivotX"]);
 				createdSprite->SetPivotY(spriteInfo["pivotY"]);
+				createdSprite->IncreaseRefCount();
 
 				if (jFromSheetFile.contains("textureRenderMode"))
 				{

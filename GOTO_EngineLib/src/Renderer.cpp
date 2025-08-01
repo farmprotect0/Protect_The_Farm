@@ -39,6 +39,7 @@ int GOTOEngine::Renderer::GetRenderOrder()
 void GOTOEngine::Renderer::SetRenderOrder(int value)
 {
 	m_renderOrder = value;
+	RenderManager::Get()->SetRendererSortDirty();
 }
 
 void GOTOEngine::Renderer::SetRenderLayer(std::uint32_t layer)
