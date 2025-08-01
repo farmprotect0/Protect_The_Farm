@@ -18,11 +18,14 @@ namespace GOTOEngine
 		bool p2active = false;
 		float NormalTiming = 125.0f;
 		float GimmickTiming = 120.0f;
-		float ItemTiming = 120.0f;
+		float ItemTiming[6] = { 100.0f, 80.0f, 60.0f, 40.0f, 20.0f, 10.0f };
 
 		Text* P1sctext;
 		Text* P2sctext;
 		Text* Timetext;
+
+		int p1itemchange;
+		int p2itemchange;
 
 		GameObject* Tutorial;
 		EnemySpawner* EnemySpawner;

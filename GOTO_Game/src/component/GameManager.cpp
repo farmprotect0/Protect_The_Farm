@@ -1,8 +1,8 @@
 ﻿#include "GameManager.h"
 #include "TutorialImage.h"
-
 #include "EnemySpawner.h"
 #include "BaseEnemyObject.h"
+#include <time.h>
 
 using namespace GOTOEngine;
 GameManager* GameManager::instance = nullptr;
@@ -43,6 +43,10 @@ void GameManager::Awake(){
 	Timetext->SetColor({ 255,0,0,255 });
 	Tutorial = new GameObject;
 	Tutorial->AddComponent<TutorialImage>();
+
+	srand(time(NULL));
+	p1itemchange = rand() % 4 + 1;
+	p2itemchange = rand() % 4 + 1;
 }
 
 void GOTOEngine::GameManager::Start()
@@ -76,10 +80,108 @@ void GameManager::Update() {
 				EnemySpawner->CreateEnemy(E_EnemyType::gimmick, 2);
 				GimmickTiming -= 15.0f;
 			}
-			if (ItemTiming - GameTimer >= 20.0f) {
-				//아이템 몬스터 생성
-
-				ItemTiming -= 20.0f;
+			
+			if (GameTimer <= ItemTiming[0]) {
+				if (p1itemchange == 1 || p1itemchange == 4) {
+					//p1 얼음새
+				}
+				else if (p1itemchange == 2 || p1itemchange == 3) {
+					//p1 폭탄새
+				}
+				if (p2itemchange == 1 || p2itemchange == 4) {
+					//p2 얼음새
+				}
+				else if (p2itemchange == 2 || p2itemchange == 3) {
+					//p2 폭탄새
+				}
+				ItemTiming[0] = -1.0f;
+			}
+			if (GameTimer <= ItemTiming[1]) {
+				if (p1itemchange == 1 || p1itemchange == 4) {
+					//p1 폭탄새
+				}
+				else if (p1itemchange == 2) {
+					//p1 얼음새
+				}
+				else if (p1itemchange == 3) {
+					//p1 황금새
+				}
+				if (p2itemchange == 1 || p2itemchange == 4) {
+					//p2 폭탄새
+				}
+				else if (p2itemchange == 2) {
+					//p2 얼음새
+				}
+				else if (p2itemchange == 3) {
+					//p2 황금새
+				}
+				ItemTiming[1] = -1.0f;
+			}
+			if (GameTimer <= ItemTiming[2]) {
+				if (p1itemchange == 1) {
+					//p1 황금새
+				}
+				else if (p1itemchange == 2 || p1itemchange == 4) {
+					//p1 폭탄새
+				}
+				else if (p1itemchange == 3) {
+					//p1 얼음새
+				}
+				if (p2itemchange == 1) {
+					//p2 황금새
+				}
+				else if (p2itemchange == 2 || p2itemchange == 4) {
+					//p2 폭탄새
+				}
+				else if (p2itemchange == 3) {
+					//p2 얼음새
+				}
+				ItemTiming[2] = -1.0f;
+			}
+			if (GameTimer <= ItemTiming[3]) {
+				if (p1itemchange == 1 || p1itemchange == 3) {
+					//p1 폭탄새
+				}
+				else if (p1itemchange == 2 || p1itemchange == 4) {
+					//p1 황금새
+				}
+				if (p2itemchange == 1 || p2itemchange == 3) {
+					//p2 폭탄새
+				}
+				else if (p2itemchange == 2 || p2itemchange == 4) {
+					//p2 황금새
+				}
+				ItemTiming[3] == -1.0f;
+			}
+			if (GameTimer == ItemTiming[4]) {
+				if (p1itemchange == 1 || p1itemchange == 4) {
+					//p1 얼음새
+				}
+				else if (p1itemchange == 2 || p1itemchange == 3) {
+					//p1 폭탄새
+				}
+				if (p2itemchange == 1 || p2itemchange == 4) {
+					//p2 얼음새
+				}
+				else if (p2itemchange == 2 || p2itemchange == 3) {
+					//p2 폭탄새
+				}
+				ItemTiming[4] = -1.0f;
+			}
+			if (GameTimer == ItemTiming[5]) {
+				if (p1itemchange == 1 || p1itemchange == 4) {
+					//p1 폭탄새
+				}
+				else if (p1itemchange == 2 || p1itemchange == 3) {
+					//p1 얼음새
+				}
+				if (p2itemchange == 1 || p2itemchange == 4) {
+					//p2 폭탄새
+				}
+				else if (p2itemchange == 2 || p2itemchange == 3) {
+					//p2 얼음새
+				}
+				ItemTiming[5] = -1.0f;
 			}
 			if (GameTimer <= 0.0f) {
 				GameTimer = 0.0f;
