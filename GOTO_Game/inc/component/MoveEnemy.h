@@ -45,6 +45,7 @@ namespace GOTOEngine
 				m_moveFlag = 0b0000;
 				GetGameObject()->name = L"두더지";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Mole.png");
+				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/MoleAnimator_AnimController.json"));
 				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
 

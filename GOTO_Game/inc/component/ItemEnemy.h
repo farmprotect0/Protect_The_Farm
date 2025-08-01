@@ -66,6 +66,7 @@ namespace GOTOEngine
 				m_itemType = ItemType::Icebomb;
 				GetGameObject()->name = L"얼음새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/IceCrow.png");
+				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/IceCrowAnimator_AnimController.json"));
 				break;
 			case bomCrow:
 				m_moveFlag = 0b1000;
@@ -79,6 +80,7 @@ namespace GOTOEngine
 				m_itemType = ItemType::Ticket;
 				GetGameObject()->name = L"황금새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/GoldCrow.png");
+				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/GoldCrowAnimator_AnimController.json"));
 				break;
 			}
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));

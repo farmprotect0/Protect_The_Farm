@@ -1,0 +1,16 @@
+{
+    "controllerName": "SquirrelAnimator",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "Squirrel_Move",
+    "states": [
+        {
+            "name": "Squirrel_Move",
+            "motionName": "Squirrel_Move",
+            "clipLength": 1.6666667461395264,
+            "loop": true,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}
