@@ -20,8 +20,6 @@ namespace GOTOEngine
 
 
 	public:
-		virtual ~MoveEnemy() = default;
-
 		void Initialize(std::any param, bool _moveLoop = false) override
 		{
 			__super::Initialize(param, _moveLoop);

@@ -23,9 +23,9 @@ namespace GOTOEngine
 
 
 	public:
-		virtual ~GimmickEnemy()
+		void Dispose() override
 		{
-			if(m_isDelayByDispone)
+			if (m_isDelayByDispone)
 			{
 				if (m_layer == 1)
 				{
@@ -39,8 +39,8 @@ namespace GOTOEngine
 
 			// 기믹 호출 GimmickManager::GimmickOn()
 			GimmickManager::instance->GimmickOn(m_layer, m_gimmickEnemyType + 1);
-		}
 
+		}
 		void Initialize(std::any param, bool _moveLoop = false) override
 		{
 			__super::Initialize(param, _moveLoop);
