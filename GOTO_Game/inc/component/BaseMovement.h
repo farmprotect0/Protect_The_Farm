@@ -10,6 +10,7 @@ namespace GOTOEngine
         MOVE_UP_DOWN = 1 << 1,		// 상하 이동 (0010)         PATH
         MOVE_CIRCULAR = 1 << 2,		// 원형 이동 (0100)         OFFSET
         MOVE_PARABOLIC = 1 << 3,	// 포물선 이동 (1000)       PATH, OFFSET
+        MOVE_WAVE = 1 << 4          // 물결 이동 (10000)        OFFSET
         // 이동 추가
     };
 
@@ -30,6 +31,7 @@ namespace GOTOEngine
     protected:
         float m_moveSpeed = 10.0f;
         E_Move_Role m_role = E_Move_Role::PATH;
+        int m_flag = E_Enemy_Move_Type::NONE;
 
         // 루프 상태
         bool m_isLoop = true;
@@ -47,23 +49,26 @@ namespace GOTOEngine
         virtual void Awake() {}
         virtual void OnDestroy() {}
 
-        virtual Vector2 Move(float deltaTime) = 0;
+        void Initialize(int moveFlag) { m_flag = moveFlag; }
 
+        // Get
+        int GetDirection() const { return m_flipDirection; }
+        E_Move_Role GetRole() const { return m_role; }
+        bool IsLoop() const { return m_isLoop; }
+
+        // Set
         void SetLoopMode(float min, float max)
         {
             m_isLoop = true;
             m_minBounds = min;
             m_maxBounds = max;
         }
-
         virtual void FlipDirection()
         {
             m_flipDirection *= -1;
         }
 
-        int GetDirection() const { return m_flipDirection; }
-        bool IsLoop() const { return m_isLoop; }
-
-        E_Move_Role GetRole() const { return m_role; }
+        // 이벤트
+        virtual Vector2 Move(float deltaTime) = 0;
     };
 }
