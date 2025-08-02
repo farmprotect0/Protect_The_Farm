@@ -120,10 +120,22 @@ namespace GOTOEngine
 
     void XInputGamepadDevice::SetVibration(float leftMotor, float rightMotor)
     {
+        if (!m_isConnected)
+            return;
+        XINPUT_VIBRATION vibration;
+        vibration.wLeftMotorSpeed = static_cast<WORD>(leftMotor * 65535.0f);
+        vibration.wRightMotorSpeed = static_cast<WORD>(rightMotor * 65535.0f);
+        XInputSetState(m_controllerIndex, &vibration);
     }
 
     void XInputGamepadDevice::StopVibration()
     {
+        if (!m_isConnected)
+            return;
+        XINPUT_VIBRATION vibration;
+        vibration.wLeftMotorSpeed = static_cast<WORD>(0.0f);
+        vibration.wRightMotorSpeed = static_cast<WORD>(0.0f);
+        XInputSetState(m_controllerIndex, &vibration);
     }
 
     void XInputGamepadDevice::PlaySimpleVibration(float duration, float strength)

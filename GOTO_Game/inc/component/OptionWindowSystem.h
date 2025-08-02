@@ -46,7 +46,7 @@ namespace GOTOEngine
 
 		void Awake()
 		{
-            std::string anim = R"({
+            m_openAnimation = AnimationCurve(std::string{ R"({
     "keyframes": [
         {
             "time": 0,
@@ -84,8 +84,7 @@ namespace GOTOEngine
             "tangent_mode": 1
         }
     ]
-})";
-            m_openAnimation = AnimationCurve(anim);
+})" });
 
 			m_cachedPlayer1 = GameObject::Find(L"Player1");
 			m_cachedPlayer2 = GameObject::Find(L"Player2");
@@ -280,7 +279,8 @@ namespace GOTOEngine
 
             for (size_t i = 0; i < sliderSprites.size(); i++)
             {
-                sliderSprites[i]->SetValue(Mathf::Lerp(sliderSprites[i]->GetValue(), sliderTargetValue[i], TIME_GET_DELTATIME() * 15.0f));
+                if(IsValidObject(sliderSprites[i]))
+                    sliderSprites[i]->SetValue(Mathf::Lerp(sliderSprites[i]->GetValue(), sliderTargetValue[i], TIME_GET_DELTATIME() * 15.0f));
             }
         }
 
