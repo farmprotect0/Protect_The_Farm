@@ -15,14 +15,13 @@ namespace GOTOEngine
     {
     private:
         float m_height = 50.0f;     // 포물선의 높이각도
-        float m_distance = 0.2f;     // 포물선의 거리 화면 비율
+        float m_maxX;
+        float m_minX;
 
         // PATH 일 때, 이전 프레임 위치 기억변수
-        Vector2 m_lastPathPos; 
         Vector2 m_startPos;
         Vector2 m_endPos;
         float m_progress = 0.0f;     // 포물선 진행도 (0.0 ~ 1.0)
-        float m_arcDuration = 2.0f;  // 포물선 전체 이동 시간
 
         bool m_flipXY;
 
@@ -30,34 +29,41 @@ namespace GOTOEngine
         Delegate<void> OnFlipDirection;
 
     public:
+        void Initialize(float _min, float _max)
+        {
+            m_maxX = _max;
+            m_minX = _min;
+        }
         void Awake() override
         {
             __super::Awake();
+            const int MASK = MOVE_LEFT_RIGHT | MOVE_UP_DOWN;
+            int relevant_bits = m_flag & MASK; // XOR
 
-            if (m_flag & (MOVE_LEFT_RIGHT | MOVE_UP_DOWN))
+            if (relevant_bits != 0 && relevant_bits != MASK) // 1001 or 1010
             {
                 m_role = E_Move_Role::OFFSET;
-                if ((m_flag & MOVE_LEFT_RIGHT) && (m_flag & MOVE_UP_DOWN))
-                {
-                    //m_arcDuration = 4.0f;
-                    //m_height = 30.0f;
-                }
-                else m_flipXY = m_flag & MOVE_UP_DOWN;
+                m_flipXY = m_flag & MOVE_UP_DOWN;
             }
-            else m_role = E_Move_Role::PATH;
-
-
-            Vector2 curPos = GetGameObject()->GetTransform()->GetPosition();
-            m_startPos = Vector2( curPos.x * m_flipDirection, curPos.y);
-            m_endPos = Vector2((curPos.x + m_distance )* m_flipDirection, curPos.y);
-
-            m_moveSpeed = 80.0f;
-            m_distance = Screen::GetWidth() * m_distance;
+            else // 1000 or 1011
+            {
+                m_role = E_Move_Role::PATH;
+            }
 
             if (m_role == E_Move_Role::PATH)
             {
-                m_lastPathPos = m_startPos;
+                Vector2 curPos = GetGameObject()->GetTransform()->GetPosition();
+                //std::cout << "curpPos Y ::" << curPos.y << std::endl;
+                m_startPos = Vector2(m_minX * m_flipDirection, curPos.y);
+                m_endPos = Vector2(m_maxX * m_flipDirection, curPos.y);
             }
+
+            m_moveSpeed = 2.0f;
+        }
+        void OnDestroy() override
+        {
+            __super::OnDestroy();
+            OnFlipDirection.Clear();
         }
         Vector2 Move(float deltaTime) override
         {
@@ -66,15 +72,15 @@ namespace GOTOEngine
             case E_Move_Role::PATH:
             {
                 // 진행도 progress 
-                m_progress += deltaTime / m_arcDuration;
+                m_progress += deltaTime / m_moveSpeed;
                 if (m_progress > 1.0f)
                 {
                     if (m_isLoop)
-                    { 
-                        m_progress = 0.0f; 
-                        m_flipDirection *= -1;/*delegate*/ 
+                    {
+                        m_progress = 0.0f;
+                        FlipDirection();
+                        OnFlipDirection.Invoke();
                         std::swap(m_startPos, m_endPos);
-                        m_lastPathPos = m_startPos;
                     }
                     else m_progress = 1.0f;
                 }
@@ -87,18 +93,13 @@ namespace GOTOEngine
                 // 이번 프레임 목표 위치 계산
                 Vector2 targetPos = Vector2(currentX, m_startPos.y + parabolicY);
 
-                // 목표 위치 - 이전 프레임 PATH 위치
-                Vector2 pathPos = targetPos - m_lastPathPos;
-                // 다음 프레임을 위해 저장
-                m_lastPathPos = targetPos;
-
                 // 현재 위치에서 목표 위치로의 이동량 반환
-                return pathPos;
+                return targetPos - GetGameObject()->GetTransform()->GetPosition();
             }
             break;
             case  E_Move_Role::OFFSET:
             {
-                m_progress += deltaTime / m_arcDuration;
+                m_progress += deltaTime / m_moveSpeed;
                 if (m_progress > 1.0f)
                 {
                     m_progress = 0.0f;
@@ -115,12 +116,7 @@ namespace GOTOEngine
                     return Vector2(0, offset);
                 }
             }
-                break;
-            default:
-            {
-                return Vector2::Zero();
-            }
-                break;
+            break;
             }
             return Vector2::Zero();
         }

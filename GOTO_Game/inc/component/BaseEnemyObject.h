@@ -120,26 +120,31 @@ namespace GOTOEngine
 		void SetMovementComponents(float _minY = 0.0f, float _maxY = 0.5f)
 		{
 			// flag 스크립트	부착
-			if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
-			{
-				auto comp = AddComponent<MoveLeftRight>();
-				comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
-				comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
-			}
-			if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
-			{
-				auto comp = AddComponent<MoveUpDown>();
-				comp->Initialize(Screen::GetHeight() * _minY, Screen::GetHeight() * _maxY);
-			}
 			if (m_moveFlag & MOVE_CIRCULAR) // 0b0100
 			{
 				AddComponent<MoveCircle>();
 			}
-			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
+			if ( m_moveFlag & MOVE_PARABOLIC ) // 0b1000
 			{
-				AddComponent<MoveParabolic>();
+				auto comp = AddComponent<MoveParabolic>();
+				comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
+				comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
 			}
-
+			if(!(m_moveFlag & MOVE_PARABOLIC && m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN)) // 1011 == 1000
+			{
+				if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
+				{
+					auto comp = AddComponent<MoveLeftRight>();
+					comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
+					comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
+				}
+				if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
+				{
+					auto comp = AddComponent<MoveUpDown>();
+					comp->Initialize(Screen::GetHeight() * _minY, Screen::GetHeight() * _maxY);
+				}
+			}
+			
 			// 등록한 movement들 추가
 			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
 
@@ -158,6 +163,7 @@ namespace GOTOEngine
 			GetTransform()->SetPosition({ randomX, randomY });
 			// OFFSET 경로의 기준선
 			m_currentPathPosition = { randomX, randomY };
+			//std::cout << "SetPos Y ::" << m_currentPathPosition.y << std::endl;
 		}
 		void SetFlipXSprite()
 		{

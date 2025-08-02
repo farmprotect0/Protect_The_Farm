@@ -14,12 +14,9 @@ namespace GOTOEngine
     class MoveLeftRight : public BaseMovement
     {
     private:
-        Vector2 m_initialPosition;
         float m_distance = 1.0f;
 		float m_maxX;
 		float m_minX;
-
-        bool testbool;
 
     public:
         Delegate<void> OnFlipDirection;
@@ -34,7 +31,6 @@ namespace GOTOEngine
         {
             __super::Awake();
 
-            m_initialPosition = GetGameObject()->GetTransform()->GetPosition();
             m_moveSpeed = 80.0f;
             m_role = E_Move_Role::PATH;
         }
@@ -45,7 +41,6 @@ namespace GOTOEngine
         }
         Vector2 Move(float deltaTime) override
         {
-
             if (m_isLoop)
             {
                 Vector2 currentPos = GetGameObject()->GetTransform()->GetPosition();

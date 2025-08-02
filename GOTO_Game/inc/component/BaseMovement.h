@@ -20,6 +20,7 @@ namespace GOTOEngine
     // 10011 지그재그 (물결)
     //
     // 0100 원형은 자유자재로 붙이기 가능
+    // 1011 == 1000 곡선 (주기가 긴)
 
     enum class E_Move_Role
     {
