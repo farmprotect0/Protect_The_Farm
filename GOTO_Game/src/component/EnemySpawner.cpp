@@ -37,116 +37,40 @@ void GOTOEngine::EnemySpawner::Awake()
 
 void GOTOEngine::EnemySpawner::Update()
 {
-	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 까마귀 생성 (MoveEnemy)
+	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 생성 (MoveEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::move);
-
-		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
-		baseObject->layer = 1 << 1;
-
-		// 랜덤
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
-		std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
-
-		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
-
-		m_p1Enemy.push_back(baseObject);
+		CreateEnemy(E_EnemyType::move, 1);
 	}
-	if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 토끼 생성 (GimmickEnemy)
+	if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 생성 (GimmickEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick);
-
-		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
-		baseObject->layer = 1 << 1;
-
-		//*/ 랜덤
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
-		std::uniform_real_distribution<float> distHeight(-0.3f, 0.3f);
-
-		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
-		//*/
-		baseObject->GetTransform()->SetPosition({ 0.0f, 0.0f });
-		m_p1Enemy.push_back(baseObject);
+		CreateEnemy(E_EnemyType::gimmick, 1);
 	}
-	if (INPUT_GET_KEYUP(KeyCode::E)) // p1 enemy 얼음새 생성 (ItemEnemy)
+	if (INPUT_GET_KEYUP(KeyCode::E)) // p1 enemy 생성 (ItemEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::itemspawn);
-
-		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
-		baseObject->layer = 1 << 1;
-
-		// 랜덤
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
-		std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
-
-		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
-
-		m_p1Enemy.push_back(baseObject);
+		CreateEnemy(E_EnemyType::itemspawn, 1);
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::I)) // p2 enemy 까마귀 생성 (MoveEnemy)
+	if (INPUT_GET_KEYDOWN(KeyCode::I)) // p2 enemy 생성 (MoveEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::move);
-
-		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
-		baseObject->layer = 1 << 2;
-
-		// 랜덤
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
-		std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
-
-		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
-
-		m_p2Enemy.push_back(baseObject);
+		CreateEnemy(E_EnemyType::move, 2);
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 토끼 생성 (GimmickEnemy)
+	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 생성 (GimmickEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::gimmick);
-
-		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
-		baseObject->layer = 1 << 2;
-
-		// 랜덤
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
-		std::uniform_real_distribution<float> distHeight(-0.3f, 0.3f);
-
-		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
-
-		m_p2Enemy.push_back(baseObject);
+		CreateEnemy(E_EnemyType::gimmick, 2);
 	}
-	if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 얼음새 생성 (ItemEnemy)
+	if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 생성 (ItemEnemy)
 	{
-		GameObject* baseObject = CreateEnemy(E_EnemyType::itemspawn);
-
-		baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(2);
-		baseObject->layer = 1 << 2;
-
-		// 랜덤
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
-		std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
-
-		baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
-
-		m_p2Enemy.push_back(baseObject);
+		CreateEnemy(E_EnemyType::itemspawn, 2);
 	}
 }
 
-// moveflag 정리해야함
-GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType)
+// 플레이어에 타입 랜덤 생성
+void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 {
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
-	/*// 설정대로 스폰
+
+	//GameObject* baseObject = CreateEnemy(enemyType);
+
+	/*// 설정대로 스폰 (디버그 용)
 	switch(enemyType)
 	{
 	case move:
@@ -159,8 +83,8 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType)
 		break;
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
-		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(iceCrow);
-		break; 
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(bombCrow);
+		break;
 	default:
 		break;
 	}
@@ -169,49 +93,77 @@ GameObject* GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType)
 	//*// 랜덤 스폰
 	switch (enemyType)
 	{
-		case move:
-		{
-			auto randomType = static_cast<E_Move_Enemy_Type>(std::rand() % E_Move_Enemy_Type::move_type_count);
-			newEnemyObject->AddComponent<MoveEnemy>();
-			newEnemyObject->GetComponent<MoveEnemy>()->Initialize(randomType);
-		}
-		break;
-		case gimmick:
-		{
-			auto randomType = static_cast<E_Gimmick_Enemy_Type>(std::rand() % E_Gimmick_Enemy_Type::gimmick_type_count);
-			newEnemyObject->AddComponent<GimmickEnemy>();
-			newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(randomType);
-		}
-		break;
-		case itemspawn:
-		{
-			auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % E_Item_Enemy_Type::item_type_count);
-			newEnemyObject->AddComponent<ItemEnemy>();
-			newEnemyObject->GetComponent<ItemEnemy>()->Initialize(randomType);
-		}
-		break;
+	case move:
+	{
+		auto randomType = static_cast<E_Move_Enemy_Type>(std::rand() % E_Move_Enemy_Type::move_type_count);
+		newEnemyObject->AddComponent<MoveEnemy>();
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(randomType);
+	}
+	break;
+	case gimmick:
+	{
+		auto randomType = static_cast<E_Gimmick_Enemy_Type>(std::rand() % E_Gimmick_Enemy_Type::gimmick_type_count);
+		newEnemyObject->AddComponent<GimmickEnemy>();
+		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(randomType);
+	}
+	break;
+	case itemspawn:
+	{
+		auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % E_Item_Enemy_Type::item_type_count);
+		newEnemyObject->AddComponent<ItemEnemy>();
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(randomType);
+	}
+	break;
 	}
 	//*/
 
-	return newEnemyObject;
-}
-
-void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
-{
-	GameObject* baseObject = CreateEnemy(enemyType);
-
-	baseObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);
-	baseObject->layer = 1 << player;
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);
+	newEnemyObject->layer = 1 << player;
 
 	if (player == 1)
 	{
-		m_p1Enemy.push_back(baseObject);
+		m_p1Enemy.push_back(newEnemyObject);
 	}
 	else if (player == 2)
 	{
-		m_p2Enemy.push_back(baseObject);
+		m_p2Enemy.push_back(newEnemyObject);
+	}
+}
+
+// 설정대로 스폰
+void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, size_t enemy, int player)
+{
+	GameObject* newEnemyObject = new GameObject(L"Enemy");
+
+	switch (enemyType)
+	{
+	case move:
+		newEnemyObject->AddComponent<MoveEnemy>();
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(static_cast<E_Move_Enemy_Type>(enemy));
+		break;
+	case gimmick:
+		newEnemyObject->AddComponent<GimmickEnemy>();
+		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(static_cast<E_Gimmick_Enemy_Type>(enemy));
+		break;
+	case itemspawn:
+		newEnemyObject->AddComponent<ItemEnemy>();
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(static_cast<E_Item_Enemy_Type>(enemy));
+		break;
+	default:
+		break;
 	}
 
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);
+	newEnemyObject->layer = 1 << player;
+
+	if (player == 1)
+	{
+		m_p1Enemy.push_back(newEnemyObject);
+	}
+	else if (player == 2)
+	{
+		m_p2Enemy.push_back(newEnemyObject);
+	}
 }
 
 bool GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy)  

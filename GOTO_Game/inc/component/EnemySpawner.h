@@ -3,6 +3,7 @@
 #include <InputManager.h>
 #include <GameObject.h>
 
+
 #include <vector>
 
 namespace GOTOEngine
@@ -30,8 +31,8 @@ namespace GOTOEngine
 		void Awake();
 		void Update();
 
-		static GameObject* CreateEnemy(E_EnemyType enemyType);
 		void CreateEnemy(E_EnemyType enemyType, int player);
+		void CreateEnemy(E_EnemyType enemyType, size_t enemy, int player);
 
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }
