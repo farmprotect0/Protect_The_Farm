@@ -1,0 +1,53 @@
+{
+    "keyframes": [
+        {
+            "time": -0.005,
+            "value": -0.0075,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.19,
+            "value": 0.7575,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.28,
+            "value": 0.2525,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.475,
+            "value": 0.5275,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.655,
+            "value": 0.2725,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.87,
+            "value": 0.4725,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.01,
+            "value": -0.0025,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+}

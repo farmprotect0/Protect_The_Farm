@@ -1,0 +1,53 @@
+{
+    "keyframes": [
+        {
+            "time": 0.0,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.075,
+            "value": 0.6275,
+            "in_tangent": -0.35789550789593677,
+            "out_tangent": -0.35789550789593677,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.155,
+            "value": 1.1775,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.215,
+            "value": 0.8775,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.275,
+            "value": 1.0925,
+            "in_tangent": -0.3499999999999993,
+            "out_tangent": -0.3499999999999993,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.355,
+            "value": 0.9975,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.93,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+}

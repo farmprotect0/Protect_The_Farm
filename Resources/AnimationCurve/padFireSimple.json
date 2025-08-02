@@ -1,0 +1,39 @@
+{
+    "keyframes": [
+        {
+            "time": 0.0,
+            "value": 1.0,
+            "in_tangent": -0.375,
+            "out_tangent": -0.375,
+            "tangent_mode": 0
+        },
+        {
+            "time": 0.135,
+            "value": 0.4575,
+            "in_tangent": -0.2,
+            "out_tangent": -0.2,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.28,
+            "value": 0.4775,
+            "in_tangent": -0.35,
+            "out_tangent": -0.35,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.34,
+            "value": 0.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.0,
+            "value": 0.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+}

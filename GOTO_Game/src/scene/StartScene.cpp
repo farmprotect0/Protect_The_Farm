@@ -2,11 +2,7 @@
 #include "CrosshairPrefab.h"
 #include "StartMenuPrefab.h"
 #include <Camera.h>
-#include <SpriteRenderer.h>
-#include <Canvas.h>
-#include <Text.h>
-#include <RectTransform.h>
-#include <Screen.h>
+#include "GamepadRumbleManager.h"
 
 void StartScene::Initialize()
 {
@@ -25,6 +21,9 @@ void StartScene::Initialize()
 		Object::DontDestroyOnLoad(CrossHair1GO);
 		Object::DontDestroyOnLoad(CrossHair2GO);
 	}
+
+	auto RumbleManagerGO = new GameObject(L"GamePadRumbleManager");
+	RumbleManagerGO->AddComponent<GamepadRumbleManager>();
 
 	StartMenuPrefab::CreateStartMenu();
 }

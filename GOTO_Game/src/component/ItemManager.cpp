@@ -182,6 +182,10 @@ void ItemManager::UseItem(int player, ItemType item)
 			}
 			EnemySpawner::instance->Setp1EnemyAllDestroy();
 
+			auto p1cam = GameObject::Find(L"p1Cam");
+			if (IsValidObject(p1cam))
+				p1cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
+
 			if (p1count >= 1 && p1count <= 3) {
 				GameManager::instance->P1Score += 3 * GameManager::instance->P1Bonus;
 			}
@@ -207,6 +211,10 @@ void ItemManager::UseItem(int player, ItemType item)
 				Destroy(bombeffect, 0.583f);
 			}
 			EnemySpawner::instance->Setp2EnemyAllDestroy();
+
+			auto p2cam = GameObject::Find(L"p2Cam");
+			if (IsValidObject(p2cam))
+				p2cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
 
 			if (p2count >= 1 && p2count <= 3) {
 				GameManager::instance->P2Score += 3 * GameManager::instance->P2Bonus;

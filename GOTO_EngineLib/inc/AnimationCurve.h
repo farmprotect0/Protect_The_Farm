@@ -38,12 +38,6 @@ namespace GOTOEngine
         // 기본 생성자
         AnimationCurve() = default;
 
-        // JSON 객체를 받아 처리할 수 있는 생성자
-        explicit AnimationCurve(const json& json_data)
-        {
-            ParseJsonData(json_data);
-        }
-
         // JSON 문자열을 받아 처리할 수 있는 생성자 (편의용)
         explicit AnimationCurve(const std::string& json_string)
         {
