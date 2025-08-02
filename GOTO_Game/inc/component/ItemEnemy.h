@@ -12,7 +12,7 @@ namespace GOTOEngine
 	enum E_Item_Enemy_Type
 	{
 		iceCrow,	// 얼음새
-		bomCrow,	// 폭탄새
+		bombCrow,	// 폭탄새
 		goldCrow,	// 황금새
 		item_type_count
 	};
@@ -65,12 +65,12 @@ namespace GOTOEngine
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/IceCrow.png");
 				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/IceCrowAnimator_AnimController.json"));
 				break;
-			case bomCrow:
+			case bombCrow:
 				m_moveFlag = 0b1000;
 				m_itemType = ItemType::Bomb;
 				GetGameObject()->name = L"폭탄새";
-				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/BomCrow.png");
-				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BomCrowAnimator_AnimController.json"));
+				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/BombCrow.png");
+				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombCrowAnimator_AnimController.json"));
 				break;
 			case goldCrow:
 				m_moveFlag = 0b0010;
