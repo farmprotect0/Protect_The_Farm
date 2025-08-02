@@ -1,0 +1,15 @@
+Bomb_sound 폭탄 사용 사운드
+
+Button_sound 튜토리얼 및 환경설정 UI 버튼 입력 사운드 
+
+GetItem_sound 아이템 획득 사운드
+
+GoldenTicket_sound 황긍 티켓 사용 사운드
+
+Hit_sound 메인 타이틀 버튼 피격, 적 피격 사운드
+
+IceBomb_sound 얼음 폭탄 사용 사운드
+
+Shot1P_sound 1P 사격 사운드
+
+Shot2P_sound 2P 사격 사운드
