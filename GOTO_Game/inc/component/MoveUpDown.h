@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "BaseMovement.h"
 #include <TimeManager.h>
-#include "Screen.h"
 #include "Transform.h"
 
 #include <math.h>
@@ -22,16 +21,17 @@ namespace GOTOEngine
         bool isWave;
 
     public:
+        void Initialize(float _min, float _max)
+        {
+            m_maxY = _max;
+            m_minY = _min;
+        }
         void Awake() override
         {
             __super::Awake();
 
             m_moveSpeed = 140.0f;
-
             m_role = E_Move_Role::PATH;
-
-			m_maxY = Screen::GetHeight() * 0.5f;
-			m_minY = Screen::GetHeight() * 0.0f;
 
             if (m_flag & MOVE_LEFT_RIGHT && m_flag & MOVE_WAVE)
             {

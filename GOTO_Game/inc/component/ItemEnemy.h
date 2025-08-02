@@ -51,19 +51,19 @@ namespace GOTOEngine
 			__super::Awake();
 
 			m_enemyType = E_EnemyType::itemspawn;
-
 			m_isMoveLoop = true;
-
 			m_destroyTime = 8.0f;
 
+			
 			switch (m_itemEnemyType)
 			{
 			case iceCrow:
-				m_moveFlag = 0b0001;
+				m_moveFlag = 0b1000;
 				m_itemType = ItemType::Icebomb;
 				GetGameObject()->name = L"얼음새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/IceCrow.png");
 				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/IceCrowAnimator_AnimController.json"));
+				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			case bombCrow:
 				m_moveFlag = 0b1000;
@@ -71,6 +71,7 @@ namespace GOTOEngine
 				GetGameObject()->name = L"폭탄새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/BombCrow.png");
 				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombCrowAnimator_AnimController.json"));
+				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			case goldCrow:
 				m_moveFlag = 0b0010;
@@ -78,6 +79,7 @@ namespace GOTOEngine
 				GetGameObject()->name = L"황금새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/GoldCrow.png");
 				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/GoldCrowAnimator_AnimController.json"));
+				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			}
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
@@ -89,7 +91,7 @@ namespace GOTOEngine
 
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 
-			SetMovementComponents();
+			SetMovementComponents(0.15f, 0.4f);
 		}
 
 		void OnBulletDie() override

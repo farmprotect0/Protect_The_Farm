@@ -50,9 +50,7 @@ namespace GOTOEngine
 			__super::Awake();
 
 			m_enemyType = E_EnemyType::gimmick;
-
 			m_isMoveLoop = true;
-
 			m_destroyTime = 8.0f;
 
 			switch (m_gimmickEnemyType)
@@ -62,6 +60,7 @@ namespace GOTOEngine
 				GetGameObject()->name = L"토끼";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Rabit.png");
 				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/RabbitAnimator_AnimController.json"));
+				SetRandomYPosition(-0.4f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
 			case squirrel:
@@ -69,6 +68,7 @@ namespace GOTOEngine
 				GetGameObject()->name = L"다람쥐";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Squirrel.png");
 				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/SquirrelAnimator_AnimController.json"));
+				SetRandomYPosition(-0.4f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
 			case thiefmole:
@@ -76,12 +76,11 @@ namespace GOTOEngine
 				GetGameObject()->name = L"도둑두더지";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/ThiefMole.png");
 				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/ThiefMoleAnimator_AnimController.json"));
+				SetRandomYPosition(-0.4f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
 			}
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
-			//GetTransform()->SetLossyScale({ 0.2f, 0.2f });
-			//GetTransform()->SetLocalScale({0.2f, 0.2f});
 
 			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();

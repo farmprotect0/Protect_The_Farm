@@ -3,8 +3,9 @@
 #include <InputManager.h>
 #include <GameObject.h>
 
-
 #include <vector>
+#include <random>
+#include <mutex>
 
 namespace GOTOEngine
 {	
@@ -20,6 +21,8 @@ namespace GOTOEngine
     }
 
 		static EnemySpawner* instance;
+		static std::mt19937 m_gen;
+		static std::mutex m_genMutex;
 
 		std::vector<GameObject*> m_p1Enemy;
 		std::vector<GameObject*> m_p2Enemy;
@@ -37,6 +40,10 @@ namespace GOTOEngine
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }
 
+		// Get
+		static float GenerateRandom(float min, float max);
+
+		// Set
 		bool SetDeleteEnemy(int _layer, GameObject* enemy);
 
 		void Setp1EnemyAllDestroy();

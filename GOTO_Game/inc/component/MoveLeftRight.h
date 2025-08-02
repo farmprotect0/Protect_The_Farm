@@ -25,26 +25,19 @@ namespace GOTOEngine
         Delegate<void> OnFlipDirection;
 
     public:
+        void Initialize(float _min, float _max)
+        {
+            m_maxX = _max;
+            m_minX = _min;
+        }
         void Awake() override
         {
             __super::Awake();
-            
+
             m_initialPosition = GetGameObject()->GetTransform()->GetPosition();
-
             m_moveSpeed = 80.0f;
-
             m_role = E_Move_Role::PATH;
-
-			m_maxX = Screen::GetWidth() * 0.25f;
-			m_minX = Screen::GetWidth() * -0.25f;
-
-            // flag
-            if (m_flag & MOVE_UP_DOWN && m_flag & MOVE_WAVE)
-            {
-                testbool = true;
-            }
         }
-
         void OnDestroy() override
         {
             __super::OnDestroy();

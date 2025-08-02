@@ -13,13 +13,11 @@
 #include "MoveCircle.h"
 #include "MoveParabolic.h"
 
-#include <random>
-#include <cstdlib>
-#include <ctime>
-
 using namespace GOTOEngine;
 
 EnemySpawner* EnemySpawner::instance = nullptr;
+std::mt19937 EnemySpawner::m_gen(std::random_device{}());
+std::mutex EnemySpawner::m_genMutex;
 
 void GOTOEngine::EnemySpawner::Awake()
 {
@@ -31,8 +29,6 @@ void GOTOEngine::EnemySpawner::Awake()
 	{
 		Destroy(GetGameObject());
 	}
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
 }
 
 void GOTOEngine::EnemySpawner::Update()
@@ -75,7 +71,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 	{
 	case move:
 		newEnemyObject->AddComponent<MoveEnemy>();
-		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(crow);
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(mole);
 		break;
 	case gimmick:
 		newEnemyObject->AddComponent<GimmickEnemy>();
@@ -166,7 +162,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, size_t enemy, 
 	}
 }
 
-bool GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy)  
+bool GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy)
 {  
    if (_layer == 1)  
    {  
@@ -213,4 +209,13 @@ void GOTOEngine::EnemySpawner::Setp2EnemyAllDestroy()
 		}
 	}
 	m_p2Enemy.clear();
+}
+
+float GOTOEngine::EnemySpawner::GenerateRandom(float min, float max)
+{
+	// 스레드 안전하게 난수 생성
+	std::lock_guard<std::mutex> lock(m_genMutex);
+	std::uniform_real_distribution<float> dist(min, max);
+
+	return dist(m_gen);
 }

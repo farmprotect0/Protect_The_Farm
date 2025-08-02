@@ -9,9 +9,9 @@
 #include <iostream>
 #include <any>
 
+#include "IAttackAble.h"
 #include "GameManager.h"
 #include "EnemySpawner.h"
-#include "IAttackAble.h"
 
 // move
 #include "BaseMovement.h"
@@ -66,21 +66,13 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(OnDisable);
         REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
-        REGISTER_BEHAVIOUR_MESSAGE(Start);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		
 	public:
 		virtual ~BaseEnemyObject() = default;
 
-		virtual void Awake()
-		{
-			// OFFSET 경로의 기준선
-			m_currentPathPosition = GetGameObject()->GetTransform()->GetPosition();
-
-		}
-		void Start() {}
-
+		virtual void Awake() {}
 		void Update()
 		{
 			if (m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
@@ -125,17 +117,19 @@ namespace GOTOEngine
 		bool IsEnemyDie() { return m_isDie; }
 
 		// Set
-		void SetMovementComponents()
+		void SetMovementComponents(float _minY = 0.0f, float _maxY = 0.5f)
 		{
 			// flag 스크립트	부착
 			if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
 			{
-				auto moveLR = AddComponent<MoveLeftRight>();
-				moveLR->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
+				auto comp = AddComponent<MoveLeftRight>();
+				comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
+				comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
 			}
 			if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
 			{
-				AddComponent<MoveUpDown>();
+				auto comp = AddComponent<MoveUpDown>();
+				comp->Initialize(Screen::GetHeight() * _minY, Screen::GetHeight() * _maxY);
 			}
 			if (m_moveFlag & MOVE_CIRCULAR) // 0b0100
 			{
@@ -143,7 +137,7 @@ namespace GOTOEngine
 			}
 			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
 			{
-				auto move = AddComponent<MoveParabolic>();
+				AddComponent<MoveParabolic>();
 			}
 
 			// 등록한 movement들 추가
@@ -155,7 +149,16 @@ namespace GOTOEngine
 			}
 
 		}
+		void SetRandomYPosition(float minY, float maxY)
+		{
+			// 가로 크기 고정 X는 추후에 변동하면 추가
+			float randomX = Screen::GetWidth() * EnemySpawner::GenerateRandom(-0.25f, 0.25f);
+			float randomY = Screen::GetHeight() * EnemySpawner::GenerateRandom(minY, maxY);
 
+			GetTransform()->SetPosition({ randomX, randomY });
+			// OFFSET 경로의 기준선
+			m_currentPathPosition = { randomX, randomY };
+		}
 		void SetFlipXSprite()
 		{
 			auto spriterenderer = GetComponent<SpriteRenderer>();
